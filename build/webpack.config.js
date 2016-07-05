@@ -28,8 +28,8 @@ const webpackConfig = {
 // ------------------------------------
 const APP_ENTRY_PATHS = [
   'babel-polyfill',
-  'bootstrap-sass!./src/styles/bootstrap.config.js',
-  'font-awesome-webpack!./src/styles/font-awesome.config.js',
+  'bootstrap-sass!./src/styles/bootstrap/bootstrap.config.js',
+  'font-awesome-webpack!./src/styles/bootstrap/font-awesome.config.js',
   paths.client('main.js')
 ];
 // ------------------------------------
