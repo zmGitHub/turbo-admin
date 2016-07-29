@@ -154,7 +154,7 @@ const cssModulesRegex = new RegExp(`(${PATHS_TO_TREAT_AS_CSS_MODULES.join('|')})
 if (isUsingCSSModules) {
   const cssModulesLoader = [
     BASE_CSS_LOADER,
-    'modules',
+    // 'modules',
     'importLoaders=1',
     'localIdentName=[name]__[local]___[hash:base64:5]'
   ].join('&');
