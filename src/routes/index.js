@@ -1,14 +1,12 @@
 // 路由配置
+import CoreLayout from './CoreLayout';
 import Home from './Home';
-import Dashboard from './Dashboard';
 import Dispatch from './Dispatch';
 
 const createRoutes = () => ({
   path: '/',
-  component: Home,
-  indexRoute: {
-    component: Dashboard
-  },
+  component: CoreLayout,
+  indexRoute: Home,
   childRoutes: [
     {
       path: 'dispatch',

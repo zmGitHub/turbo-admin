@@ -1,11 +1,17 @@
 import React from 'react';
 import Header from '../../components/Header';
 import '../../styles/app.scss';
+import './CoreLayout.scss';
 export const CoreLayout = ({ children }) => (
-  <div className="container text-center theme">
+  <div>
     <Header />
-    <div>
-      {children}
+    <div className="clearfix"></div>
+    <div className="page-container">
+    </div>
+    <div className="page-content-wrapper">
+      <div className="page-content">
+        {children}
+      </div>
     </div>
   </div>
 );

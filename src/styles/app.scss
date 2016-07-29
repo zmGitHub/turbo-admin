@@ -1,13 +1,5 @@
 @import "components-rounded";
-@import "layout/layout";
 @import "layout/themes/light";
 /*@import "plugins";
 @import "layout/layout";
 @import "layout/themes/light"; */
-.theme {
-  position: relative;
-  height: 200px;
-  width: 100px;
-  color: red;
-  background-image: url("../static/images/logo.png");
-}
