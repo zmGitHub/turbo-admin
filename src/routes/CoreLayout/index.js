@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../../components/Header';
+import Sidebar from '../../components/Sidebar';
 import '../../styles/app.scss';
 import './CoreLayout.scss';
 export const CoreLayout = ({ children }) => (
@@ -7,10 +8,13 @@ export const CoreLayout = ({ children }) => (
     <Header />
     <div className="clearfix"></div>
     <div className="page-container">
-    </div>
-    <div className="page-content-wrapper">
-      <div className="page-content">
-        {children}
+      <div className="page-sidebar-warpper">
+        <Sidebar />
+      </div>
+      <div className="page-content-wrapper">
+        <div className="page-content">
+          {children}
+        </div>
       </div>
     </div>
   </div>
