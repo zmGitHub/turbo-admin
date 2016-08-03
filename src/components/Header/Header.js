@@ -1,8 +1,7 @@
 import React from 'react';
 import { IndexLink } from 'react-router';
+import './Header.scss';
 import logoUrl from './logo.png';
-
-require('./Header.scss');
 
 export const Header = () => (
   <div className="page-header navbar navbar-fixed-top">

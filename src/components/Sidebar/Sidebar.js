@@ -1,5 +1,6 @@
 import React from 'react';
-import './Sidebar.scss' 
+import Icon from '../Icon';
+import './Sidebar.scss'
 
 export const Sidebar = () => (
 <div className="page-sidebar navbar-collapse collapse">
@@ -15,7 +16,7 @@ export const Sidebar = () => (
 		</li>
 		<li>
 			<a href="javascript:;">
-			<i className="icon-settings"></i>
+			<Icon type="user" />
 			<span className="title">AngularJS Features</span>
 			<span className="arrow"></span>
 			</a>
@@ -102,7 +103,7 @@ export const Sidebar = () => (
 			<span className="title">HTML Version</span>
 			</a>
 		</li>
-	</ul>	
-</div>	
+	</ul>
+</div>
 )
 export default Sidebar
