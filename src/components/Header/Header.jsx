@@ -1,5 +1,6 @@
 import React from 'react';
 import { IndexLink } from 'react-router';
+import Icon from '../Icon';
 import './Header.scss';
 import logoUrl from './logo.png';
 
@@ -10,7 +11,7 @@ export const Header = () => (
         <IndexLink to="/">
           <img className="logo-default" src={logoUrl} alt="海尔审计" />
         </IndexLink>
-        <i className="menu-toggler sidebar-toggler"></i>
+        <Icon className="menu-toggler sidebar-toggler" />
       </div>
     </div>
   </div>
