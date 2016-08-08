@@ -22,7 +22,7 @@ class SidebarSub extends Component {
 }
 
 SidebarSub.propTypes = {
-  children: PropTypes.element
+  children: PropTypes.array
 };
 
 export default SidebarSub;

@@ -33,7 +33,7 @@ module.exports = {
     mixins: true,
     normalize: true,
     print: true,
-    glyphicons: true,
+    glyphicons: false,
     scaffolding: true,
     type: true,
     code: true,

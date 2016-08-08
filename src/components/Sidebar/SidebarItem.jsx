@@ -19,6 +19,7 @@ class SidebarItem extends Component {
         <a href="javaScript:void(0);">
           <Icon type={this.props.icon} />
           <span className="title">{this.props.name}</span>
+          <span className="arrow" />
         </a>
       );
     }
@@ -41,7 +42,7 @@ class SidebarItem extends Component {
 SidebarItem.propTypes = {
   icon: PropTypes.string,
   url: PropTypes.string,
-  name: PropTypes.name,
+  name: PropTypes.string,
   children: PropTypes.array
 };
 

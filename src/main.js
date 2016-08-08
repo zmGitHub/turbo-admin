@@ -11,6 +11,7 @@ const appHistory = createAppHistory();
 
 let render = () => {
   const routes = require('./routes/index').default();
+
   ReactDOM.render(
     <Router routes={routes} history={appHistory} />,
     MOUNT_NODE
