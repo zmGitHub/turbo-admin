@@ -9,16 +9,16 @@ class SidebarItem extends Component {
     let urlComponent = '';
     if (this.props.url) {
       urlComponent = (
-        <Link path={this.props.url}>
+        <Link to={this.props.url}>
           <Icon type={this.props.icon} />
-          <span className="title">{this.props.name}</span>
+          <span className="title"> {this.props.name}</span>
         </Link>
       );
     } else {
       urlComponent = (
         <a href="javaScript:void(0);">
           <Icon type={this.props.icon} />
-          <span className="title">{this.props.name}</span>
+          <span className="title"> {this.props.name}</span>
           <span className="arrow" />
         </a>
       );

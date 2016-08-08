@@ -10,8 +10,9 @@ class Sidebar extends Component {
       items: [
         {
           id: 1,
-          name: 'adf',
+          name: '备件详情',
           icon: 'user',
+          url: 'dispatch',
           children: [
             {
               id: 1,
@@ -52,9 +53,10 @@ class Sidebar extends Component {
     const renderItem = () => items.map((item, index) => {
       return (<SidebarItem
         key={`sidebar.item.${index}`}
+        url={item.url}
         name={item.name} icon={item.icon}
         children={item.children}
-        />);
+      />);
     });
     return (
       <div className="page-sidebar navbar-collapse collapse">
