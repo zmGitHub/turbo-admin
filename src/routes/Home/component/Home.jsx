@@ -1,11 +1,76 @@
 import React, { Component } from 'react';
 import Portlet from '../../../components/Portlet';
 import Table from '../../../components/Table';
+import Form from '../../../components/Form';
+import Input from '../../../components/Input';
+import Label from '../../../components/Label';
+import Button from '../../../components/Button';
+import Icon from '../../../components/Icon';
 
 class Home extends Component {
   render() {
     return (
-      <Portlet title="asdf" subTitle="asdfasdf" icon="user" color="font-green-sharp">
+      <Portlet title="上下架列表" subTitle="自定义查询" icon="user" color="font-green-sharp">
+        <Form className="form-horizontal">
+          <div className="row">
+            <div className="col-md-4 col-sm-6">
+              <div className="form-group">
+                <Label htmlFor="month" className="col-md-4">上下架</Label>
+                <div className="col-md-8">
+                  <select className="form-control">
+                    <option>全 部</option>
+                    <option>已上架</option>
+                    <option>已下架</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4 col-sm-6">
+              <div className="form-group">
+                <Label htmlFor="month" className="col-md-4">月 份</Label>
+                <div className="col-md-8">
+                  <Input type="text" id="month" placeholder="请输入月份" />
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4 col-sm-6">
+              <div className="form-group">
+                <Label htmlFor="month" className="col-md-4">部 门</Label>
+                <div className="col-md-8">
+                  <Input type="text" id="month" placeholder="请输入部门" />
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4 col-sm-6">
+              <div className="form-group">
+                <Label htmlFor="month" className="col-md-4">备件描述</Label>
+                <div className="col-md-8">
+                  <Input type="text" id="month" placeholder="请输入备件描述" />
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4 col-sm-6">
+              <div className="form-group">
+                <Label htmlFor="month" className="col-md-4">计费类型</Label>
+                <div className="col-md-8">
+                  <select className="form-control">
+                    <option>全 部</option>
+                    <option>计费</option>
+                    <option>不计费</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4 col-sm-6 text-right">
+              <Button type="reset" className="btn-default">
+                <Icon type="mail-reply" /> 重 置
+              </Button>
+              <Button type="button" className="blue">
+                <Icon type="search" /> 查 询
+              </Button>
+            </div>
+          </div>
+        </Form>
         <Table className="table table-striped table-bordered table-advance table-hover">
           <thead>
             <tr>
