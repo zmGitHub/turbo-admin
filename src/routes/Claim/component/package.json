@@ -1,0 +1,6 @@
+{
+  "name": "Cliam",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Cliam.jsx"
+}

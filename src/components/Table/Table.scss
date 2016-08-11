@@ -22,6 +22,9 @@ Default table
 	}
 }
 
+.th-middle {
+  vertical-align: inherit !important;
+}
 /* Contextual table row variants */
 
 @include table-row-variant('active', lighten($state-primary-bg, 25%), darken($state-primary-text, 75%));

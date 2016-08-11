@@ -9,7 +9,7 @@ class SidebarItem extends Component {
     let urlComponent = '';
     if (this.props.url) {
       urlComponent = (
-        <Link to={this.props.url}>
+        <Link to={this.props.url} activeClassName="linkActive">
           <Icon type={this.props.icon} />
           <span className="title"> {this.props.name}</span>
         </Link>
@@ -31,9 +31,9 @@ class SidebarItem extends Component {
   }
   render() {
     return (
-      <li>
+      <li className={this.props.className}>
         {this.checkURL() }
-        {this.renderSubItem() }
+        <SidebarSub children={this.props.children} />
       </li >
     );
   }
@@ -43,7 +43,8 @@ SidebarItem.propTypes = {
   icon: PropTypes.string,
   url: PropTypes.string,
   name: PropTypes.string,
-  children: PropTypes.array
+  children: PropTypes.array,
+  className: PropTypes.string
 };
 
 export default SidebarItem;

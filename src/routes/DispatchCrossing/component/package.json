@@ -1,0 +1,6 @@
+{
+  "name": "DispatchCrossing",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./DispatchCrossing.jsx"
+}

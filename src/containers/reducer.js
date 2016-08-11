@@ -45,7 +45,6 @@ export const basicReducer = (state = initialState, action) => {
         error: {},
       });
     case RECEIVE_GET:
-      debugger;
       return Object.assign({}, state, {
         isLoading: false,
         dispatch: action.data

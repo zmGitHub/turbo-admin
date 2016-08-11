@@ -33,23 +33,23 @@ Page sidebar
 		list-style: none;
 		margin: 10px 0 0 0;
 		padding: 0;
-		
+
 		/* 1st level links */
 		> li {
 			display: block;
 			margin: 0;
-			padding: 0; 
+			padding: 0;
 			border: 0px;
 
 			&.heading {
 				height: 50px;
-				padding: 25px 15px 10px 15px;   
-				
-				> h3 {  
-					font-size: 13px;    
+				padding: 25px 15px 10px 15px;
+
+				> h3 {
+					font-size: 13px;
 					font-weight: 400;
 					padding: 0;
-					margin: 0;   
+					margin: 0;
 					font-weight: 600;
 				}
 			}
@@ -59,7 +59,7 @@ Page sidebar
 				position: relative;
 				margin: 1px 0 0 0;
 				border: 0px;
-				padding: 12px 15px; 
+				padding: 12px 15px;
 				text-decoration: none;
 
 				> .title {
@@ -69,17 +69,17 @@ Page sidebar
 
 				> i {
 					font-size: $sidebar-menu-link-icon-font-size;
-					text-shadow:none;   
+					text-shadow:none;
 					font-weight: 300;
 				}
-  
-				> i.glyphicon {					
+
+				> i.glyphicon {
 					top: 3px;
 					margin-left: 1px;
 					margin-right: 4px;
 				}
 
-				> [class^="icon-"] { 					
+				> [class^="icon-"] {
 					top: 2px;
 					margin-left: 1px;
 					margin-right: 4px;
@@ -102,7 +102,7 @@ Page sidebar
 
 			&.active {
 				> a {
-					border: none; 
+					border: none;
 					text-shadow:none;
 					font-size: $sidebar-menu-link-font-size;
 				}
@@ -110,14 +110,18 @@ Page sidebar
 		}
 
 		/* all links */
+    .linkActive {
+      color: #5b9bd1;
+      background: #f2f6f9!important;
+    }
 		li {
 			> a {
 				> .arrow {
-					&:before {  
+					&:before {
 						width: 10px;
 						float: right;
 						margin-right: 5px;
-						margin-left: 5px; 
+						margin-left: 5px;
 						display: inline;
 						font-size: $sidebar-menu-sub-menu-link-icon-font-size;
 						font-family: FontAwesome;
@@ -127,7 +131,7 @@ Page sidebar
 						text-shadow:none;
 					}
 
-					&.open:before {   
+					&.open:before {
 						content: "\f107";
 						margin-right: 6px;
 					}
@@ -145,15 +149,15 @@ Page sidebar
 			list-style: none;
 			display: none;
 			padding: 0;
-			margin: 8px 0px 8px 0px;	
-			
+			margin: 8px 0px 8px 0px;
+
 			li {
 				background: none;
 				margin: 0px;
 				padding: 0px;
 				margin-top: 1px !important;
 
-				> a {					
+				> a {
 					display: block;
 					margin: 0;
 					padding: 9px 14px 9px 30px;
@@ -168,19 +172,19 @@ Page sidebar
 					}
 
 					.arrow {
-						&:before {  
+						&:before {
 							margin-top: -4px;
 						}
 
 						&.open:before {
 							margin-top: -2px;
-						}	
+						}
 					}
 				}
 
 				/* 2nd level sub menu */
-				> .sub-menu {				
-					margin: 0;		
+				> .sub-menu {
+					margin: 0;
 					> li {
 						> a {
 							padding-left: 40px;
@@ -189,14 +193,14 @@ Page sidebar
 						> .sub-menu {
 							margin: 0;
 							> li {
-								> a {  
+								> a {
 									padding-left: 50px;
 								}
 							}
 						}
 					}
 				}
-			} 
+			}
 		}
 
 		li.active {
@@ -242,7 +246,7 @@ Page sidebar
 
 		&.page-sidebar-fixed .page-sidebar-wrapper {
 			position: relative;
-			float: right;    
+			float: right;
 		}
 	}
 
@@ -250,14 +254,14 @@ Page sidebar
 
 		.page-sidebar {
 			position: fixed !important;
-			margin-left: 0;		
+			margin-left: 0;
 			top: $header-height + 20;
 		}
 
 		.page-sidebar-menu {
 			> li {
 				&.last {
-					margin-bottom: 15px !important;  
+					margin-bottom: 15px !important;
 				}
 			}
 
@@ -266,16 +270,16 @@ Page sidebar
 			}
 		}
 	}
-	
+
 	/* Sidebar Closed */
 
 	.page-sidebar-closed {
 		.page-sidebar {
-			width: $sidebar-collapsed-width !important; 
+			width: $sidebar-collapsed-width !important;
 
 			.page-sidebar-menu.page-sidebar-menu-closed {
 				/* sidebar */
-				width: $sidebar-collapsed-width !important; 
+				width: $sidebar-collapsed-width !important;
 
 				> li {	
 					&.heading {

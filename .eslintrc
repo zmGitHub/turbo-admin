@@ -34,6 +34,7 @@
     "import/namespace": 0,
     "import/no-unresolved": 0,
     "import/no-named-as-default": 0,
+    "import/imports-first": 0,
     "global-require": 1,
     "comma-dangle": 0,  // not sure why airbnb turned this on. gross!
     "indent": [2, 2, {"SwitchCase": 1}],

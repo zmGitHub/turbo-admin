@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { fetchGet } from './Actions';
 import Portlet from 'components/Portlet';
 import Table from 'components/Table';
 import Form from 'components/Form';
@@ -9,38 +8,13 @@ import Label from 'components/Label';
 import Button from 'components/Button';
 import Icon from 'components/Icon';
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.handleRefreshClick = this.handleRefreshClick.bind(this);
-  }
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchGet());
-  }
-  handleRefreshClick() {
-    const { dispatch } = this.props;
-    dispatch(fetchGet());
-  }
-
+class Industry extends Component {
   render() {
     return (
-      <Portlet title="上下架列表" subTitle="自定义查询" icon="user" color="font-green-sharp">
+      <Portlet title="旧件返工贸管理" subTitle="自定义查询" icon="list" color="font-green-sharp">
         <Form className="form-horizontal">
           <div className="row">
-            <div className="col-md-4 col-sm-6">
-              <div className="form-group">
-                <Label htmlFor="month" className="col-md-4">上下架</Label>
-                <div className="col-md-8">
-                  <select className="form-control">
-                    <option>全 部</option>
-                    <option>已上架</option>
-                    <option>已下架</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 col-sm-6">
+            <div className="col-md-3 col-sm-6">
               <div className="form-group">
                 <Label htmlFor="month" className="col-md-4">月 份</Label>
                 <div className="col-md-8">
@@ -48,15 +22,7 @@ class Home extends Component {
                 </div>
               </div>
             </div>
-            <div className="col-md-4 col-sm-6">
-              <div className="form-group">
-                <Label htmlFor="month" className="col-md-4">部 门</Label>
-                <div className="col-md-8">
-                  <Input type="text" id="month" placeholder="请输入部门" />
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 col-sm-6">
+            <div className="col-md-3 col-sm-6">
               <div className="form-group">
                 <Label htmlFor="month" className="col-md-4">备件描述</Label>
                 <div className="col-md-8">
@@ -64,7 +30,7 @@ class Home extends Component {
                 </div>
               </div>
             </div>
-            <div className="col-md-4 col-sm-6">
+            <div className="col-md-3 col-sm-6">
               <div className="form-group">
                 <Label htmlFor="month" className="col-md-4">计费类型</Label>
                 <div className="col-md-8">
@@ -76,7 +42,15 @@ class Home extends Component {
                 </div>
               </div>
             </div>
-            <div className="col-md-4 col-sm-6 text-right">
+            <div className="col-md-3 col-sm-6">
+              <div className="form-group">
+                <Label htmlFor="month" className="col-md-4">月 份</Label>
+                <div className="col-md-8">
+                  <Input type="text" id="month" placeholder="请输入月份" />
+                </div>
+              </div>
+            </div>
+            <div className="col-md-12 text-right">
               <Button type="reset" className="btn-default">
                 <Icon type="mail-reply" /> 重 置
               </Button>
@@ -90,31 +64,34 @@ class Home extends Component {
           <thead>
             <tr>
               <th>
-                部门类型
+                网点名称
               </th>
               <th className="hidden-xs">
-                部门名称
+                返回编码
+              </th>
+              <th>
+                备件代码
               </th>
               <th>
                 备件描述
               </th>
               <th>
-                备件编码
+                返回数量
               </th>
               <th>
-                数 量
+                仓库结算金额
               </th>
               <th>
-                费 用
+                运费结算
               </th>
               <th>
-                时 间
+                成本单位
               </th>
               <th>
-                是否计费
+                返回时间
               </th>
               <th>
-                操作人
+               备件重量
               </th>
               <th>
                 操 作
@@ -123,7 +100,7 @@ class Home extends Component {
           </thead>
           <tbody>
             <tr>
-              <td colSpan="10" className="text-center">
+              <td colSpan="11" className="text-center">
                 暂无数据
               </td>
             </tr>
@@ -138,8 +115,8 @@ function mapStateToProps(state) {
   return { items: state.dispatch };
 }
 
-Home.propTypes = {
+Industry.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(Industry);
