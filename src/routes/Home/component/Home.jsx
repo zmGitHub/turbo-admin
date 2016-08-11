@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { fetchGet } from './Actions';
 import Portlet from '../../../components/Portlet';
 import Table from '../../../components/Table';
 import Form from '../../../components/Form';
@@ -8,6 +10,20 @@ import Button from '../../../components/Button';
 import Icon from '../../../components/Icon';
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.handleRefreshClick = this.handleRefreshClick.bind(this);
+  }
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchGet());
+  }
+  handleRefreshClick() {
+    alert(23423);
+    const { dispatch } = this.props;
+    dispatch(fetchGet());
+  }
+
   render() {
     return (
       <Portlet title="上下架列表" subTitle="自定义查询" icon="user" color="font-green-sharp">
@@ -65,7 +81,7 @@ class Home extends Component {
               <Button type="reset" className="btn-default">
                 <Icon type="mail-reply" /> 重 置
               </Button>
-              <Button type="button" className="blue">
+              <Button type="button" className="blue" onClick={this.handleRefreshClick}>
                 <Icon type="search" /> 查 询
               </Button>
             </div>
@@ -104,4 +120,12 @@ class Home extends Component {
   }
 }
 
-export default Home;
+function mapStateToProps(state) {
+  return { items: state.dispatch };
+}
+
+Home.propTypes = {
+  dispatch: PropTypes.func.isRequired
+};
+
+export default connect(mapStateToProps)(Home);

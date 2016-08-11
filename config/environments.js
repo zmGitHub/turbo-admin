@@ -9,9 +9,9 @@ export default {
     compiler_devtool: 'eval-cheap-module-source-map',
     compiler_public_path: `http://${config.server_host}:${config.server_port}/`,
     proxy: {
-      enabled: false,
+      enabled: true,
       options: {
-        host: 'http://localhost:8000',
+        host: 'http://spare.audit.com',
         match: /^\/api\/.*/
       }
     }
