@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, useRouterHistory } from 'react-router';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
+import { reducer as formReducer } from 'redux-form';
+
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import basicReducer from './containers/reducer';
 
@@ -12,9 +14,15 @@ const createAppHistory = useRouterHistory(createBrowserHistory);
 
 const appHistory = createAppHistory();
 
+const reducers = {
+  basicReducer,
+  form: formReducer
+};
+
+const reducer = combineReducers(reducers);
 // 将 state 和应用程序相关联
 const store = createStore(
-  basicReducer,
+  reducer,
   applyMiddleware(thunk)
 );
 

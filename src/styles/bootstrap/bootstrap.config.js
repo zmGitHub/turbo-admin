@@ -10,12 +10,9 @@
  *
  */
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-// 将 bootstrap 的样式同时打包到 app.css 文件中去
 module.exports = {
   preBootstrapCustomizations: './src/styles/_variables.scss',
   mainSass: './src/styles/bootstrap/bootstrap.overrides.scss',
-  styleLoader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader'),
   verbose: false,
   debug: false,
   scripts: {

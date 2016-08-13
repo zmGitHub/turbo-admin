@@ -42,6 +42,7 @@
     "no-alert": 0,
     "no-script-url": 0,
     "consistent-return": 0,
-    "arrow-body-style": [1, "as-needed"]
+    "arrow-body-style": [1, "as-needed"],
+    "no-class-assign": 0
   }
 }
