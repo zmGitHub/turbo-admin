@@ -10,7 +10,12 @@ import {
   RECEIVE_DISPATCH_SECONDARY,
   RECEIVE_DISPATCH_FACTORY,
   RECEIVE_DISPATCH_INDUSTRY,
-  RECEIVE_DISPATCH_CROSSING
+  RECEIVE_DISPATCH_CROSSING,
+  RECEIVE_DISPATCH,
+  RECEIVE_STORAGE,
+  RECEIVE_REPORT_PRIMARY,
+  RECEIVE_REPORT_SECONDARY,
+  RECEIVE_REPORT_TERTIARY
 } from './constants';
 
 // 初始化数据
@@ -18,13 +23,16 @@ const initialState = {
   isFetching: false, // 数据额获取状态
   isAuthenticated: false,
   user: {}, // 用户
-  dispatch: {}, // 分发
+  dispatch: {}, // 发运操作费
   dispatchPrimary: {}, // 一次发运
   dispatchSecondary: {}, // 二次发运
   dispatchFactory: {}, // 旧件返工厂
   dispatchIndustry: {}, // 旧件返工贸
   dispatchCrossing: {}, //  过站发运
-  branch: {}, // 分拨
+  storage: {}, //  过站发运
+  balancePrimary: {}, // 一级报表
+  balanceSecondary: {}, // 二级报表
+  reportTertiary: {}, // 三级报表
   balance: {}, // 结算
   error: {} // 错误信息
 };
@@ -92,6 +100,36 @@ export const basicReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         isFetching: false,
         dispatchCrossing: action.res
+      });
+    // 发运操作费
+    case RECEIVE_DISPATCH:
+      return Object.assign({}, state, {
+        isFetching: false,
+        dispatch: action.res
+      });
+    // 过站操作费
+    case RECEIVE_STORAGE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        storage: action.res
+      });
+    // 一级报表
+    case RECEIVE_REPORT_PRIMARY:
+      return Object.assign({}, state, {
+        isFetching: false,
+        balancePrimary: action.res
+      });
+    // 二级报表
+    case RECEIVE_REPORT_SECONDARY:
+      return Object.assign({}, state, {
+        isFetching: false,
+        balanceSecondary: action.res
+      });
+    // 三级报表
+    case RECEIVE_REPORT_TERTIARY:
+      return Object.assign({}, state, {
+        isFetching: false,
+        reportTertiary: action.res
       });
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {

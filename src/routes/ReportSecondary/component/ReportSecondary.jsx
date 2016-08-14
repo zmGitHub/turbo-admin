@@ -1,45 +1,38 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { fetchGet } from './Actions';
 import Portlet from 'components/Portlet';
 import Table from 'components/Table';
-import Form from 'components/Form';
-import Input from 'components/Input';
-import Label from 'components/Label';
-import Button from 'components/Button';
-import Icon from 'components/Icon';
+
+import ReporSecondaryForm from './ReporSecondaryForm';
 
 class ReportSecondary extends Component {
+  constructor(props) {
+    super(props);
+    this.query = this.query.bind(this);
+  }
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchGet());
+  }
+  query(params) {
+    const { dispatch } = this.props;
+    dispatch(fetchGet(params));
+  }
   render() {
+    const { items } = this.props;
+    let noData = '';
+    if (!items.total) {
+      items.data = [];
+      noData = (<tr>
+        <td colSpan="17" className="text-center">
+          暂无数据
+        </td>
+      </tr>);
+    }
     return (
       <Portlet title="二级报表管理" subTitle="自定义查询" icon="list" color="font-green-sharp">
-        <Form className="form-horizontal">
-          <div className="row">
-            <div className="col-md-4 col-sm-6">
-              <div className="form-group">
-                <Label htmlFor="month" className="col-md-4">月 份</Label>
-                <div className="col-md-8">
-                  <Input type="text" placeholder="请输入月份" />
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 col-sm-6">
-              <div className="form-group">
-                <Label htmlFor="month" className="col-md-4">分拨中心</Label>
-                <div className="col-md-8">
-                  <Input type="text" placeholder="请输入分拨中心" />
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <Button type="button" className="blue" onClick={this.handleRefreshClick}>
-                <Icon type="search" /> 查 询
-              </Button>
-              <Button type="reset" className="btn-default pull-right">
-                <Icon type="download" /> 下载报表
-              </Button>
-            </div>
-          </div>
-        </Form>
+        <ReporSecondaryForm onSubmit={this.query} />
         <Table className="table table-striped table-bordered table-advance table-hover">
           <thead>
             <tr>
@@ -51,9 +44,6 @@ class ReportSecondary extends Component {
               </th>
               <th className="th-middle" colSpan="1" rowSpan="7">
                 部 门
-              </th>
-              <th className="th-middle" colSpan="1" rowSpan="7">
-                结算状态
               </th>
               <th className="th-middle" colSpan="1" rowSpan="7">
                 月 份
@@ -85,11 +75,31 @@ class ReportSecondary extends Component {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td colSpan="19" className="text-center">
-                暂无数据
-              </td>
-            </tr>
+            {
+              items.data.map((item, index) => {
+                return (<tr key={index}>
+                  <td>{item.centerName}</td>
+                  <td>{item.branchType}</td>
+                  <td>{item.branchName}</td>
+                  <td>{item.month}</td>
+                  <td>{item.sum}</td>
+                  <td />
+                  <td>{item.dispatchSum}</td>
+                  <td>{item.inStock}</td>
+                  <td>{item.outStock}</td>
+                  <td>{item.dispatch}</td>
+                  <td>{item.crossing}</td>
+                  <td>{item.returnIndustryOperating}</td>
+                  <td>{item.returnFactoryOperating}</td>
+                  <td>{item.operationSum}</td>
+                  <td>{item.factoryPickUp}</td>
+                  <td>{item.newSpare}</td>
+                  <td>{item.returnIndustry}</td>
+                  <td>{item.returnFactory}</td>
+                </tr>);
+              })
+            }
+            {noData}
           </tbody>
         </Table>
       </Portlet>
@@ -98,11 +108,12 @@ class ReportSecondary extends Component {
 }
 
 function mapStateToProps(state) {
-  return { items: state.dispatch };
+  return { items: state.basicReducer.balanceSecondary };
 }
 
 ReportSecondary.propTypes = {
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  items: PropTypes.object
 };
 
 export default connect(mapStateToProps)(ReportSecondary);
