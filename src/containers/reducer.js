@@ -5,7 +5,9 @@ import {
   CLEAR_DATA_ERROR,
   RECEIVE_GET,
   LOGIN_SUCCESS,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  RECEIVE_DISPATCH_PRIMARY,
+  RECEIVE_DISPATCH_SECONDARY
 } from './constants';
 
 // 初始化数据
@@ -14,6 +16,8 @@ const initialState = {
   isAuthenticated: false,
   user: {}, // 用户
   dispatch: {}, // 分发
+  dispatchPrimary: {}, // 一次发运
+  dispatchSecondary: {}, // 二次发运
   branch: {}, // 分拨
   balance: {}, // 结算
   error: {} // 错误信息
@@ -47,10 +51,23 @@ export const basicReducer = (state = initialState, action) => {
         isFetching: false,
         error: {},
       });
+    // 上下架列表
     case RECEIVE_GET:
       return Object.assign({}, state, {
         isFetching: false,
         dispatch: action.res
+      });
+    // 一次发运
+    case RECEIVE_DISPATCH_PRIMARY:
+      return Object.assign({}, state, {
+        isFetching: false,
+        dispatchPrimary: action.res
+      });
+    // 二次发运
+    case RECEIVE_DISPATCH_SECONDARY:
+      return Object.assign({}, state, {
+        isFetching: false,
+        dispatchSecondary: action.res
       });
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
