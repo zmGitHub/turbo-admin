@@ -7,10 +7,10 @@ import Label from 'components/Label';
 import Button from 'components/Button';
 import Icon from 'components/Icon';
 
-class DispatchSecondaryForm extends Component {
+class IndustryForm extends Component {
   render() {
     const {
-      fields: { time, sendBranchName, spareDescribe },
+      fields: { time, spareDescribe, networkName },
       resetForm,
       handleSubmit
     } = this.props;
@@ -27,17 +27,17 @@ class DispatchSecondaryForm extends Component {
           </div>
           <div className="col-md-3 col-sm-6">
             <div className="form-group">
-              <Label htmlFor="month" className="col-md-4">部门名称</Label>
+              <Label htmlFor="month" className="col-md-4">备件描述</Label>
               <div className="col-md-8">
-                <Input type="text" placeholder="请输入部门名称" {...sendBranchName} />
+                <Input type="text" placeholder="请输入备件描述" {...spareDescribe} />
               </div>
             </div>
           </div>
           <div className="col-md-3 col-sm-6">
             <div className="form-group">
-              <Label htmlFor="month" className="col-md-4">备件描述</Label>
+              <Label htmlFor="month" className="col-md-4">网点名称</Label>
               <div className="col-md-8">
-                <Input type="text" placeholder="请输入备件描述" {...spareDescribe} />
+                <Input type="text" placeholder="请输入网点名称" {...networkName} />
               </div>
             </div>
           </div>
@@ -55,7 +55,7 @@ class DispatchSecondaryForm extends Component {
   }
 }
 
-DispatchSecondaryForm.propTypes = {
+IndustryForm.propTypes = {
   fields: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   resetForm: PropTypes.func.resetForm
@@ -63,6 +63,6 @@ DispatchSecondaryForm.propTypes = {
 
 // 将表单字段绑定到 reduxForm
 export default reduxForm({
-  form: 'DispatchSecondaryForm',
-  fields: ['time', 'sendBranchName', 'spareDescribe']
-})(DispatchSecondaryForm);
+  form: 'IndustryForm',
+  fields: ['time', 'spareDescribe', 'networkName']
+})(IndustryForm);

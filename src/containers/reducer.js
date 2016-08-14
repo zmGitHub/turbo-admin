@@ -7,7 +7,9 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
   RECEIVE_DISPATCH_PRIMARY,
-  RECEIVE_DISPATCH_SECONDARY
+  RECEIVE_DISPATCH_SECONDARY,
+  RECEIVE_DISPATCH_FACTORY,
+  RECEIVE_DISPATCH_INDUSTRY
 } from './constants';
 
 // 初始化数据
@@ -18,6 +20,8 @@ const initialState = {
   dispatch: {}, // 分发
   dispatchPrimary: {}, // 一次发运
   dispatchSecondary: {}, // 二次发运
+  dispatchFactory: {}, // 旧件返工厂
+  dispatchIndustry: {}, // 旧件返工贸
   branch: {}, // 分拨
   balance: {}, // 结算
   error: {} // 错误信息
@@ -68,6 +72,18 @@ export const basicReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         isFetching: false,
         dispatchSecondary: action.res
+      });
+    // 旧件返工厂
+    case RECEIVE_DISPATCH_FACTORY:
+      return Object.assign({}, state, {
+        isFetching: false,
+        dispatchFactory: action.res
+      });
+    // 旧件返工贸
+    case RECEIVE_DISPATCH_INDUSTRY:
+      return Object.assign({}, state, {
+        isFetching: false,
+        dispatchIndustry: action.res
       });
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
