@@ -9,7 +9,8 @@ import {
   RECEIVE_DISPATCH_PRIMARY,
   RECEIVE_DISPATCH_SECONDARY,
   RECEIVE_DISPATCH_FACTORY,
-  RECEIVE_DISPATCH_INDUSTRY
+  RECEIVE_DISPATCH_INDUSTRY,
+  RECEIVE_DISPATCH_CROSSING
 } from './constants';
 
 // 初始化数据
@@ -22,6 +23,7 @@ const initialState = {
   dispatchSecondary: {}, // 二次发运
   dispatchFactory: {}, // 旧件返工厂
   dispatchIndustry: {}, // 旧件返工贸
+  dispatchCrossing: {}, //  过站发运
   branch: {}, // 分拨
   balance: {}, // 结算
   error: {} // 错误信息
@@ -84,6 +86,12 @@ export const basicReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         isFetching: false,
         dispatchIndustry: action.res
+      });
+    // 过站发运
+    case RECEIVE_DISPATCH_CROSSING:
+      return Object.assign({}, state, {
+        isFetching: false,
+        dispatchCrossing: action.res
       });
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
