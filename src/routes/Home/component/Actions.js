@@ -41,13 +41,23 @@ export function receiveGet(res) {
   };
 }
 
-export function fetchGet() {
+export function fetchGet(paramas) {
   // Thunk middleware 知道如何处理函数。
   // 这里把 dispatch 方法通过参数的形式传给函数，
   // 以此来让它自己也能 dispatch action。
-
+  let url = '/api/spare/dispatch/stock';
+  let query = '';
+  if (paramas) {
+    query = Object.keys(paramas).map((key) => {
+      if (paramas[key]) {
+        return `${encodeURIComponent(key)}=${encodeURIComponent(paramas[key])}`;
+      }
+    }).filter(item => !!item).join('&');
+    url = `${url}?${query}`;
+  }
+  // Object.keys(paramas).forEach(key => url.searchParams.append(key, paramas[key]));
   return (dispatch) => {
-    return fetch('/api/spare/dispatch/stock')
+    return fetch(url)
       .then(response =>
         response.json().then(data => ({ data, response }))).then(({ data, response }) => {
           if (response.ok) {

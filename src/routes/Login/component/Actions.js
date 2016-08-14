@@ -33,7 +33,6 @@ export function loginError(message) {
 
 // 调用 API 发起用户登录
 export function loginUser(params) {
-  console.log(params);
   const data = `nickname=${params.nickname}&password=${params.password}`;
   const config = {
     method: 'POST',

@@ -46,7 +46,6 @@ CoreLayout.propTypes = {
 };
 
 function mapStateToProps(state) {
-  console.log(state.basicReducer.user);
   return { user: state.basicReducer.user || {} };
 }
 

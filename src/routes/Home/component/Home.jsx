@@ -3,11 +3,7 @@ import { connect } from 'react-redux';
 import { fetchGet } from './Actions';
 import Portlet from 'components/Portlet';
 import Table from 'components/Table';
-import Form from 'components/Form';
-import Input from 'components/Input';
-import Label from 'components/Label';
-import Button from 'components/Button';
-import Icon from 'components/Icon';
+import Form from './Form';
 
 class Home extends Component {
   constructor(props) {
@@ -18,19 +14,20 @@ class Home extends Component {
     const { dispatch } = this.props;
     dispatch(fetchGet());
   }
-  handleRefreshClick() {
+  handleRefreshClick(values) {
     const { dispatch } = this.props;
-    dispatch(fetchGet());
+    console.log(values);
+    dispatch(fetchGet(values));
   }
 
   render() {
     const { items } = this.props;
     let noData = '';
-    if (!items.data) {
+    if (!items.total) {
       items.data = [];
       noData = (<tr>
         <td colSpan="10" className="text-center">
-          暂无数据{items.total}
+          暂无数据
         </td>
       </tr>);
     }
@@ -39,72 +36,10 @@ class Home extends Component {
     };
     return (
       <Portlet title="上下架列表" subTitle="自定义查询" icon="user" color="font-green-sharp">
-        <Form className="form-horizontal">
-          <div className="row">
-            <div className="col-md-4 col-sm-6">
-              <div className="form-group">
-                <Label htmlFor="month" className="col-md-4">上下架</Label>
-                <div className="col-md-8">
-                  <select className="form-control">
-                    <option>全 部</option>
-                    <option>已上架</option>
-                    <option>已下架</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 col-sm-6">
-              <div className="form-group">
-                <Label htmlFor="month" className="col-md-4">月 份</Label>
-                <div className="col-md-8">
-                  <Input type="text" id="month" placeholder="请输入月份" />
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 col-sm-6">
-              <div className="form-group">
-                <Label htmlFor="month" className="col-md-4">部 门</Label>
-                <div className="col-md-8">
-                  <Input type="text" id="month" placeholder="请输入部门" />
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 col-sm-6">
-              <div className="form-group">
-                <Label htmlFor="month" className="col-md-4">备件描述</Label>
-                <div className="col-md-8">
-                  <Input type="text" id="month" placeholder="请输入备件描述" />
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 col-sm-6">
-              <div className="form-group">
-                <Label htmlFor="month" className="col-md-4">计费类型</Label>
-                <div className="col-md-8">
-                  <select className="form-control">
-                    <option>全 部</option>
-                    <option>计费</option>
-                    <option>不计费</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 col-sm-6 text-right">
-              <Button type="reset" className="btn-default">
-                <Icon type="mail-reply" /> 重 置
-              </Button>
-              <Button type="button" className="blue" onClick={this.handleRefreshClick}>
-                <Icon type="search" /> 查 询
-              </Button>
-            </div>
-          </div>
-        </Form>
+        <Form onSubmit={this.handleRefreshClick} />
         <Table className="table table-striped table-bordered table-advance table-hover">
           <thead>
             <tr>
-              <th>
-                部门类型
-              </th>
               <th className="hidden-xs">
                 部门名称
               </th>
@@ -132,7 +67,6 @@ class Home extends Component {
             {
               items.data.map((item, index) => {
                 return (<tr key={index}>
-                  <td>{item.branchType}</td>
                   <td>{item.branchName}</td>
                   <td>{item.spareDescribe}</td>
                   <td>{item.spareUniqueKey}</td>
@@ -152,7 +86,6 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
   return { items: state.basicReducer.dispatch };
 }
 
