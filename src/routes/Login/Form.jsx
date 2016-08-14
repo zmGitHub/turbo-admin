@@ -54,8 +54,8 @@ LoginForm.propTypes = {
 };
 
 // 将表单字段绑定到 reduxForm
-LoginForm = reduxForm({
+export default reduxForm({
   form: 'login',
   fields: ['nickname', 'password']
 })(LoginForm);
-export default LoginForm;
+

@@ -5,12 +5,13 @@ import './Input.scss';
 class Input extends Component {
   render() {
     let input = null;
-    const inputClass = classNames('form-control', this.props.className);
+    const { className, ...rest} = this.props;
+    const inputClass = classNames('form-control', className);
     switch (this.props.type) {
       case 'file':
         input = (
           <input
-            {...this.props}
+            {...rest}
             className={inputClass}
             key="field"
           />
@@ -20,7 +21,7 @@ class Input extends Component {
       default:
         input = (
           <input
-            {...this.props}
+            {...rest}
             className={inputClass}
             key="field"
           />

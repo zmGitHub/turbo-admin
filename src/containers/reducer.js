@@ -3,12 +3,15 @@ import {
   LOAD_DATA_SUCCESS,
   LOAD_DATA_FAILURE,
   CLEAR_DATA_ERROR,
-  RECEIVE_GET
+  RECEIVE_GET,
+  LOGIN_SUCCESS,
+  LOGOUT_SUCCESS
 } from './constants';
 
 // 初始化数据
 const initialState = {
-  isLoading: false,
+  isFetching: false, // 数据额获取状态
+  isAuthenticated: false,
   user: {}, // 用户
   dispatch: {}, // 分发
   branch: {}, // 分拨
@@ -27,29 +30,39 @@ export const basicReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_DATA_INITIATION:
       return Object.assign({}, state, {
-        isLoading: true
+        isFetching: true
       });
     case LOAD_DATA_SUCCESS:
       return Object.assign({}, state, {
-        isLoading: false,
+        isFetching: false,
         dispatch: action.data,
       });
     case LOAD_DATA_FAILURE:
       return Object.assign({}, state, {
-        isLoading: false,
+        isFetching: false,
         error: action.error,
       });
     case CLEAR_DATA_ERROR:
       return Object.assign({}, state, {
-        isLoading: false,
+        isFetching: false,
         error: {},
       });
     case RECEIVE_GET:
       return Object.assign({}, state, {
-        isLoading: false,
-        dispatch: action.data
+        isFetching: false,
+        dispatch: action.res
       });
-
+    case LOGIN_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        user: action.user
+      });
+    case LOGOUT_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isAuthenticated: false,
+        user: null
+      });
     default:
       return state;
   }

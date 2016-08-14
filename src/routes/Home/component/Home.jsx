@@ -24,6 +24,19 @@ class Home extends Component {
   }
 
   render() {
+    const { items } = this.props;
+    let noData = '';
+    if (!items.data) {
+      items.data = [];
+      noData = (<tr>
+        <td colSpan="10" className="text-center">
+          暂无数据{items.total}
+        </td>
+      </tr>);
+    }
+    const checkFeeds = (status) => {
+      return status ? '是' : '否';
+    };
     return (
       <Portlet title="上下架列表" subTitle="自定义查询" icon="user" color="font-green-sharp">
         <Form className="form-horizontal">
@@ -113,20 +126,24 @@ class Home extends Component {
               <th>
                 是否计费
               </th>
-              <th>
-                操作人
-              </th>
-              <th>
-                操 作
-              </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td colSpan="10" className="text-center">
-                暂无数据
-              </td>
-            </tr>
+            {
+              items.data.map((item, index) => {
+                return (<tr key={index}>
+                  <td>{item.branchType}</td>
+                  <td>{item.branchName}</td>
+                  <td>{item.spareDescribe}</td>
+                  <td>{item.spareUniqueKey}</td>
+                  <td>{item.amount}</td>
+                  <td>{item.cost}</td>
+                  <td>{item.tranAt}</td>
+                  <td>{checkFeeds(item.fees)}</td>
+                </tr>);
+              })
+            }
+            {noData}
           </tbody>
         </Table>
       </Portlet>
@@ -135,11 +152,13 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-  return { items: state.dispatch };
+  console.log(state);
+  return { items: state.basicReducer.dispatch };
 }
 
 Home.propTypes = {
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  items: PropTypes.object
 };
 
 export default connect(mapStateToProps)(Home);

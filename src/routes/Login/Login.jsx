@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { loginUser } from './component/Actions';
 import Form from './Form';
 import logo from './logo-light.png';
 import './Login.scss';
@@ -10,7 +12,13 @@ class Login extends Component {
   }
 
   login(values) {
-    console.log(values);
+    const { dispatch } = this.props;
+    // 用户登录
+    dispatch(loginUser(values)).then((res) => {
+      if (res.ok) {
+        this.props.history.push('/');
+      }
+    });
   }
 
   render() {
@@ -30,4 +38,14 @@ class Login extends Component {
   }
 }
 
-export default Login;
+// 将 user 模块的 state 映射到当前登录
+function mapStateToprops(state) {
+  return { user: state.user };
+}
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  history: PropTypes.object
+};
+
+export default connect(mapStateToprops)(Login);
+

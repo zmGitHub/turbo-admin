@@ -33,10 +33,10 @@ export function setVisibilityFilter(filter) {
 }
 
 
-export function receiveGet(json) {
+export function receiveGet(res) {
   return {
     type: RECEIVE_GET,
-    action: json,
+    res,
     receivedAt: Date.now()
   };
 }
@@ -46,13 +46,14 @@ export function fetchGet() {
   // 这里把 dispatch 方法通过参数的形式传给函数，
   // 以此来让它自己也能 dispatch action。
 
-  return function (dispatch) {
-    return fetch('/api/spare/dispatch/crossing')
-      .then(json =>
-        // 可以多次 dispatch！
-        // 这里，使用 API 请求结果来更新应用的 state。
-        dispatch(receiveGet(json))
-      );
+  return (dispatch) => {
+    return fetch('/api/spare/dispatch/stock')
+      .then(response =>
+        response.json().then(data => ({ data, response }))).then(({ data, response }) => {
+          if (response.ok) {
+            dispatch(receiveGet(data));
+          }
+        }).catch(err => console.log('Error: ', err));
     // 在实际应用中，还需要
     // 捕获网络请求的异常。
   };

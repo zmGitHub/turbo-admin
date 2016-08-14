@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import './Form.scss';
 
 export const Form = props => {
-  const { className = 'form' } = props;
+  const { className = 'form', ...rest } = props;
   return (
-    <form {...props} className={className} role="form">
+    <form {...rest} className={className} role="form">
       {props.children}
     </form>
   );

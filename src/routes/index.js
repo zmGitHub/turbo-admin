@@ -13,13 +13,17 @@ import Claim from './Claim'; // 索赔录入
 import ReportPrimary from './ReportPrimary'; // 结算报表 --一级报表
 import ReportSecondary from './ReportSecondary'; // 结算报表 --二级报表
 
-
-
-
+// TODO: 重构登录验证
 
 const createRoutes = () => ([
   {
     path: '/',
+    onEnter(nextState, replace) {
+      const loggedIn = localStorage.getItem('id_token');
+      if (!loggedIn) {
+        replace(null, 'login');
+      }
+    },
     component: CoreLayout,
     indexRoute: Home,
     childRoutes: [
@@ -38,6 +42,12 @@ const createRoutes = () => ([
   {
     path: 'login',
     component: Login,
+    onEnter(nextState, replace) {
+      const loggedIn = localStorage.getItem('id_token');
+      if (loggedIn) {
+        replace(null, '/');
+      }
+    }
   }
 ]);
 
