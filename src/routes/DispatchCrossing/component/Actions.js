@@ -33,7 +33,7 @@ export function fetchGet(paramas) {
   }
   // Object.keys(paramas).forEach(key => url.searchParams.append(key, paramas[key]));
   return (dispatch) => {
-    return fetch(url)
+    return fetch(url, { credentials: 'same-origin' })
       .then(response =>
         response.json().then(data => ({ data, response }))).then(({ data, response }) => {
           if (response.ok) {

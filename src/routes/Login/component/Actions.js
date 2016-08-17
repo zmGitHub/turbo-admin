@@ -37,6 +37,7 @@ export function loginUser(params) {
   const config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    credentials: 'same-origin',
     body: data
   };
 

@@ -10,9 +10,12 @@
  *
  */
 
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
   preBootstrapCustomizations: './src/styles/_variables.scss',
   mainSass: './src/styles/bootstrap/bootstrap.overrides.scss',
+  // styleLoader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader'),
   verbose: false,
   debug: false,
   scripts: {

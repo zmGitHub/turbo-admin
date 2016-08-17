@@ -17,7 +17,7 @@ class CrossingForm extends Component {
     return (
       <Form className="form-horizontal" onSubmit={handleSubmit}>
         <div className="row">
-          <div className="col-md-3 col-sm-6">
+          <div className="col-md-4 col-sm-6">
             <div className="form-group">
               <Label htmlFor="month" className="col-md-4">月 份</Label>
               <div className="col-md-8">
@@ -25,7 +25,7 @@ class CrossingForm extends Component {
               </div>
             </div>
           </div>
-          <div className="col-md-3 col-sm-6">
+          <div className="col-md-4 col-sm-6">
             <div className="form-group">
               <Label htmlFor="month" className="col-md-4">发送部门</Label>
               <div className="col-md-8">
@@ -33,7 +33,7 @@ class CrossingForm extends Component {
               </div>
             </div>
           </div>
-          <div className="col-md-3 col-sm-6">
+          <div className="col-md-4 col-sm-6">
             <div className="form-group">
               <Label htmlFor="month" className="col-md-4">接收部门</Label>
               <div className="col-md-8">
@@ -41,7 +41,7 @@ class CrossingForm extends Component {
               </div>
             </div>
           </div>
-          <div className="col-md-3 col-sm-6">
+          <div className="col-md-4 col-sm-6">
             <div className="form-group">
               <Label htmlFor="month" className="col-md-4">备件描述</Label>
               <div className="col-md-8">
@@ -49,7 +49,7 @@ class CrossingForm extends Component {
               </div>
             </div>
           </div>
-          <div className="col-md-12 text-right">
+          <div className="col-md-8 text-right">
             <Button type="button" className="btn-default" onClick={resetForm}>
               <Icon type="mail-reply" /> 重 置
             </Button>
