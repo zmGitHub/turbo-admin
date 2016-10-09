@@ -54,12 +54,14 @@ const config = {
   },
   // 第三方库: 打包列表,后期要手动加上,打包到 vendor.js
   compiler_vendor: [
+    'babel-polyfill',
     'history',
     'react',
     'react-redux',
     'react-router',
     'react-router-redux',
-    'redux'
+    'redux',
+    'redux-thunk'
   ],
 
   // ----------------------------------

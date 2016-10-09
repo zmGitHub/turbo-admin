@@ -4,46 +4,85 @@ General reset
 
 /* Set default body */
 
-body { 
-    color: $text-color; 
+body {
+    color: $text-color;
     font-family: $font-family-primary;
     padding: 0px !important;
     margin: 0px !important;
-    font-size: $font-size-base; 
+    font-size: $font-size-base;
     direction: $direction;
 }
 
 /*
- Internet Explorer 10 doesn't differentiate device width from viewport width, and thus doesn't 
- properly apply the media queries in Bootstrap's CSS. To address this, 
+ Internet Explorer 10 doesn't differentiate device width from viewport width, and thus doesn't
+ properly apply the media queries in Bootstrap's CSS. To address this,
  you can optionally include the following CSS and JavaScript to work around this problem until Microsoft issues a fix.
 */
 
-@-webkit-viewport { 
-    width: device-width; 
+@-webkit-viewport {
+    width: device-width;
 }
 
-@-moz-viewport { 
-    width: device-width; 
+@-moz-viewport {
+    width: device-width;
 }
 
-@-ms-viewport { 
-    width: device-width; 
+@-ms-viewport {
+    width: device-width;
 }
 
-@-o-viewport { 
-    width: device-width; 
+@-o-viewport {
+    width: device-width;
 }
 
-@viewport { 
-    width: device-width; 
+@viewport {
+    width: device-width;
 }
 
 /*
- Internet Explorer 10 doesn't differentiate device width from viewport width, 
- and thus doesn't properly apply the media queries in Bootstrap's CSS. To address this, following CSS code applied 
+ Internet Explorer 10 doesn't differentiate device width from viewport width,
+ and thus doesn't properly apply the media queries in Bootstrap's CSS. To address this, following CSS code applied
 */
 
-@-ms-viewport { 
-    width: auto !important; 
-}  
+@-ms-viewport {
+    width: auto !important;
+}
+
+// tabel多余内容省略
+ .rc-table td {
+  border-bottom: 1px solid #e9e9e9;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+
+.rc-table table {
+  table-layout: fixed;
+}
+
+// 模糊搜索重置高度，默认高度为34px
+.Select-control,
+.Select-input {
+  height: 32px !important;
+}
+
+.Select-placeholder {
+  line-height: 32px !important;
+}
+
+// 排序icon
+.fa-sort-amount-desc:before {
+    color: #BDB76B;
+    cursor: pointer;
+    content: "\F161";
+}
+.icon-hover:hover{
+    font-size:150%;
+}
+.rc-dialog-mask{
+  z-index: 9996 !important;
+}
+.rc-dialog-wrap{
+  z-index: 9997 !important;
+}

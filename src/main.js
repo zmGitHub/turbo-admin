@@ -1,79 +1,74 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import createBrowserHistory from 'history/lib/createBrowserHistory'
-import { useRouterHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
-import createStore from './store/createStore'
-import AppContainer from './containers/AppContainer'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Router, useRouterHistory } from 'react-router';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
+import basicReducer from './containers/reducer';
 
-// ========================================================
-// Browser History Setup
-// ========================================================
+const MOUNT_NODE = document.getElementById('root');
+
 const browserHistory = useRouterHistory(createBrowserHistory)({
   basename: __BASENAME__
-})
+});
 
-// ========================================================
-// Store and History Instantiation
-// ========================================================
-// Create redux store and sync with react-router-redux. We have installed the
-// react-router-redux reducer under the routerKey "router" in src/routes/index.js,
-// so we need to provide a custom `selectLocationState` to inform
-// react-router-redux of its location.
-const initialState = window.___INITIAL_STATE__
-const store = createStore(initialState, browserHistory)
-const history = syncHistoryWithStore(browserHistory, store, {
-  selectLocationState: (state) => state.router
-})
+// 开发模式下开启 redux-tool 工具
+const middlewares = __DEV__ ? compose(
+  applyMiddleware(thunk),
+  window.devToolsExtension ? window.devToolsExtension() : f => f
+) : applyMiddleware(thunk);
 
-// ========================================================
-// Developer Tools Setup
-// ========================================================
-if (__DEBUG__) {
-  if (window.devToolsExtension) {
-    window.devToolsExtension.open()
-  }
-}
+// 将 state 和应用程序相关联
+const store = createStore(
+  basicReducer,
+  middlewares
+);
 
-// ========================================================
-// Render Setup
-// ========================================================
-const MOUNT_NODE = document.getElementById('root')
-
-let render = (routerKey = null) => {
-  const routes = require('./routes/index').default(store)
+let render = () => {
+  const routes = require('./routes/index').default();
 
   ReactDOM.render(
-    <AppContainer
-      store={store}
-      history={history}
-      routes={routes}
-      routerKey={routerKey}
-    />,
+    <Provider store={store}>
+      <Router routes={routes} history={browserHistory} />
+    </Provider>,
     MOUNT_NODE
-  )
-}
+  );
+};
 
-// Enable HMR and catch runtime errors in RedBox
-// This code is excluded from production bundle
+
 if (__DEV__ && module.hot) {
-  const renderApp = render
-  const renderError = (error) => {
-    const RedBox = require('redbox-react').default
+  // 开发模式下的渲染
+  const renderApp = render;
 
-    ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
-  }
+  const renderError = (error) => {
+    const RedBox = require('redbox-react').default();
+
+    ReactDOM.render(<RedBox error={error} />, MOUNT_NODE);
+  };
+
+  // 渲染页面
   render = () => {
     try {
-      renderApp(Math.random())
+      renderApp();
     } catch (error) {
-      renderError(error)
+      renderError(error);
     }
-  }
-  module.hot.accept(['./routes/index'], () => render())
-}
+  };
 
+  // 开启组件热部署
+  module.hot.accept('./routes/index', () => {
+    setTimeout(() => {
+      ReactDOM.unmountComponentAtNode(MOUNT_NODE);
+      render();
+    });
+  });
+  // 开启对 reducer 的热部署
+  module.hot.accept('./containers/reducer', () => {
+    store.replaceReducer(require('./containers/reducer').default);
+  });
+}
 // ========================================================
-// Go!
+// 渲染页面
 // ========================================================
-render()
+render();

@@ -29,9 +29,9 @@
 @mixin border-radius($radius, $important: '') {
   -webkit-border-radius: $radius#{$important};
   -moz-border-radius: $radius#{$important};
-  -ms-border-radius: $radius#{$important};  
-  -o-border-radius: $radius#{$important};      
-  border-radius: $radius#{$important}; 
+  -ms-border-radius: $radius#{$important};
+  -o-border-radius: $radius#{$important};
+  border-radius: $radius#{$important};
 }
 
 // Placeholder text
@@ -55,6 +55,149 @@
   background-image: none;
   background-image: none;
 }
+/* Portlet background colors */
+@mixin porlet-background($name, $color) {
+
+    .portlet > .portlet-body.#{$name},
+    .portlet.#{$name} {
+        background-color: $color;
+    }
+
+}
+@mixin porlet-solid($name, $color) {
+
+    .portlet.solid.#{$name} {
+
+        > .portlet-title,
+        > .portlet-body {
+            border: 0;
+            color: $color;
+        }
+
+        > .portlet-title {
+            > .caption {
+                font-weight: 400;
+                > i {
+                    color: $color;
+                }
+            }
+
+            > .tools {
+                > a.remove {
+                    background-image:url("#{$general-img-path}portlet-remove-icon-white.png");
+                }
+
+                > a.config {
+                    background-image:url("#{$general-img-path}portlet-config-icon-white.png");
+                }
+
+                > a.reload {
+                    background-image:url("#{$general-img-path}portlet-reload-icon-white.png");
+                }
+
+                > a.expand {
+                    background-image:url("#{$general-img-path}portlet-expand-icon-white.png");
+                }
+
+                > a.collapse {
+                    background-image:url("#{$general-img-path}portlet-collapse-icon-white.png");
+                }
+
+                > a.fullscreen {
+                    color: #fdfdfd;
+                }
+            }
+        }
+    }
+}
+
+@mixin porlet-box($name, $color, $text-color) {
+
+    .portlet.box.#{$name} {
+        border: 1px solid lighten($color, 10%);
+        border-top: 0;
+
+        > .portlet-title {
+            background-color: $color;
+
+            > .caption {
+                color: $text-color;
+                > i {
+                    color: $text-color;
+                }
+            }
+
+            > .actions {
+                .btn-default {
+                    background: transparent !important;
+                    background-color: transparent !important;
+                    border: 1px solid lighten($color, 22%);
+                    color: lighten($color, 27%);
+
+                    > i {
+                        color: lighten($color, 30%);
+                    }
+
+                    &:hover,
+                    &:focus,
+                    &:active,
+                    &.active {
+                        border: 1px solid lighten($color, 32%);
+                        color: lighten($color,37%);
+                    }
+
+                    @if $theme-type == "material-design" {
+                        box-shadow: none;
+
+                        &:hover {
+                            @extend .md-shadow-z-2-hover;
+                        }
+
+                        &:active {
+                            @extend .md-shadow-z-3-hover;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin dashboard-stat-variant($name, $bg-color, $text-color) {
+    &.#{$name} {
+        background-color: $bg-color;
+
+        &.dashboard-stat-light:hover {
+            background-color: darken($bg-color, 4%);
+        }
+
+        .visual {
+            > i {
+                color: $text-color;
+                opacity: 0.1;
+                filter: alpha(opacity=10);
+            }
+        }
+
+        .details {
+            .number {
+                color: $text-color;
+            }
+
+            .desc {
+                color: $text-color;
+                opacity: 1;
+                filter: alpha(opacity=100);
+            }
+        }
+
+        .more {
+            color: $text-color;
+            background-color: darken($bg-color, 4%);
+        }
+    }
+}
+
 
 // Panels
 // -------------------------
@@ -87,7 +230,7 @@
   hr {
     border-top-color: darken($border, 5%);
   }
-  .alert-link { 
+  .alert-link {
     color: darken($text-color, 10%);
   }
 }
@@ -97,13 +240,13 @@
 @mixin table-row-variant($state, $background, $text) {
   // Exact selectors below required to override `.table-striped` and prevent
   // inheritance to nested tables.
-  
+
   .table > thead > tr,
   .table > tbody > tr,
   .table > tfoot > tr {
     > td.#{$state},
     > th.#{$state},
-    &.#{$state} > td,  
+    &.#{$state} > td,
     &.#{$state} > th {
       background: $background;
       color: $text;
@@ -159,7 +302,7 @@
 @mixin button-variant($color, $background, $border) {
   color: $color;
   background-color: $background;
-  @if $border != "" { border-color: $border; } 
+  @if $border != "" { border-color: $border; }
 
   &:hover,
   &:focus,
@@ -172,7 +315,7 @@
   .open & { &.dropdown-toggle {
     color: $color;
     background-color: darken($background, 7%);
-    @if $border != "" { border-color: darken($border, 10%); } 
+    @if $border != "" { border-color: darken($border, 10%); }
   } }
   &:active,
   &.active {
@@ -180,13 +323,13 @@
     background-color: darken($background, 12%);
 
     &:hover {
-      background-color: darken($background, 10%);  
+      background-color: darken($background, 10%);
     }
   }
   .open & { &.dropdown-toggle {
     background-image: none;
   } }
-  &.disabled, 
+  &.disabled,
   &[disabled],
   fieldset[disabled] & {
     &,
@@ -234,18 +377,18 @@
 @mixin form-control-validation($text-color: #555, $border-color: #ccc, $background-color: #f5f5f5) {
   // Color the label and help text
   .help-block,
-  .help-inline, 
+  .help-inline,
   .control-label,
   .radio,
   .checkbox,
   .radio-inline,
   .checkbox-inline  {
-    
+
     @if $theme-type == "material-design" {
       color: $background-color;
     } @else {
       color: $text-color;
-    } 
+    }
   }
   // Set the border and box shadow on specific inputs to match
   .form-control {
@@ -268,7 +411,7 @@
         color: $background-color;
       } @else {
         color: $text-color;
-      }  
+      }
     }
   }
   // Optional feedback icon
@@ -292,7 +435,7 @@
     50% {
       transform: scale($end-size);
     }
-  }  
+  }
   animation: $animation-name $duration ease 0s infinite;
 }
 
@@ -306,7 +449,7 @@
         duration: $duration;
         property: $property;
         timing-function: cubic-bezier(0.7, 1, 0.7, 1);
-    } 
+    }
 }
 
 

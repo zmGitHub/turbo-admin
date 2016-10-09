@@ -10,6 +10,7 @@
  *
  */
 
+
 module.exports = {
   preBootstrapCustomizations: './src/styles/_variables.scss',
   mainSass: './src/styles/bootstrap/bootstrap.overrides.scss',
@@ -33,7 +34,7 @@ module.exports = {
     mixins: true,
     normalize: true,
     print: true,
-    glyphicons: true,
+    glyphicons: false,
     scaffolding: true,
     type: true,
     code: true,
@@ -52,20 +53,20 @@ module.exports = {
     pager: true,
     labels: true,
     badges: true,
-    jumbotron: true,
-    thumbnails: true,
+    jumbotron: false,
+    thumbnails: false,
     alerts: true,
     'progress-bars': true,
-    media: true,
+    media: false,
     'list-group': true,
     panels: true,
     wells: true,
     'responsive-embed': true,
     close: true,
-    modals: true,
+    modals: false,
     tooltip: true,
     popovers: true,
-    carousel: true,
+    carousel: false,
     utilities: true,
     'responsive-utilities': true
   }

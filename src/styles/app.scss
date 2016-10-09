@@ -1,11 +1,11 @@
-/* @import "components-rounded";
-@import "plugins";
+@import "components-rounded";
+@import "layout/themes/light";
+/*@import "plugins";
 @import "layout/layout";
 @import "layout/themes/light"; */
-.theme {
-  position: relative;
-  height: 200px;
-  width: 100px;
-  color: red;
-  background-image: url("../static/logo.png");
-}
+
+// 重置默认样式
+@import 'components/_reset-general';
+@import 'components/_typography';
+@import 'components/_utils';
+@import 'components/_flatui-color-variants';

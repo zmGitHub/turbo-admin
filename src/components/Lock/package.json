@@ -1,0 +1,6 @@
+{
+  "name": "Lock",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Lock.jsx"
+}
