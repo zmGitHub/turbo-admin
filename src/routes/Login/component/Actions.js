@@ -1,3 +1,6 @@
+// import { post } from 'containers/fetch';
+import { set } from 'containers/auth';
+
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
@@ -12,12 +15,11 @@ export function requestLogin() {
 }
 
 // 登录成功返回用户数据
-export function receiveLogin(data) {
+export function receiveLogin() {
   return {
     type: LOGIN_SUCCESS,
     isFetching: false,
-    isAuthenticated: true,
-    user: data
+    isAuthenticated: true
   };
 }
 
@@ -31,36 +33,24 @@ export function loginError(message) {
   };
 }
 
-// 调用 API 发起用户登录
-export function loginUser(params) {
-  const data = `nickname=${params.nickname}&password=${params.password}`;
-  const config = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    credentials: 'same-origin',
-    body: data
-  };
-
+// 用户登录
+export function loginAction(params, router) {
   return dispatch => {
-    // 请求发起 通知 state
     dispatch(requestLogin());
-
-    return fetch('/api/user/login', config)
-      .then(response =>
-        response.json().then(user => ({ user, response }))).then(({ user, response }) => {
-          if (response.ok) {
-            // If login was successful, set the token in local storage
-            localStorage.setItem('id_token', user.nickname);
-            // Dispatch the success action
-            dispatch(receiveLogin(user));
-          } else {
-            dispatch(loginError(user.message));
-          }
-          return Promise.resolve(response);
-        }, error => {
-          return Promise.resolve(error);
-        }).catch((err) => {
-          return Promise.reject(err);
-        });
+    setTimeout(() => {
+      set({ name: '屌丝明' });
+      dispatch(receiveLogin());
+      router.replace('/');
+    }, 2000);
+    // 真实线上登录接口
+    // return post('/api/user/login', params).then(response => {
+    //   if (response.success) {
+    //     set(response.result);
+    //     dispatch(receiveLogin());
+    //     router.replace('/');
+    //   }
+    // }, error => {
+    //   console.log(error);
+    // });
   };
 }

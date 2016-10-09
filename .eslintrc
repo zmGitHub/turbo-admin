@@ -4,7 +4,7 @@
   "plugins": [
     "babel", "react", "import"
   ],
-  "env"     : {
+  "env": {
     "browser" : true,
     "node": true
   },

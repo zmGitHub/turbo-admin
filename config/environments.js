@@ -6,12 +6,12 @@ export default {
   // 参考:http://stackoverflow.com/questions/34133808/webpack-ots-parsing-error-loading-fonts/34133809#34133809
   development: (config) => ({
     // eval-cheap-module-source-map 开发下回更加快捷
-    compiler_devtool: 'eval-cheap-module-source-map',
+    compiler_devtool: 'eval-source-map',
     compiler_public_path: `http://${config.server_host}:${config.server_port}/`,
     proxy: {
       enabled: true,
       options: {
-        host: 'http://spare.audit.com',
+        host: 'http://www.audit.com',
         match: /^\/api\/.*/
       }
     }

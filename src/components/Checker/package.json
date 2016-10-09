@@ -1,0 +1,6 @@
+{
+  "name": "Checker",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Checker.jsx"
+}

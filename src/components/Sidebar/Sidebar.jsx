@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import Icon from '../Icon';
 import SidebarItem from './SidebarItem';
+import avatar from './logo-light.png';
 import './Sidebar.scss';
 
 
@@ -10,106 +12,100 @@ class Sidebar extends Component {
       items: [
         {
           id: 1,
-          name: '备件详情',
+          name: '总体分析',
+          icon: 'pie-chart',
+          url: '/',
+          children: []
+        },
+        {
+          id: 2,
+          name: '工贸审计',
+          icon: 'map',
+          url: '/industries',
+          children: []
+        },
+        {
+          id: 3,
+          name: '网点审计',
+          icon: 'location-arrow',
+          url: '/siteindex',
+          children: []
+        },
+        {
+          id: 4,
+          name: '异常数据',
+          icon: 'exclamation-triangle',
           url: '',
-          icon: 'cubes',
           children: [
             {
-              id: 2,
-              name: '上下架列表',
-              url: '/',
-              icon: 'share-alt',
-              children: []
-            },
-            {
-              id: 3,
-              name: '发运操作费',
-              url: 'dispatch',
-              icon: 'paper-plane',
-              children: []
-            },
-            {
-              id: 19,
-              name: '过站操作费',
-              url: 'crossing',
-              icon: 'exchange',
-              children: []
-            },
-            {
-              id: 4,
-              name: '一次发运',
-              url: 'dispatchprimary',
-              icon: 'calendar',
-              children: []
-            },
-            {
               id: 5,
-              name: '二次发运',
-              url: 'dispatchsecondary',
-              icon: 'calendar-o',
+              name: '异地号',
+              url: '/remote',
+              icon: 'phone',
               children: []
             },
             {
               id: 6,
-              name: '过站发运',
-              url: 'dispatchcrossing',
-              icon: 'car',
+              name: '重复手机号',
+              url: '/repeattel',
+              icon: 'volume-control-phone',
               children: []
             },
             {
               id: 7,
-              name: '旧件返工厂',
-              url: 'factory',
-              icon: 'history',
+              name: '手机连号',
+              url: '/telNumber',
+              icon: 'retweet',
               children: []
             },
             {
               id: 8,
-              name: '旧件返工贸',
-              url: 'industry',
-              icon: 'fax',
+              name: '机编连号',
+              url: '/machinecode',
+              icon: 'barcode',
               children: []
             },
-            // {
-            //   id: 9,
-            //   name: '工厂提货',
-            //   url: 'dispatch',
-            //   icon: 'shopping-cart',
-            //   children: []
-            // },
-            // {
-            //   id: 10,
-            //   name: '发运手工录入',
-            //   url: 'dispatch',
-            //   icon: 'edit',
-            //   children: []
-            // },
+            {
+              id: 9,
+              name: '电子保修卡',
+              url: '/warranty',
+              icon: 'credit-card',
+              children: []
+            },
+            {
+              id: 10,
+              name: '洗衣机服务措施',
+              url: '/washerservice',
+              icon: 'tty',
+              children: []
+            },
             {
               id: 11,
-              name: '索赔录入',
-              url: 'cliam',
-              icon: 'credit-card',
+              name: '冰箱服务措施',
+              url: '/fridge',
+              icon: 'truck',
               children: []
             }
           ]
-        }, {
+        },
+        {
           id: 12,
-          name: '结算报表',
-          icon: 'bar-chart-o',
+          name: '用户角色',
           url: '',
+          icon: 'group',
           children: [
             {
               id: 13,
-              name: '一级报表',
-              url: 'reportprimary',
-              icon: 'th',
+              name: '用户管理',
+              url: '/user',
+              icon: 'user-plus',
               children: []
             },
             {
               id: 14,
-              name: '二级报表',
-              url: 'reportsecondary',
-              icon: 'table',
+              name: '角色管理',
+              url: '/role',
+              icon: 'cogs',
               children: []
             }
           ]
@@ -119,23 +115,41 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { items } = this.state;
-    const renderItem = () => items.map((item, index) => {
-      return (<SidebarItem
-        key={`sidebar.item.${index}`}
-        url={item.url}
-        name={item.name}
-        icon={item.icon}
-        className="active open"
-        children={item.children}
-      />);
-    });
+    const { items } = this.props;
     return (
       <div className="page-sidebar navbar-collapse collapse">
-        <ul className="page-sidebar-menu">{renderItem()}</ul>
+        <div className="page-sidebar-header">
+          <img alt="审计后台" src={avatar} />
+          <small>审计后台</small>
+          <span className="sidebar-icon no-margin">
+            <Icon type="dashboard" className="fa-1x" />
+          </span>
+        </div>
+        <ul className="page-sidebar-menu">
+          {
+            items.map((item, index) => {
+              return (<SidebarItem
+                key={`sidebar.item.${index}`}
+                url={item.url}
+                name={item.name}
+                icon={item.icon}
+                className="active open"
+                children={item.childMenus}
+              />);
+            })
+          }
+        </ul>
       </div>
     );
   }
 }
+
+Sidebar.propTypes = {
+  items: PropTypes.array
+};
+
+Sidebar.defaultProps = {
+  items: []
+};
 
 export default Sidebar;

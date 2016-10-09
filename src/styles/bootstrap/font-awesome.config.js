@@ -5,10 +5,8 @@
  * disable components you don't use.
  *
  */
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  // styleLoader: ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader'),
   styles: {
     mixins: true,
     core: true,

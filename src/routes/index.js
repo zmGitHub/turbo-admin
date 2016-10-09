@@ -2,16 +2,8 @@
 import CoreLayout from './CoreLayout';
 import Home from './Home';
 import Login from './Login';
-import Dispatch from './Dispatch'; // 发运操作费
-import Crossing from './Crossing'; // 过站操作费
-import DispatchPrimary from './DispatchPrimary'; // 一次发运
-import DispatchSecondary from './DispatchSecondary'; // 二次次发运
-import DispatchCrossing from './DispatchCrossing'; // 过站发运
-import Factory from './Factory'; // 旧件返工厂
-import Industry from './Industry'; // 旧件返工厂
-import Claim from './Claim'; // 索赔录入
-import ReportPrimary from './ReportPrimary'; // 结算报表 --一级报表
-import ReportSecondary from './ReportSecondary'; // 结算报表 --二级报表
+import Components from './Components';
+import { isAuth } from 'containers/auth'; // 用户权限验证
 
 // TODO: 重构登录验证
 
@@ -19,33 +11,22 @@ const createRoutes = () => ([
   {
     path: '/',
     onEnter(nextState, replace) {
-      const loggedIn = localStorage.getItem('id_token');
-      if (!loggedIn) {
-        replace(null, 'login');
+      if (!isAuth()) {
+        replace('login');
       }
     },
     component: CoreLayout,
     indexRoute: Home,
     childRoutes: [
-      Dispatch,
-      Crossing,
-      DispatchPrimary,
-      DispatchSecondary,
-      DispatchCrossing,
-      Factory,
-      Industry,
-      Claim,
-      ReportPrimary,
-      ReportSecondary
+      Components
     ]
   },
   {
     path: 'login',
     component: Login,
     onEnter(nextState, replace) {
-      const loggedIn = localStorage.getItem('id_token');
-      if (loggedIn) {
-        replace(null, '/');
+      if (isAuth()) {
+        replace('/');
       }
     }
   }

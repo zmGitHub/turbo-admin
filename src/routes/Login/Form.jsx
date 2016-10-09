@@ -8,13 +8,13 @@ import Icon from 'components/Icon';
 
 class LoginForm extends Component {
   render() {
-    const { fields: { nickname, password }, handleSubmit } = this.props;
+    const { fields: { nickname, password }, submitting, handleSubmit } = this.props;
     return (
       <Form className="login-form" onSubmit={handleSubmit}>
-        <h3 className="form-title text-center">备件管理系统</h3>
+        <h3 className="form-title text-center">用户登录</h3>
         <div className="alert alert-danger display-hide">
           <Button className="close" data-close="alert" />
-          <span>Enter any username and password.</span>
+          <span>Enter any nickname and password.</span>
         </div>
         <div className="form-group">
           <Label className="control-label visible-ie8 visible-ie9">用户名</Label>
@@ -41,7 +41,9 @@ class LoginForm extends Component {
           </div>
         </div>
         <div className="form-actions">
-          <Button type="submit" className="blue btn-block">登 录</Button>
+          <Button type="submit" className="blue btn-block btn-circle" disabled={submitting}>
+            登 录
+          </Button>
         </div>
       </Form>
     );
@@ -49,8 +51,9 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-  fields: PropTypes.object,
-  handleSubmit: PropTypes.func
+  fields: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  submitting: PropTypes.bool.isRequired
 };
 
 // 将表单字段绑定到 reduxForm

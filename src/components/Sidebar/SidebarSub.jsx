@@ -8,7 +8,7 @@ class SidebarSub extends Component {
         {this.props.children.map((item, index) => {
           return (<SidebarItem
             key={`sidebar.sub.item.${index}`}
-            children={item.children}
+            children={item.childMenus}
             url={item.url}
             name={item.name}
             icon={item.icon}

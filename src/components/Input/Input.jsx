@@ -35,6 +35,7 @@ class Input extends Component {
 Input.propTypes = {
   type: PropTypes.string,
   className: PropTypes.string,
+  values: PropTypes.string,
 };
 
 export default Input;

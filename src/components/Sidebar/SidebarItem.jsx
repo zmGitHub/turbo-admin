@@ -6,20 +6,25 @@ import SidebarSub from './SidebarSub';
 class SidebarItem extends Component {
   // 检查 URL 地址是否有效
   checkURL() {
+    const { name, icon, url } = this.props;
     let urlComponent = '';
     if (this.props.url) {
       urlComponent = (
-        <Link to={this.props.url} activeClassName="linkActive">
-          <Icon type={this.props.icon} />
-          <span className="title"> {this.props.name}</span>
+        <Link to={url} activeClassName="linkActive" onlyActiveOnIndex>
+          <span className="title"> {name}</span>
+          <span className="sidebar-icon">
+            <Icon type={icon} />
+          </span>
         </Link>
       );
     } else {
       urlComponent = (
         <a href="javaScript:void(0);">
-          <Icon type={this.props.icon} />
-          <span className="title"> {this.props.name}</span>
+          <span className="title"> {name}</span>
           <span className="arrow" />
+          <span className="sidebar-icon">
+            <Icon type={icon} />
+          </span>
         </a>
       );
     }

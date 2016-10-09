@@ -3,10 +3,10 @@ import classNames from 'classnames';
 import './Button.scss';
 
 export const Button = props => {
-  const { type = 'button' } = props;
+  const { type = 'button', ...rest } = props;
   const buttonClass = classNames('btn', props.className);
   return (
-    <button {...props} className={buttonClass} type={type} role="button" />
+    <button {...rest} className={buttonClass} type={type} role="button" />
   );
 };
 

@@ -6,10 +6,10 @@ export const Label = (props) => {
   const {
     htmlFor,
     className,
-    ...otherProps
+    ...rest
   } = props;
   const labelClass = classNames('control-label', className);
-  return (<label htmlFor={htmlFor} className={labelClass} {...otherProps} />);
+  return (<label htmlFor={htmlFor} className={labelClass} {...rest} />);
 };
 
 Label.propTypes = {

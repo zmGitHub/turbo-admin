@@ -6,7 +6,7 @@
 
 .page-container {
   	margin: 0px;
-  	padding: 20px 20px 0 20px;
+  	padding: 10px 20px 0 0;
   	position: relative;
   	@include clearfix();
 
@@ -145,7 +145,7 @@ Page content
 		width: 100%;
 
 		.page-content {
-			margin-left: $sidebar-width;
+			margin-left: 55px;
 			margin-top: 0px;
 			min-height: $page-content-min-height;
 			padding: 10px 0 0 20px;

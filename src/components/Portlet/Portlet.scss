@@ -15,6 +15,7 @@ Portlets
 /* Basic portlet */
 
 .portlet  {
+    position: relative;
     margin-top: 0px;
     margin-bottom: 25px;
     padding: 0px;
@@ -100,6 +101,7 @@ Portlets
             > .btn,
             > .btn.btn-sm,
             > .btn-group > .btn,
+            > .rc-upload > .btn,
             > .btn-group > .btn.btn-sm, {
                 padding: 4px 10px;
 

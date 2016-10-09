@@ -10,7 +10,7 @@ import _debug from 'debug';
 const debug = _debug('app:webpack:config');
 const paths = config.utils_paths;
 // 获取当前的执行环境
-const {__DEV__, __PROD__, __TEST__} = config.globals;
+const { __DEV__, __PROD__, __TEST__ } = config.globals;
 
 debug('👻 初始化 webpack 默认配置...');
 const webpackConfig = {
@@ -26,10 +26,17 @@ const webpackConfig = {
 // ------------------------------------
 // 入口文件
 // ------------------------------------
-const APP_ENTRY_PATHS = [
+const APP_ENTRY_PATHS_DEV = [
   'babel-polyfill',
   'bootstrap-sass!./src/styles/bootstrap/bootstrap.config.js',
   'font-awesome-webpack!./src/styles/bootstrap/font-awesome.config.js',
+  `webpack-hot-middleware/client?path=${config.compiler_public_path}__webpack_hmr`,
+  paths.client('main.js')
+];
+const APP_ENTRY_PATHS_PROD = [
+  'babel-polyfill',
+  'bootstrap-sass!./src/styles/bootstrap/bootstrap.config.prod.js',
+  'font-awesome-webpack!./src/styles/bootstrap/font-awesome.config.prod.js',
   paths.client('main.js')
 ];
 // ------------------------------------
@@ -39,8 +46,8 @@ const APP_ENTRY_PATHS = [
 // ------------------------------------
 webpackConfig.entry = {
   app: __DEV__
-    ? APP_ENTRY_PATHS.concat(`webpack-hot-middleware/client?path=${config.compiler_public_path}__webpack_hmr`)
-    : APP_ENTRY_PATHS,
+    ? APP_ENTRY_PATHS_DEV
+    : APP_ENTRY_PATHS_PROD,
   vendor: config.compiler_vendor
 };
 

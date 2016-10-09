@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { loginUser } from './component/Actions';
+import { loginAction } from './component/Actions';
 import Form from './Form';
 import logo from './logo-light.png';
 import './Login.scss';
@@ -13,19 +13,16 @@ class Login extends Component {
 
   login(values) {
     const { dispatch } = this.props;
+    const router = this.context.router;
     // 用户登录
-    dispatch(loginUser(values)).then((res) => {
-      if (res.ok) {
-        this.props.history.push('/');
-      }
-    });
+    dispatch(loginAction(values, router));
   }
 
   render() {
     return (
       <div className="login">
         <div className="logo">
-          <img src={logo} alt="海尔-备件管理" />
+          <img src={logo} alt="海尔-审计管理" />
         </div>
         <div className="content">
           <Form onSubmit={this.login} />
@@ -45,6 +42,10 @@ function mapStateToprops(state) {
 Login.propTypes = {
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.object
+};
+
+Login.contextTypes = {
+  router: React.PropTypes.object
 };
 
 export default connect(mapStateToprops)(Login);

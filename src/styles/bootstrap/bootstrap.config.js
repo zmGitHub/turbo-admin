@@ -10,12 +10,10 @@
  *
  */
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   preBootstrapCustomizations: './src/styles/_variables.scss',
   mainSass: './src/styles/bootstrap/bootstrap.overrides.scss',
-  // styleLoader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader'),
   verbose: false,
   debug: false,
   scripts: {
@@ -57,7 +55,7 @@ module.exports = {
     badges: true,
     jumbotron: false,
     thumbnails: false,
-    alerts: false,
+    alerts: true,
     'progress-bars': true,
     media: false,
     'list-group': true,

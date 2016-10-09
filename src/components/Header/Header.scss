@@ -33,7 +33,7 @@ Page Header
 		display: block;
 		width: $sidebar-logo-container-width;
 		height: $header-height;
-		padding-left: 20px;
+		padding-left: 60px;
 		padding-right: 20px;
 
 		> .logo-image,
@@ -468,9 +468,9 @@ Page Header
           }
 
           > img {
-            margin-top: -8px;
+            margin-top: -5px;
             margin-right: 8px;
-            height: 40px;
+            height: 35px;
             float: left;
           }
 
@@ -514,7 +514,7 @@ Page Header
           font-size: $header-top-menu-icon-font-size;
 
           &:hover {
-            color: #a4b4bb;
+            color: #3598dc;
           }
         }
       }

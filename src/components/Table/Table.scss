@@ -38,6 +38,7 @@ Responsive & Scrollable Tables
 ***/
 
 .table-scrollable {
+    position: relative;
   	width: 100%;
   	overflow-x: auto;
   	overflow-y: hidden;
@@ -176,6 +177,10 @@ Custom tables
 .table thead tr th {
     font-size: 14px;
     font-weight: 600;
+}
+
+.table tbody tr td.middle {
+    vertical-align: middle;
 }
 
 .table-advance {
