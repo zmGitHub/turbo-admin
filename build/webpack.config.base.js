@@ -10,6 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 
 const uitls = require('./utils')
+const webpackConfig = require('../config').webpack
 
 const cssLoaders = ['style-loader', 'css-loader', 'postcss-loader']
 const lessLoaders = ['style-loader', 'css-loader', 'postcss-loader', 'less-loader']
@@ -24,10 +25,10 @@ const config = {
   // 输出配置
   output: {
     path: uitls.resolve('dist'),
-    publicPath: '/' // TODO: 切记和 deveServer 里面保持一致
+    publicPath: webpackConfig.publicPath // TODO: 切记和 deveServer 里面保持一致
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json', '.less', '.scss'],
+    extensions: webpackConfig.extensions,
     alias: {
       '@': uitls.resolve('src')
     }

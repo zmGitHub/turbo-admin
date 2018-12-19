@@ -1,5 +1,5 @@
 const dev = () => {
-  alert(6666666)
+  alert(888)
 }
 
 dev()

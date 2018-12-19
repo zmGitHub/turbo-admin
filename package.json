@@ -15,66 +15,8 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
-    "compile": "better-npm-run compile",
-    "lint": "eslint src tests server",
-    "lint:fix": "npm run lint -- --fix",
-    "start": "better-npm-run start",
     "dev": "cross-env NODE_ENV=development node bin/dev",
-    "dev:no-debug": "npm run dev -- --no_debug",
-    "test": "better-npm-run test",
-    "test:dev": "npm run test -- --watch",
-    "deploy": "better-npm-run deploy",
-    "deploy:dev": "better-npm-run deploy:dev",
-    "deploy:prod": "better-npm-run deploy:prod",
-    "codecov": "cat coverage/*/lcov.info | codecov"
-  },
-  "betterScripts": {
-    "compile": {
-      "command": "babel-node bin/compile",
-      "env": {
-        "DEBUG": "app:*"
-      }
-    },
-    "dev": {
-      "command": "nodemon --exec babel-node bin/server",
-      "env": {
-        "NODE_ENV": "development",
-        "DEBUG": "app:*"
-      }
-    },
-    "deploy": {
-      "command": "npm run clean && npm run compile",
-      "env": {
-        "DEBUG": "app:*"
-      }
-    },
-    "deploy:dev": {
-      "command": "npm run deploy",
-      "env": {
-        "NODE_ENV": "development",
-        "DEBUG": "app:*"
-      }
-    },
-    "deploy:prod": {
-      "command": "npm run deploy",
-      "env": {
-        "NODE_ENV": "production",
-        "DEBUG": "app:*"
-      }
-    },
-    "start": {
-      "command": "babel-node bin/server",
-      "env": {
-        "DEBUG": "app:*"
-      }
-    },
-    "test": {
-      "command": "babel-node ./node_modules/karma/bin/karma start build/karma.conf",
-      "env": {
-        "NODE_ENV": "test",
-        "DEBUG": "app:*"
-      }
-    }
+    "build-web": "cross-env NODE_ENV=production webpack --config build/webpack.config.prod.js --progress --hide-modules"
   },
   "dependencies": {
     "antd": "^3.11.2",
@@ -112,8 +54,10 @@
     "postcss": "^7.0.7",
     "postcss-loader": "^3.0.0",
     "style-loader": "^0.23.1",
+    "terser-webpack-plugin": "^1.1.0",
     "url-loader": "^1.1.2",
     "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2",
     "webpack-dev-middleware": "^3.4.0",
     "webpack-hot-middleware": "^2.24.3",
     "webpack-merge": "^4.1.5"
