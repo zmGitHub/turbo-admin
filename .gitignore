@@ -1,9 +1,31 @@
-.DS_STORE
-*.log
-*.iml
-.idea/
-node_modules/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-dist/
-coverage
+# dependencies
+**/node_modules
+
+# production
+/dist
+/.vscode
+
+# misc
+.DS_Store
+npm-debug.log*
+yarn-error.log
+
+/coverage
+.idea
+yarn.lock
+package-lock.json
+*bak
+jsconfig.json
 .vscode
+
+# visual studio code
+.history
+*.log
+
+functions/mock
+.temp/**
+
+# screenshot
+screenshot
