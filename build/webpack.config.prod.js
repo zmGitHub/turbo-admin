@@ -16,6 +16,7 @@ const config = merge(baseConfig, {
     filename: '[name].[chunkhash:9].js',
     // 异步模块文件名
     chunkFilename: '[name].[chunkhash:9].js',
+    globalObject: 'this'
   },
   plugins: [
     // 分离css文件
@@ -48,7 +49,6 @@ const config = merge(baseConfig, {
     minimize: true,
     removeAvailableModules: false,
     removeEmptyChunks: false,
-    splitChunks: false,
     splitChunks: {
       chunks: "async",
       minSize: 30000, //模块大于30k会被抽离到公共模块

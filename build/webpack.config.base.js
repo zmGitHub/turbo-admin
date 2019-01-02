@@ -1,20 +1,22 @@
-/**
- * webpack base 配置
-**/
+
 const Webpack = require('webpack')
 // 由于mac不区分大小写，linux区分大小写，可能导致mac上正常，在部署时出错，所以强制区分大小写
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 // 分离 css
-const ExtractCssChunks = require("extract-css-chunks-webpack-plugin")
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 
 const uitls = require('./utils')
 const webpackConfig = require('../config').webpack
 
-const cssLoaders = ['style-loader', 'css-loader', 'postcss-loader']
-const lessLoaders = ['style-loader', 'css-loader', 'postcss-loader', 'less-loader']
-if (!uitls.isDev()) {
+const cssLoaders = ['css-loader', 'postcss-loader']
+const lessLoaders = ['css-loader', 'postcss-loader', 'less-loader']
+if (uitls.isDev()) {
+  // production 打包 css 到独立的文件
+  cssLoaders.unshift('style-loader')
+  lessLoaders.unshift('style-loader')
+} else {
   // production 打包 css 到独立的文件
   cssLoaders.unshift(ExtractCssChunks.loader)
   lessLoaders.unshift(ExtractCssChunks.loader)

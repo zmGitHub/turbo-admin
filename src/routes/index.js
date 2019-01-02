@@ -1,35 +1,19 @@
-// 路由配置
-import CoreLayout from './CoreLayout';
-import Home from './Home';
-import Login from './Login';
-import Components from './Components';
-import { isAuth } from 'containers/auth'; // 用户权限验证
+import React from 'react'
+import { Router, Route, Switch } from 'dva/router'
 
-// TODO: 重构登录验证
+import Layout from './Layout'
+import Dashboard from './Dashboard'
 
-const createRoutes = () => ([
-  {
-    path: '/',
-    onEnter(nextState, replace) {
-      if (!isAuth()) {
-        replace('login');
-      }
-    },
-    component: CoreLayout,
-    indexRoute: Home,
-    childRoutes: [
-      Components
-    ]
-  },
-  {
-    path: 'login',
-    component: Login,
-    onEnter(nextState, replace) {
-      if (isAuth()) {
-        replace('/');
-      }
-    }
-  }
-]);
+const RouterConfig = ({ history }) => {
+  return (
+    // eslint-disable-next-line react/jsx-filename-extension
+    <Router history={history}>
+      <Switch>
+        <Route path="/" exact component={Layout} />
+        <Route path="/" component={Dashboard} />
+      </Switch>
+    </Router>
+  )
+}
 
-export default createRoutes;
+export default RouterConfig
