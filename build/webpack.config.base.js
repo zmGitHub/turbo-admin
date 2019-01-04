@@ -11,7 +11,17 @@ const uitls = require('./utils')
 const webpackConfig = require('../config').webpack
 
 const cssLoaders = ['css-loader', 'postcss-loader']
-const lessLoaders = ['css-loader', 'postcss-loader', 'less-loader']
+const lessLoaders = ['css-loader', 'postcss-loader', {
+  loader: 'less-loader', // compiles Less to CSS
+  options: {
+    modifyVars: {
+      'primary-color': '#1DA57A',
+      'link-color': '#1DA57A',
+      'border-radius-base': '2px',
+    },
+    javascriptEnabled: true
+  },
+}]
 if (uitls.isDev()) {
   // production 打包 css 到独立的文件
   cssLoaders.unshift('style-loader')
@@ -42,7 +52,8 @@ const config = {
         use: {
           loader: 'babel-loader',
           options: {
-            cacheDirectory: uitls.isDev()
+            cacheDirectory: uitls.isDev(),
+            plugins: [["import", {"libraryName": "antd", "libraryDirectory":"es", "style": true}]],
           },
         },
         include: uitls.resolve('src'),

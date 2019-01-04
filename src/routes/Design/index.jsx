@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'dva/router'
-import { Button } from 'antd'
 
 export default class Dashboard extends Component {
   state = {
@@ -12,8 +10,7 @@ export default class Dashboard extends Component {
     return (
       <div>
         {a}
-        <Button type="primary">test</Button>
-        <Link to="/design">444</Link>
+        装修
       </div>
     )
   }

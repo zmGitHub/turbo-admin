@@ -6,13 +6,11 @@ import createLoading from 'dva-loading'
 import createHistory from 'history/createHashHistory'
 import Loading from '@/components/Loading'
 import router from './routes'
+import './index.less'
 
-console.log('fuck')
 // 初始化
 const app = dva({
-  history: createHistory({
-    basename: 'x-project'
-  }),
+  history: createHistory(),
   onHmr: () => {
     console.log('热更新')
     if (module.hot) {

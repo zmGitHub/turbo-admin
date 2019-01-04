@@ -1,3 +1,17 @@
-body {
-  background-color: red;
+@import '../../styles/colors';
+
+.x-layout {
+  background-color: @x-bg-color;
+  &-content {
+    display: flex;
+    box-orient: vertical;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: @x-sub-primary-color;
+    &-main {
+      background-color: @x-bg-color;
+      box-orient: horizontal;
+      flex-direction: row;
+    }
+  }
 }

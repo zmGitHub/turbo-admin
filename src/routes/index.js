@@ -3,17 +3,17 @@ import { Router, Route, Switch } from 'dva/router'
 
 import Layout from './Layout'
 import Dashboard from './Dashboard'
+import Design from './Design'
 
-const RouterConfig = ({ history }) => {
-  return (
-    // eslint-disable-next-line react/jsx-filename-extension
-    <Router history={history}>
+const RouterConfig = ({ history }) => (
+  <Router history={history}>
+    <Layout>
       <Switch>
-        <Route path="/" exact component={Layout} />
-        <Route path="/" component={Dashboard} />
+        <Route exact path="/" component={Dashboard} />
+        <Route exact path="/design" component={Design} />
       </Switch>
-    </Router>
-  )
-}
+    </Layout>
+  </Router>
+)
 
 export default RouterConfig

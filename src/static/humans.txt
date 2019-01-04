@@ -1,9 +1,0 @@
-#  网站设计人员: http://humanstxt.org/
-
-# TEAM
-
-    <turbo> -- <develop> -- <https://github.com/zmGitHub>
-
-# THANKS
-
-    <davezuko>

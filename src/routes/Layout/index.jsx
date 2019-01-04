@@ -1,11 +1,17 @@
 import React from 'react'
+import { Layout } from 'antd'
+import Header from '@/components/Header'
 import './index.less'
 
-const Layout = ({ children }) => (
-  <div>
-    <h1>798789</h1>
-    {children}
-  </div>
+const { Content } = Layout
+
+const LayoutBase = ({ children }) => (
+  <Layout className="x-layout">
+    <Content className="x-layout-content">
+      <Header />
+      <Layout className="x-layout-content-main">{children}</Layout>
+    </Content>
+  </Layout>
 )
 
-export default Layout
+export default LayoutBase
