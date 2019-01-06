@@ -1,0 +1,59 @@
+@import '../../styles/colors.less';
+
+.x-dashboard {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  margin-top: 16px;
+  &-content {
+    width: 850px;
+    &-body {
+      background-color: @x-sub-primary-color;
+      &-list {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        &-item {
+          position: relative;
+          width: 186px;
+          height: 325px;
+          background-color: #ffffff;
+          cursor: pointer;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+          .template-footer {
+            display: none;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 38px;
+            background-color: #333333;
+            transition: display 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+            a {
+              display: flex;
+              flex: 1;
+              align-items: center;
+              justify-content: center;
+            }
+          }
+          &:hover {
+            background-color: red;
+            .template-footer {
+              display: flex;
+            }
+          }
+        }
+      }
+      .ant-card-head {
+        border-bottom: none;
+        .ant-tabs-bar {
+          border-bottom: 1px solid #333333;
+        }
+      }
+
+    }
+  }
+}

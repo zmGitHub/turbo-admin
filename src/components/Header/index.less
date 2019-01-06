@@ -8,13 +8,35 @@
   border-bottom: 1px solid #121516;
   background-color: @x-sub-primary-color;
   display: flex;
+  align-items: center;
   margin-bottom: -1px;
   position: relative;
   z-index: 1;
   &-left {
-
+    display: flex;
+    align-items: center;
+    flex: 1;
+    &-logo {
+      width: 32px;
+      fill: #fff;
+    }
+    &-info {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      color: #fff;
+      .name {
+        margin-left: 10px;
+        font-size: 16px;
+      }
+      .dot {
+        padding: 0 10px;
+      }
+      .desc {
+        font-size: 12px;
+      }
+    }
   }
   &-right {
-
   }
 }

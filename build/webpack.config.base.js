@@ -6,6 +6,8 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+const modifyVars = require('../src/styles/theme')
+
 
 const uitls = require('./utils')
 const webpackConfig = require('../config').webpack
@@ -14,11 +16,8 @@ const cssLoaders = ['css-loader', 'postcss-loader']
 const lessLoaders = ['css-loader', 'postcss-loader', {
   loader: 'less-loader', // compiles Less to CSS
   options: {
-    modifyVars: {
-      'primary-color': '#1DA57A',
-      'link-color': '#1DA57A',
-      'border-radius-base': '2px',
-    },
+    modifyVars,
+    modules: true,
     javascriptEnabled: true
   },
 }]
