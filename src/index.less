@@ -24,7 +24,71 @@ body {
       color: #6e6e6e;
     }
     .ant-tabs-tab-active {
-      color: #dddddd;
+      color: #ddd;
     }
+  }
+  .drag {
+    position: relative;
+    border-top: 1px dashed #cccccc;
+    padding-bottom: 1px;
+    background-color: #ffffff;
+    cursor: default;
+    &-component {
+      position: relative;
+      min-height: 200px;
+    }
+    &-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+      background-color: rgba(0,0,0,0.3);
+      cursor: row-resize;
+      transition: background-color 0.2s ease;
+      z-index: 3;
+      &:hover {
+        background-color: #282828;
+      }
+    }
+    &-tool {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      right: 40px;
+      background-color: rgba(0,0,0,0.3);
+      transition: background-color 0.2s ease;
+      z-index: 3;
+      &-item {
+        width: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 0;
+        color: #ffffff;
+        transition: background-color 0.2s ease;
+        cursor: pointer;
+        &:hover {
+          background-color: #282828;
+        }
+      }
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+    }
+    &:first-child {
+      border-top: none;
+    }
+    transition: opacity 0.2s ease;
+  }
+  // 拖拽时候的样式
+  .drag-el {
+    position: relative;
+    background-color: #ddd;
   }
 }

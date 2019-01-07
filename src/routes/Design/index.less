@@ -19,6 +19,33 @@
   background-color: @x-sub-primary-color!important;
   z-index: 4;
   border-left: 1px solid #121516;
+  &-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    height: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    z-index: 1;
+    .item {
+      height: 100px;
+      background-color: red;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    &::-webkit-scrollbar-track {
+      border: 0 solid black;
+      background-color: #282828;
+    }
+    &::-webkit-scrollbar {
+      width: 5px;
+      background-color: #282828;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #3b3e40;
+    }
+  }
   &.active {
     transform: translateX(375px);
   }
@@ -36,13 +63,34 @@
     justify-content: center;
     align-items: center;
     margin-left: 200px; // antd 的 sider 默认宽度是200px
+    overflow: hidden;
     &-mobile {
+      position: relative;
       width: 375px;
       height: 90%;
-      background-color: #ffffff;
+      background-color: #f7f7f9;
       box-shadow: 0 0 15px rgba(0,0,0,0.07);
       transform: translateX(0) translateZ(0);
       transition: transform 0.2s ease;
+      .container {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        // 滚动条
+        &::-webkit-scrollbar-track {
+          border: 0 solid #3b3e40;
+          background-color: #282828;
+        }
+        &::-webkit-scrollbar {
+          width: 5px;
+          background-color: #282828;
+        }
+        &::-webkit-scrollbar-thumb {
+          background-color: red;
+        }
+      }
+
       // 如果只打开模板列表
       &.active-template {
         transform: translateX(187px) translateZ(0);
@@ -55,7 +103,6 @@
       &.active-setting {
         transform: translateX(-150px) translateZ(0);
       }
-
     }
   }
 }
