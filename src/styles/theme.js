@@ -12,5 +12,8 @@ module.exports = {
   'tabs-ink-bar-color': '#dddddd',
   'tabs-hover-color': '#dddddd',
   'tabs-active-color': '#dddddd',
-  'tabs-highlight-color': '#dddddd'
+  'tabs-highlight-color': '#dddddd',
+  // collapse
+  'collapse-header-bg': '#282828',
+  'collapse-content-bg': 'red'
 }

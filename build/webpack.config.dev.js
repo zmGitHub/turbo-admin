@@ -31,14 +31,11 @@ const config = merge(baseConfig, {
     new Webpack.HotModuleReplacementPlugin(),
     new FriendlyErrorsPlugin(),
   ],
-  // TODO: 妈的 自己还不理解这里 不要瞎鸡巴配置 要不导致 Dev 下代码不执行
-  // optimization: {
-  //   splitChunks: {
-  //     chunks: 'all',
-  //     name: false,
-  //   },
-  //   runtimeChunk: true,
-  // },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    },
+  },
 })
 
 module.exports = config

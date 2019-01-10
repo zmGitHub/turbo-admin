@@ -36,6 +36,7 @@ const config = {
   // 输出配置
   output: {
     path: uitls.resolve('dist'),
+    // chunkFilename: '[name].bundle.js',
     publicPath: webpackConfig.publicPath // TODO: 切记和 deveServer 里面保持一致
   },
   resolve: {

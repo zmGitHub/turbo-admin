@@ -8,6 +8,59 @@
   left: 0;
   background-color: @x-sub-primary-color!important;
   z-index: 5;
+  &-scroll {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+    &-collapse {
+      background-color: @x-sub-primary-color;
+      .ant-collapse-content-box {
+        padding-top: 16px !important;
+        padding-bottom: 16px;
+        .module-content {
+          display: flex;
+          flex-wrap: wrap;
+          &-item {
+            position: relative;
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 2px;
+            margin: 5px;
+            padding: 12px 10px;
+            color: @x-font-color;
+            background-color: @x-gray-color;
+            cursor: pointer;
+            &-title {
+              margin-bottom: 10px;
+              font-size: 12px;
+            }
+            &-icon {
+              fill: @x-font-color;
+              width: 40px;
+              height: 20px;
+            }
+          }
+        }
+      }
+    }
+    // 滚动条
+    &::-webkit-scrollbar-track {
+      border: 0 solid #3b3e40;
+      background-color: #282828;
+    }
+    &::-webkit-scrollbar {
+      width: 5px;
+      background-color: #282828;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #282828;
+    }
+  }
 }
 // 装修组件列表
 .x-design-templates {
