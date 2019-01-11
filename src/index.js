@@ -38,4 +38,3 @@ app.use({
 app.router(router)
 
 app.start('#root')
-console.log(app)

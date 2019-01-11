@@ -28,8 +28,8 @@
     "koa": "^2.6.2",
     "koa-compress": "^3.0.0",
     "koa-router": "^7.4.0",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
+    "react": "16.7.0-alpha.0",
+    "react-dom": "16.7.0-alpha.0",
     "react-loadable": "^5.5.0",
     "react-sortable-hoc": "^0.8.4"
   },
