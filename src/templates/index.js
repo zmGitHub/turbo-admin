@@ -4,5 +4,5 @@ const imgConfig = require('./Image/template.config')
 
 export default {
   text: textConfig.default,
-  img: imgConfig.default
+  image: imgConfig.default
 }

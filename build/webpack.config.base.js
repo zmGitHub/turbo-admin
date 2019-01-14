@@ -4,6 +4,8 @@ const Webpack = require('webpack')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 // 分离 css
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
+// lodash 处理
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const modifyVars = require('../src/styles/theme')
@@ -108,7 +110,8 @@ const config = {
     }),
     new Webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1
-    })
+    }),
+    new LodashModuleReplacementPlugin()
   ]
 }
 

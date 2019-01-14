@@ -34,7 +34,7 @@ const DATA = [
       {
         key: 'singleImg',
         name: '单张图片',
-        components: ['img'],
+        components: ['image'],
         icon: 'singleImg'
       },
       {

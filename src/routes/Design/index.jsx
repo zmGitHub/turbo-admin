@@ -1,9 +1,11 @@
 import React, { PureComponent, Fragment, Suspense } from 'react'
+import { connect } from 'dva'
 import { Layout, Icon } from 'antd'
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
 import classnames from 'classnames'
 
-import templateMaps from '@/templates'
+import TemplateMaps from '@/templates'
+import { uniqueId } from '@/utils'
 import LeftSider from './leftSider'
 import { Template, TemplateItem } from './templates'
 
@@ -21,15 +23,15 @@ const DragHandle = SortableHandle(() => <div className="drag-btn"><Icon type="dr
  * var element = document.getElementById("box");
  * element.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
  */
-const SortableItem = SortableElement(({ id, cpm }) => {
-  // TODO: 这里的数据来源实际上是 dva 了
-  const { config, component } = templateMaps[cpm]
-  const Lazycomponent = React.lazy(() => component)
+const SortableItem = SortableElement(({ item }) => {
+  const { key, component, content, style } = item
+  const template = TemplateMaps[component]
+  const Lazycomponent = React.lazy(() => template.component)
   return (
     <div className="drag">
       <div className="drag-component">
         <Suspense fallback={<div>Loading...</div>}>
-          <Lazycomponent id={id} style={config.style} title='标题标题' />
+          <Lazycomponent key={key} data={content.data} style={style} title='标题标题' />
         </Suspense>
       </div>
       <DragHandle />
@@ -42,34 +44,32 @@ const SortableItem = SortableElement(({ id, cpm }) => {
   )
 });
 
-const SortableList = SortableContainer(({ items, handleClick }) => {
-  return (
-    <div className="container">
-      {items.map((item, index) => (
-        <SortableItem key={`item-${item.id}`} index={index} cpm={item.componentName} id={item.id} handleClick={handleClick} />
-      ))}
-    </div>
-  );
-});
+const SortableList = SortableContainer(({ items, handleClick }) => (
+  <div className="container">
+    {items.map((item, index) => (
+      <SortableItem key={`template_${item.key}`} index={index} item={item} handleClick={handleClick} />
+    ))}
+  </div>
+));
 
-export default class Dashboard extends PureComponent {
+@connect(({ design, loading }) => ({
+  design,
+  loading
+}))
+class Design extends PureComponent {
   state = {
     templateCollapse: false,
     settingCollapse: false,
-    components: [],
-    items: [
-      {
-        id: 1,
-        componentName: 'text'
-      },
-    ]
+    components: []
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
-    const { items } = this.state;
-    this.setState({
-      items: arrayMove(items, oldIndex, newIndex),
-    });
+    const { design, dispatch } = this.props;
+    const sortItems = arrayMove(design.list, oldIndex, newIndex)
+    dispatch({
+      type: 'design/sort',
+      payload: sortItems
+    })
   }
 
   chooseModule = (components) => {
@@ -87,11 +87,17 @@ export default class Dashboard extends PureComponent {
 
   // 添加组件到主控制区域
   addComponent = (config) => {
-    console.log(config)
+    const { dispatch } = this.props
+    const key = uniqueId(8, 8)
+    dispatch({
+      type: 'design/add',
+      payload: { ...config, key }
+    })
   }
 
   render() {
-    const { templateCollapse, settingCollapse, items, components } = this.state
+    const { design } = this.props
+    const { templateCollapse, settingCollapse, components } = this.state
     const contentStyle = classnames('x-design-content-panel-mobile', {
       'active-template': templateCollapse && !settingCollapse,
       'active-all': templateCollapse && settingCollapse,
@@ -104,14 +110,14 @@ export default class Dashboard extends PureComponent {
         <Template active={templateCollapse}>
           {
             components.map((item) => (
-              <TemplateItem key={item} componentName={item} maps={templateMaps} handleClick={this.addComponent}  />
+              <TemplateItem key={item} componentName={item} maps={TemplateMaps} handleClick={this.addComponent}  />
             ))
           }
         </Template>
         <Content className="x-design-content">
           <div onClick={this.reset} className="x-design-content-panel">
             <div className={contentStyle}>
-              <SortableList helperClass="drag-el" items={items} onSortEnd={this.onSortEnd} useDragHandle />
+              <SortableList helperClass="drag-el" items={design.list} onSortEnd={this.onSortEnd} useDragHandle />
             </div>
           </div>
         </Content>
@@ -122,3 +128,5 @@ export default class Dashboard extends PureComponent {
     )
   }
 }
+
+export default Design
