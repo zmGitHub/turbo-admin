@@ -6,15 +6,13 @@ import classnames from 'classnames'
 
 import TemplateMaps from '@/templates'
 import { uniqueId } from '@/utils'
-import LeftSider from './leftSider'
+import Mdules from './modules'
 import { Template, TemplateItem } from './templates'
+import SettingPanel from './setting'
 
 import './index.less'
 
 const { Content, Sider } = Layout;
-
-
-// 拖拽元素点
 const DragHandle = SortableHandle(() => <div className="drag-btn"><Icon type="drag" /></div>)
 
 /**
@@ -23,34 +21,6 @@ const DragHandle = SortableHandle(() => <div className="drag-btn"><Icon type="dr
  * var element = document.getElementById("box");
  * element.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
  */
-const SortableItem = SortableElement(({ item }) => {
-  const { key, component, content, style } = item
-  const template = TemplateMaps[component]
-  const Lazycomponent = React.lazy(() => template.component)
-  return (
-    <div className="drag">
-      <div className="drag-component">
-        <Suspense fallback={<div>Loading...</div>}>
-          <Lazycomponent key={key} data={content.data} style={style} title='标题标题' />
-        </Suspense>
-      </div>
-      <DragHandle />
-      <div className="drag-tool">
-        <div className="drag-tool-item"><Icon type="delete" /></div>
-        <div className="drag-tool-item"><Icon type="arrow-up" /></div>
-        <div className="drag-tool-item"><Icon type="arrow-down" /></div>
-      </div>
-    </div>
-  )
-});
-
-const SortableList = SortableContainer(({ items, handleClick }) => (
-  <div className="container">
-    {items.map((item, index) => (
-      <SortableItem key={`template_${item.key}`} index={index} item={item} handleClick={handleClick} />
-    ))}
-  </div>
-));
 
 @connect(({ design, loading }) => ({
   design,
@@ -59,8 +29,11 @@ const SortableList = SortableContainer(({ items, handleClick }) => (
 class Design extends PureComponent {
   state = {
     templateCollapse: false,
-    settingCollapse: false,
-    components: []
+    settingCollapse: true,
+    components: [],
+    configs: {
+      style: []
+    }
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
@@ -77,7 +50,19 @@ class Design extends PureComponent {
   }
 
   reset = () => {
-    this.setState({ templateCollapse: false, settingCollapse: false })
+    // TODO: 暂时关闭
+    // this.setState({ templateCollapse: false, settingCollapse: false })
+  }
+
+  // 点击元素获取对应的样式编辑组件
+  getElSetting = (event, configs) => {
+    const { currentTarget } = event
+    // 让当前元素滚动到可视区域的正中间
+    if(currentTarget && currentTarget.scrollIntoView) {
+      currentTarget.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
+    }
+    // TODO: 做对象的deep equal 来减少 setState
+    this.setState({ configs })
   }
 
   openSetting = (e) => {
@@ -97,16 +82,45 @@ class Design extends PureComponent {
 
   render() {
     const { design } = this.props
-    const { templateCollapse, settingCollapse, components } = this.state
+    const { templateCollapse, settingCollapse, components, configs } = this.state
     const contentStyle = classnames('x-design-content-panel-mobile', {
       'active-template': templateCollapse && !settingCollapse,
       'active-all': templateCollapse && settingCollapse,
       'active-setting': !templateCollapse && settingCollapse
     })
-    const settingStyle = classnames('x-design-setting', { active: settingCollapse })
+    // 拖拽元素点
+    const SortableItem = SortableElement(({ item }) => {
+      console.log('执行了.....')
+      const { key, component, content, style } = item
+      const template = TemplateMaps[component]
+      const Lazycomponent = React.lazy(() => template.component)
+      return (
+        <div className="drag">
+          <div className="drag-component" onClick={(e) => { this.getElSetting(e, item) }}>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Lazycomponent key={key} data={content.data} style={style} title='标题标题' />
+            </Suspense>
+          </div>
+          <DragHandle />
+          <div className="drag-tool">
+            <div className="drag-tool-item"><Icon type="delete" /></div>
+            <div className="drag-tool-item"><Icon type="arrow-up" /></div>
+            <div className="drag-tool-item"><Icon type="arrow-down" /></div>
+          </div>
+        </div>
+      )
+    });
+
+    const SortableList = SortableContainer(({ items, handleClick }) => (
+      <div className="container">
+        {items.map((item, index) => (
+          <SortableItem key={`template_${item.key}`} index={index} item={item} handleClick={handleClick} />
+        ))}
+      </div>
+    ));
     return (
       <Fragment>
-        <LeftSider active={templateCollapse} handleClick={this.chooseModule} />
+        <Mdules active={templateCollapse} handleClick={this.chooseModule} />
         <Template active={templateCollapse}>
           {
             components.map((item) => (
@@ -121,9 +135,7 @@ class Design extends PureComponent {
             </div>
           </div>
         </Content>
-        <Sider width="300" className={settingStyle}>
-          参数配置
-        </Sider>
+        <SettingPanel active={settingCollapse} config={configs} />
       </Fragment>
     )
   }

@@ -162,7 +162,24 @@
   transform: translateX(0);
   transition: transform 0.2s ease;
   background-color: @x-sub-primary-color!important;
-  z-index: 4;
+  z-index: 5;
+  &-scroll {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    overflow-x: hidden;
+    &-collapse {
+      background-color: @x-sub-primary-color;
+      .ant-collapse-content-box {
+        padding-top: 16px !important;
+        padding-bottom: 16px;
+      }
+    }
+    .scroll-bar();
+  }
   &.active {
     transform: translateX(-300px);
   }
