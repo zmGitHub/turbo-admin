@@ -1,5 +1,8 @@
+import Text from './index'
+
 export default {
   component: import('./index'),
+  // component: Text,
   config: {
     name: '标题文字',
     desc: '标题文字',
@@ -16,32 +19,34 @@ export default {
       {
         key: "title", // 标志唯一
         name: "字体", // 装修组件上的名称
-        component: "font", // 引入装修组件
         items: [ // 可编辑的项
           {
             key: "color",
+            title: '颜色',
             component: "color",
             value: "#333333"
           },
           {
             key: "fontSize",
+            title: '大小',
             component: "slider",
+            min: 10,
+            max: 100,
             value: "14px"
           },
           {
             key: "lineHeight",
+            title: '行高',
+            min: 0,
+            max: 100,
             component: "slider",
             value: "40px"
           },
           {
             key: "textAlign",
-            component: "checkbox",
+            title: '对齐方式',
+            component: "radioGroup",
             value: "center"
-          },
-          {
-            key: "fontWeight",
-            component: "slider",
-            value: "normal"
           }
         ]
       }

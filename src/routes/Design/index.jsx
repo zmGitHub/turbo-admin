@@ -1,9 +1,9 @@
 import React, { PureComponent, Fragment, Suspense } from 'react'
 import { connect } from 'dva'
+import _find from 'lodash/find'
 import { Layout, Icon } from 'antd'
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
 import classnames from 'classnames'
-
 import TemplateMaps from '@/templates'
 import { uniqueId } from '@/utils'
 import Mdules from './modules'
@@ -12,15 +12,8 @@ import SettingPanel from './setting'
 
 import './index.less'
 
-const { Content, Sider } = Layout;
+const { Content } = Layout;
 const DragHandle = SortableHandle(() => <div className="drag-btn"><Icon type="drag" /></div>)
-
-/**
- * 点击元素让他在视图区域内居中
- * scrollIntoView是web api 最新浏览器才支持
- * var element = document.getElementById("box");
- * element.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
- */
 
 @connect(({ design, loading }) => ({
   design,
@@ -31,9 +24,7 @@ class Design extends PureComponent {
     templateCollapse: false,
     settingCollapse: true,
     components: [],
-    configs: {
-      style: []
-    }
+    componentId: '',
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
@@ -55,14 +46,17 @@ class Design extends PureComponent {
   }
 
   // 点击元素获取对应的样式编辑组件
-  getElSetting = (event, configs) => {
+  getElSetting = (event) => {
     const { currentTarget } = event
+    const { componentId } = this.state
     // 让当前元素滚动到可视区域的正中间
     if(currentTarget && currentTarget.scrollIntoView) {
       currentTarget.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
     }
-    // TODO: 做对象的deep equal 来减少 setState
-    this.setState({ configs })
+    const id = currentTarget.getAttribute('data-id')
+    if (componentId !== id) {
+      this.setState({ componentId: id })
+    }
   }
 
   openSetting = (e) => {
@@ -80,9 +74,37 @@ class Design extends PureComponent {
     })
   }
 
+  // 样式变化更新组件
+  onStyleChange = (config) => {
+    const { id, styleId, key, value, type } = config
+    const { dispatch, design } = this.props
+    const item = _find(design.list, listItem => listItem.key === id)
+    // 定位到组件
+    if (item && item.key) {
+      // 定位组件里面的内容变化 还是样式变化
+      if (type === 'style') {
+        const componentStyle = _find(item.style, componentItem => componentItem.key === styleId)
+        // 定位样式
+        if (componentStyle && componentStyle.key) {
+          const itemStyle = _find(componentStyle.items, editorItem => editorItem.key === key)
+          // 定位样式属性
+          if (itemStyle && itemStyle.key) {
+            // 最终变动值
+            itemStyle.value = value
+          }
+        }
+      }
+    }
+
+    dispatch({
+      type: 'design/update',
+      payload: design.list
+    })
+  }
+
   render() {
     const { design } = this.props
-    const { templateCollapse, settingCollapse, components, configs } = this.state
+    const { templateCollapse, settingCollapse, components, componentId } = this.state
     const contentStyle = classnames('x-design-content-panel-mobile', {
       'active-template': templateCollapse && !settingCollapse,
       'active-all': templateCollapse && settingCollapse,
@@ -90,15 +112,14 @@ class Design extends PureComponent {
     })
     // 拖拽元素点
     const SortableItem = SortableElement(({ item }) => {
-      console.log('执行了.....')
       const { key, component, content, style } = item
       const template = TemplateMaps[component]
       const Lazycomponent = React.lazy(() => template.component)
       return (
         <div className="drag">
-          <div className="drag-component" onClick={(e) => { this.getElSetting(e, item) }}>
+          <div className="drag-component" data-id={key} onClick={this.getElSetting}>
             <Suspense fallback={<div>Loading...</div>}>
-              <Lazycomponent key={key} data={content.data} style={style} title='标题标题' />
+              <Lazycomponent id={`template_${+new Date()}`} key={`template_${+new Date()}`} data={content.data} style={style} title='标题标题' />
             </Suspense>
           </div>
           <DragHandle />
@@ -111,10 +132,10 @@ class Design extends PureComponent {
       )
     });
 
-    const SortableList = SortableContainer(({ items, handleClick }) => (
+    const SortableList = SortableContainer(({ items }) => (
       <div className="container">
         {items.map((item, index) => (
-          <SortableItem key={`template_${item.key}`} index={index} item={item} handleClick={handleClick} />
+          <SortableItem key={`template_${item.key}`} index={index} item={item} />
         ))}
       </div>
     ));
@@ -124,7 +145,7 @@ class Design extends PureComponent {
         <Template active={templateCollapse}>
           {
             components.map((item) => (
-              <TemplateItem key={item} componentName={item} maps={TemplateMaps} handleClick={this.addComponent}  />
+              <TemplateItem key={item} componentName={item} handleClick={this.addComponent}  />
             ))
           }
         </Template>
@@ -135,7 +156,7 @@ class Design extends PureComponent {
             </div>
           </div>
         </Content>
-        <SettingPanel active={settingCollapse} config={configs} />
+        <SettingPanel items={design.list} active={settingCollapse} id={componentId} onChange={this.onStyleChange} />
       </Fragment>
     )
   }

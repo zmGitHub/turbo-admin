@@ -1,11 +1,12 @@
 import React, { Suspense, lazy } from 'react'
 import classnames from 'classnames'
 import { Layout, Tooltip } from 'antd'
+import TemplateMaps from '@/templates'
 
 const { Sider } = Layout;
 
-const TemplateItem = ({ componentName, maps, handleClick }) => {
-  const { config, component } = maps[componentName]
+const TemplateItem = ({ componentName, handleClick }) => {
+  const { config, component } = TemplateMaps[componentName]
   const Lazycomponent = lazy(() => component)
   const { name, desc, content, style } = config
   return (
@@ -17,7 +18,7 @@ const TemplateItem = ({ componentName, maps, handleClick }) => {
       <Tooltip title="点击添加到页面">
         <div className="item-content">
           <Suspense fallback={<div>Loading...</div>}>
-            <Lazycomponent style={style} data={content.data} />
+            <Lazycomponent id={`template_${+new Date()}`} key={`template_${+new Date()}`} style={style} data={content.data} />
           </Suspense>
         </div>
       </Tooltip>

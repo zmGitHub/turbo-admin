@@ -17,6 +17,13 @@ export default {
         list: concat(list, payload)
       }
     },
+    updateComponent(state, action) {
+      const { payload } = action
+      return {
+        ...state,
+        list: payload
+      }
+    },
     sortComponent(state, action) {
       const { payload } = action
       return {
@@ -30,6 +37,11 @@ export default {
     *add(action, { put }) {
       const { payload } = action
       yield put({ type: 'addComponent', payload })
+    },
+    // 更新组件样式
+    *update(action, { put }) {
+      const { payload } = action
+      yield put({ type: 'updateComponent', payload })
     },
     // 组件排序
     *sort(action, { put }) {

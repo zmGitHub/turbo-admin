@@ -17,25 +17,28 @@ export default {
       {
         key: "padding", // 标志唯一
         name: "内边距", // 装修组件上的名称
-        component: "paddingAndMargin", // 引入装修组件
         items: [ // 可编辑的项
           {
             key: "paddingTop",
+            title: '内边距(上)',
             component: "slider",
             value: "10px"
           },
           {
             key: "paddingBottom",
+            title: '内边距(下)',
             component: "slider",
             value: "10px"
           },
           {
             key: "paddingLeft",
+            title: '内边距(左)',
             component: "slider",
             value: "20px"
           },
           {
             key: "paddingRight",
+            title: '内边距(右)',
             component: "slider",
             value: "20px"
           },
@@ -48,11 +51,13 @@ export default {
         items: [ // 可编辑的项
           {
             key: "borderRadius",
+            title: '圆角',
             component: "slider",
             value: "10px"
           },
           {
             key: "height",
+            title: '高度',
             component: "slider",
             value: "287px"
           },

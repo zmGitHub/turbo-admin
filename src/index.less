@@ -45,6 +45,56 @@ body {
   .ant-collapse-borderless {
     background-color: #282828;
   }
+  // slider
+  .ant-slider {
+    &-handle {
+      background-color: #282828;
+      &:hover {
+        transform: scale(1.2);
+        transform-origin: center center;
+      }
+    }
+    &:hover {
+      .ant-slider-handle {
+        border-color: rgb(255, 131, 90) !important;
+      }
+    }
+  }
+  // input
+  .ant-input-number {
+    border: 1px solid #333333;
+    &-focused {
+      border-color: #6e6e6e;
+      outline: 0;
+      box-shadow: 0 0 0 2px rgba(65, 65, 65, 0.2);
+    }
+    &-handler {
+      color: #ddd;
+      &-down {
+        border-top: 1px solid #333333;
+        top: -1px;
+        &-inner {
+          color: #ffffff;
+        }
+      }
+      &-up {
+        &-inner {
+          color: #ffffff;
+        }
+      }
+      &-wrap {
+        border-left: 1px solid #333333;
+        background: #282828;
+        z-index: 2;
+      }
+    }
+    &:focus {
+      border-color: #6e6e6e;
+      outline: 0;
+      box-shadow: 0 0 0 2px rgba(65, 65, 65, 0.2);
+    }
+  }
+
   .drag {
     position: relative;
     border-top: 1px dashed #cccccc;
