@@ -1,61 +1,88 @@
 import React, { Suspense, lazy, PureComponent } from 'react'
 import { Collapse } from 'antd'
-import EditorMaps from '@/editor'
+import { connect } from 'dva'
+import ContentMaps from '@/design/content'
+import EditorMaps from '@/design/editor'
 
 const { Panel } = Collapse
 
-/**
- * TODO: 应该抽象到公共的模块去统一调用
- * @param {id} 父组件的唯一标志
- * @param {onChange} 内部参数变动函数
- * @param {config} 子编辑器的配置
- */
-const EditorItem = ({ onChange, config }) => {
+const DynamicComponent = ({ onChange, config, maps }) => {
   const { component } = config
-  // TODO: 组件不存在需要处理
-  // eslint-disable-next-line dot-notation
-  const LoadComponent = EditorMaps[component] || EditorMaps["error"]
+  const LoadComponent = maps[component] || maps.error
   const Lazycomponent = lazy(() => LoadComponent)
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Lazycomponent config={config} onChange={onChange} />
-    </Suspense>
+    <Lazycomponent config={config} onChange={onChange} />
   )
 }
 
-
+@connect()
 class Setting extends PureComponent {
 
   static defaultProps = {
     data: {
-      style: []
+      style: [],
+      content: {}
     }
   }
 
+  // 更新组件内容
+  updateComponentData = (payload) => {
+    const { dispatch } = this.props
+    dispatch({
+      type: 'design/updateContent',
+      payload
+    })
+  }
+
+  // 更新组件样式
+  updateComponentStyle = (payload) => {
+    const { dispatch } = this.props
+    dispatch({
+      type: 'design/updateStyle',
+      payload
+    })
+  }
+
   render() {
-    const { data, onChange } = this.props
-    const { key, style } = data
-    const onPropsChange = (editorStyle) => {
-      if (onChange && typeof onChange === 'function') {
-        onChange(editorStyle)
-      }
-    }
-    console.log('setting---render')
+    const { component } = this.props
+    const { key, style, content } = component
+    const { data } = content
     return (
       <div className="x-design-setting-scroll">
         <Collapse className="x-design-setting-scroll-collapse" bordered={false} defaultActiveKey={['content']}>
           <Panel header="内容" key="content">
-            <div className="module-content">asdf</div>
+            <div className="module-content">
+              <Suspense fallback={<div>Loading...</div>}>
+                {
+                  content.component && <DynamicComponent
+                    maps={ContentMaps}
+                    onChange={this.updateComponentData}
+                    config={{
+                      id: key,
+                      ...data,
+                      component: content.component
+                    }}
+                  />
+                }
+              </Suspense>
+            </div>
           </Panel>
           {
             style.length && style.map((styleConfig) => (
               <Panel header={styleConfig.name} key={styleConfig.key}>
                 <div className="module-content">
-                  {
-                    styleConfig.items.length && styleConfig.items.map((item) => (
-                      <EditorItem key={item.key} config={{ id: key, styleId: styleConfig.key, ...item }} onChange={onPropsChange} />
-                    ))
-                  }
+                  <Suspense fallback={<div>Loading...</div>}>
+                    {
+                      styleConfig.items.length && styleConfig.items.map((item) => (
+                        <DynamicComponent
+                          key={item.key}
+                          maps={EditorMaps}
+                          config={{ id: key, styleId: styleConfig.key, ...item }}
+                          onChange={this.updateComponentStyle}
+                        />
+                      ))
+                    }
+                  </Suspense>
                 </div>
               </Panel>
             ))

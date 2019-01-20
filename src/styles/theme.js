@@ -3,6 +3,7 @@
  */
 
 module.exports = {
+  'font-size-base': '12px',
   'primary-color': '#ff835a',
   'link-color': '#ff835a',
   'border-radius-base': '2px',
@@ -34,7 +35,14 @@ module.exports = {
   'input-placeholder-color': '#dddddd',
   'input-addon-bg': '#282828',
   'input-number-handler-active-bg': '#282828',
-  'input-border-color': '#333333'
-
-
+  'input-border-color': '#333333',
+  // popover
+  'popover-bg': '#414141',
+  'popover-color': '#dddddd',
+  'popover-arrow-color': '#414141',
+  'popover-arrow-outer-color': '#414141',
+  // radio
+  'radio-button-bg': 'transparent',
+  'radio-button-color': '#414141',
+  'radio-dot-color': '#6e6e6e'
 }

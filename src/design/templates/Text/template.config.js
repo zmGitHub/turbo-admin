@@ -1,9 +1,6 @@
-import Text from './index'
-
 export default {
-  component: import('./index'),
-  // component: Text,
-  config: {
+  component: () => import('./index'),
+  config: () => ({
     name: '标题文字',
     desc: '标题文字',
     component: 'text',
@@ -46,10 +43,21 @@ export default {
             key: "textAlign",
             title: '对齐方式',
             component: "radioGroup",
+            options: [
+              { label: '左对齐', value: 'left' },
+              { label: '居中', value: 'center' },
+              { label: '右对齐', value: 'right' },
+            ],
             value: "center"
-          }
+          },
+          {
+            key: "backgroundColor",
+            title: '背景颜色',
+            component: "color",
+            value: "#ffffff"
+          },
         ]
       }
     ]
-  }
+  })
 }

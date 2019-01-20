@@ -1,7 +1,7 @@
 
 export default {
-  component: import('./index'),
-  config: {
+  component: () => import('./index'),
+  config: () => ({
     name: '单张图片',
     desc: '默认样式',
     component: 'image',
@@ -64,5 +64,5 @@ export default {
         ]
       }
     ]
-  }
+  })
 }

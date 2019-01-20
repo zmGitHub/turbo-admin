@@ -3,7 +3,7 @@ import { Layout, Collapse, Tooltip } from 'antd'
 import { connect } from 'dva'
 import classnames from 'classnames'
 import _find from 'lodash/find'
-import TemplateMaps from '@/templates'
+import TemplateMaps from '@/design/templates'
 import { uniqueId } from '@/utils'
 
 const { Sider } = Layout;
@@ -107,11 +107,6 @@ class SiderLeft extends PureComponent {
     current: ''
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log('sider 介绍参数')
-    console.log(nextProps)
-  }
-
   // 添加组件到主控制区域
   addComponent = (config) => {
     const key = uniqueId(8,8)
@@ -146,10 +141,12 @@ class SiderLeft extends PureComponent {
 
   renderTemplateItem = (template) => {
     const { config, component } = TemplateMaps[template.name]
-    const Lazycomponent = lazy(() => component)
-    const { name, desc, content, style } = config
+    console.log('执行加载...')
+    console.log(config())
+    const Lazycomponent = lazy(component)
+    const { name, desc, content, style } = config()
     return (
-      <div key={template.id} className="item" onClick={() => { this.addComponent(config) }}>
+      <div key={template.id} className="item" onClick={() => { this.addComponent(config()) }}>
         <div className="item-header">
           <div className="item-header-title">{name}</div>
           <div className="item-header-desc">{desc}</div>

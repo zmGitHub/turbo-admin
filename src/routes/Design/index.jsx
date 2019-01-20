@@ -13,7 +13,8 @@ class Design extends PureComponent {
 
   state = {
     component: {
-      style: []
+      style: [],
+      content: {}
     },
     settingCollapse: false,
     templateCollapse: false
@@ -49,10 +50,11 @@ class Design extends PureComponent {
               active={settingCollapse}
               onChange={this.getComponentSetting}
             />
+            <div id="drag-content" className="container" />
           </div>
         </div>
         <Sider width="300" className={settingStyle}>
-          <SettingPanel data={component} />
+          <SettingPanel component={component} />
         </Sider>
       </div>
     );

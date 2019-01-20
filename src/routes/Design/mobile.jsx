@@ -3,7 +3,7 @@ import { Icon } from 'antd'
 import { connect } from 'dva'
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
 import _find from 'lodash/find'
-import TemplateMaps from '@/templates'
+import TemplateMaps from '@/design/templates'
 
 
 const DragHandle = SortableHandle(() => <div className="drag-btn"><Icon type="drag" /></div>)
@@ -49,12 +49,11 @@ class Mobile extends PureComponent {
 
   render() {
     const { design } = this.props
-    console.log('mobile render...')
     // 拖拽元素点
     const SortableItem = SortableElement(({ item }) => {
       const { key, component, content, style } = item
       const template = TemplateMaps[component]
-      const Lazycomponent = React.lazy(() => template.component)
+      const Lazycomponent = React.lazy(template.component)
       return (
         <div className="drag" data-id={key} onClick={this.getElSetting}>
           <div className="drag-component">
@@ -86,6 +85,7 @@ class Mobile extends PureComponent {
         items={design.list}
         onSortOver={this.onSortOver}
         onSortEnd={this.onSortEnd}
+        helperContainer={() => document.getElementById('drag-content')}
       />
     )
   }
