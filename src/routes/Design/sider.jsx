@@ -1,9 +1,10 @@
-/* eslint-disable */
-
-import React from 'react'
-import { Layout, Collapse } from 'antd'
-import { useSetState } from '@/stores/hook'
+import React, { PureComponent, Fragment, Suspense, lazy } from 'react';
+import { Layout, Collapse, Tooltip } from 'antd'
+import { connect } from 'dva'
 import classnames from 'classnames'
+import _find from 'lodash/find'
+import TemplateMaps from '@/templates'
+import { uniqueId } from '@/utils'
 
 const { Sider } = Layout;
 const { Panel } = Collapse
@@ -11,7 +12,7 @@ const { Panel } = Collapse
 // 模块 icon 这里不是很合理
 const ICONS = {
   text: (<svg className="module-content-item-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M919.501863 0l12.152847 260.550506h-36.404045q-24.251197-127.250665-72.699095-163.491219-42.45322-36.349548-175.698563-36.349548H562.001064v793.586376q0 84.960937 24.196701 108.994146 30.300373 24.305695 127.250665 30.300372v30.300373H259.106333v-30.300373q96.841299-5.994678 121.146993-36.349547c16.349122-12.152847 24.251197-52.426184 24.251198-121.20149V60.600745H319.652581q-133.354337 0-175.698563 36.349548-48.556892 36.349548-72.699095 163.491218H34.905375L47.003725 0h872.498138z" p-id="4276" /><path d="M984.625865 645.517829l4.46876 96.296327h-13.460777q-8.992017-47.030974-26.867057-60.49175-15.695157-13.460777-64.960511-13.460777H852.361469v293.357743q0 31.390314 8.93752 40.327834 11.1719 8.992017 47.030974 11.226397v11.226397h-167.796488v-11.226397q35.804577-2.23438 44.796594-13.460777c5.940181-4.46876 8.93752-19.400958 8.93752-44.796594v-286.654603h-31.335817q-49.047366 0-64.960511 13.460777-17.929537 13.460777-26.867057 60.49175h-13.40628l4.46876-96.296327h322.513678z" p-id="4277" /></svg>),
-  singleImg: (<svg className="module-content-item-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M769.495771 282.296686c-37.308343 0-67.552914 30.226286-67.552914 67.518171 0 37.310171 30.244571 67.552914 67.552914 67.552914 37.310171 0 67.483429-30.244571 67.483429-67.552914C836.981029 312.522971 806.807771 282.296686 769.495771 282.296686z" p-id="17082"></path><path d="M5.485714 106.415543l0 503.3344 0 239.550171 0 67.552914 67.536457 0 877.937371 0L1018.514286 916.853029l0-67.552914 0-78.085486L1018.514286 106.415543 5.485714 106.415543zM768.437029 521.120914l-151.431314 151.413029-337.170286-337.152L39.2448 575.972571 39.2448 140.192914l945.492114 0 0 597.246171L768.437029 521.120914z" p-id="17083" /></svg>),
+  singleImg: (<svg className="module-content-item-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M769.495771 282.296686c-37.308343 0-67.552914 30.226286-67.552914 67.518171 0 37.310171 30.244571 67.552914 67.552914 67.552914 37.310171 0 67.483429-30.244571 67.483429-67.552914C836.981029 312.522971 806.807771 282.296686 769.495771 282.296686z" p-id="17082" /><path d="M5.485714 106.415543l0 503.3344 0 239.550171 0 67.552914 67.536457 0 877.937371 0L1018.514286 916.853029l0-67.552914 0-78.085486L1018.514286 106.415543 5.485714 106.415543zM768.437029 521.120914l-151.431314 151.413029-337.170286-337.152L39.2448 575.972571 39.2448 140.192914l945.492114 0 0 597.246171L768.437029 521.120914z" p-id="17083" /></svg>),
   multiImg: (<svg className="module-content-item-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M915.2 280.4l-165-8-9.6-107.6c-2-22.6-22.2-38.4-45.8-36.6L102.8 176.8c-23.6 2-40.6 21-38.8 43.4l42.4 471.6c2 22.6 22.4 38.4 45.8 36.6l30-2.4-4.8 91.6c-1.2 25.2 18.4 45.6 44.8 47L882.6 896c26.4 1.2 48.2-17.2 49.6-42.4L960 327C961.2 302 941.4 281.6 915.2 280.4zM205.2 291l-14.2 269.6L156.2 610l-32-356c0-0.4 0-0.6 0-1s0-0.6 0-1c1-10 8.6-18 19-18.8l522-42.8c10.4-0.8 19.4 6 21 15.8 0 0.4 0.6 0.4 0.6 0.8 0 0.2 0.6 0.4 0.6 0.8l5.4 61.6-438-21C228.4 247.6 206.4 266 205.2 291zM873.4 764.8l-93.4-110.6-55-65.4c-4.8-5.8-12.6-10.6-21.2-11-8.6-0.4-15 3-22.2 8.2l-32.8 23.8c-7 4.2-12.4 7-19.8 6.6-7.2-0.4-13.6-3.2-18.2-7.6-1.6-1.6-4.6-4.4-7-6.8l-85.6-97.8c-6.2-7.8-16.4-12.8-27.6-13.4-11.4-0.6-22.4 4.2-29.6 11.2L258.8 719.6l-13.6 14.8 0.6-13.6 13.6-257.8 6.6-125.8c0-0.4 0-0.8 0-1 0-0.4 0-0.8 0-1 2.8-10.8 12.4-18.6 23.8-18l408.4 19.6 57.4 2.8 116.6 5.6c11.6 0.6 20.6 9.4 20.8 20.4 0 0.4 0.6 0.6 0.6 1 0 0.4 0.6 0.6 0.6 1L873.4 764.8zM746.4 524.6c38.8 0 70.4-31.6 70.4-70.4s-31.4-70.4-70.4-70.4c-38.8 0-70.4 31.4-70.4 70.4S707.4 524.6 746.4 524.6z" p-id="7163" /></svg>),
   goodCard: (<svg className="module-content-item-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M512 512c-109.6 0-201.1-79.1-220.3-183.3 12.8-9 21.2-23.9 21.2-40.7 0-27.5-22.3-49.8-49.8-49.8-27.5 0-49.8 22.3-49.8 49.8 0 19.9 11.7 37.1 28.6 45.1 21.6 129.6 134.4 228.7 270 228.7s248.5-99.1 270-228.7a49.69 49.69 0 0 0 28.6-45.1c0-27.5-22.3-49.8-49.8-49.8-27.5 0-49.8 22.3-49.8 49.8 0 16.8 8.4 31.7 21.2 40.7C713.1 432.9 621.6 512 512 512zM860.4 64H658.2c0 0.1 0 0.1 0.1 0.2-12.3 1.5-21.8 12-21.8 24.7s9.5 23.2 21.8 24.7c0 0.1 0 0.1-0.1 0.2h202.2c27.4 0 49.8 22.3 49.8 49.8v696.9c0 27.4-22.3 49.8-49.8 49.8H163.6c-27.4 0-49.8-22.3-49.8-49.8V163.6c0-27.4 22.3-49.8 49.8-49.8H341c0-0.1 0-0.1-0.1-0.2 12.3-1.5 21.8-12 21.8-24.7s-9.5-23.2-21.8-24.7c0-0.1 0-0.1 0.1-0.2H163.5C108.6 64 64 108.7 64 163.6v696.9c0 54.9 44.6 99.6 99.6 99.6h696.9c54.9 0 99.6-44.7 99.6-99.6V163.6c-0.1-55-44.8-99.6-99.7-99.6z m0 0" p-id="45367" /></svg>),
   slideGood: (<svg className="module-content-item-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M885.649481 263.805675 605.413878 263.805675c-17.224179 0-31.139992-13.94987-31.139992-31.139992 0-17.184041 13.915813-31.133911 31.139992-31.133911L885.649481 201.531773c17.218097 0 31.139992 13.94987 31.139992 31.133911C916.789473 249.855805 902.867579 263.805675 885.649481 263.805675L885.649481 263.805675zM885.649481 419.493473 605.413878 419.493473c-17.224179 0-31.139992-13.94987-31.139992-31.139992 0-17.184041 13.915813-31.133911 31.139992-31.133911L885.649481 357.21957c17.218097 0 31.139992 13.94987 31.139992 31.133911C916.789473 405.543603 902.867579 419.493473 885.649481 419.493473L885.649481 419.493473zM885.649481 668.595166 605.413878 668.595166c-17.224179 0-31.139992-13.921895-31.139992-31.139992 0-17.218097 13.915813-31.133911 31.139992-31.133911L885.649481 606.321263c17.218097 0 31.139992 13.915813 31.139992 31.133911C916.789473 654.673271 902.867579 668.595166 885.649481 668.595166L885.649481 668.595166zM885.649481 824.282963 605.413878 824.282963c-17.224179 0-31.139992-13.921895-31.139992-31.139992 0-17.218097 13.915813-31.133911 31.139992-31.133911L885.649481 762.009061c17.218097 0 31.139992 13.915813 31.139992 31.133911C916.789473 810.361069 902.867579 824.282963 885.649481 824.282963L885.649481 824.282963zM387.446096 481.767376 200.624388 481.767376C149.120918 481.767376 107.210493 439.85695 107.210493 388.353481L107.210493 201.531773c0-51.50347 41.910425-93.413895 93.413895-93.413895l186.821708 0c51.50347 0 93.413895 41.910425 93.413895 93.413895l0 186.821708C480.859991 439.85695 438.949565 481.767376 387.446096 481.767376L387.446096 481.767376zM200.624388 170.39178c-17.157282 0-31.139992 13.98271-31.139992 31.139992l0 186.821708c0 17.157282 13.98271 31.139992 31.139992 31.139992l186.821708 0c17.157282 0 31.139992-13.98271 31.139992-31.139992L418.586088 201.531773c0-17.157282-13.98271-31.139992-31.139992-31.139992L200.624388 170.39178 200.624388 170.39178zM387.446096 917.696858 200.624388 917.696858C149.120918 917.696858 107.210493 875.781568 107.210493 824.282963L107.210493 637.455173c0-51.498604 41.910425-93.413895 93.413895-93.413895l186.821708 0c51.50347 0 93.413895 41.915291 93.413895 93.413895l0 186.82779C480.859991 875.781568 438.949565 917.696858 387.446096 917.696858L387.446096 917.696858zM200.624388 606.321263c-17.157282 0-31.139992 13.948654-31.139992 31.133911l0 186.82779c0 17.185257 13.98271 31.133911 31.139992 31.133911l186.821708 0c17.157282 0 31.139992-13.948654 31.139992-31.133911L418.586088 637.455173c0-17.185257-13.98271-31.133911-31.139992-31.133911L200.624388 606.321263 200.624388 606.321263zM200.624388 606.321263" p-id="50208" /></svg>),
@@ -28,19 +29,19 @@ const DATA = [
       {
         key: 'text',
         name: '文字',
-        components: ['text'],
+        components: [{ id: 'text_1', name: 'text' }],
         icon: 'text'
       },
       {
         key: 'singleImg',
         name: '单张图片',
-        components: ['image'],
+        components: [{ id: 'image_1', name: 'image' }],
         icon: 'singleImg'
       },
       {
         key: 'multiImg',
         name: '多张图片',
-        components: ['text'],
+        components: [{ id: 'text_1', name: 'text' }],
         icon: 'multiImg'
       },
     ]
@@ -52,19 +53,19 @@ const DATA = [
       {
         key: 'goodCard',
         name: '商品卡片',
-        components: ['text'],
+        components: [{ id: 'text_1', name: 'text' }],
         icon: 'goodCard'
       },
       {
         key: 'slideGood',
         name: '侧滑商品',
-        components: ['text'],
+        components: [{ id: 'text_1', name: 'text' }],
         icon: 'slideGood'
       },
       {
         key: 'pointShop',
         name: '积分商城',
-        components: ['text'],
+        components: [{ id: 'text_1', name: 'text' }],
         icon: 'pointShop'
       },
     ]
@@ -76,63 +77,143 @@ const DATA = [
       {
         key: 'seckill',
         name: '秒杀',
-        components: ['text'],
+        components: [{ id: 'text_1', name: 'text' }],
         icon: 'seckill'
       },
       {
         key: 'slideGood',
         name: '侧滑商品',
-        components: ['text'],
+        components: [{ id: 'text_1', name: 'text' }],
         icon: 'slideGood'
       },
       {
         key: 'gift',
         name: '新人礼包',
-        components: ['text'],
+        components: [{ id: 'text_1', name: 'text' }],
         icon: 'gift'
       },
     ]
   }
 ]
 
-const LeftSider = ({ handleClick, active }) => {
-  const [ state, setState ] = useSetState({ index: '' })
-  const toggleTemplate = (index, components) => {
-    setState({ index })
-    handleClick && handleClick(components)
+@connect()
+class SiderLeft extends PureComponent {
+  static defaultProps = {
+    active: false
   }
-  return (
-    <Sider className="x-design-modules">
-      <div className="x-design-modules-scroll">
-        <Collapse className="x-design-modules-scroll-collapse" bordered={false} defaultActiveKey={['common', 'goods', 'coupon']}>
-          {
-            DATA.map(item => (
-              <Panel header={item.name} key={item.key}>
-              <div className="module-content">
-                {
-                  item.children.map(({ key, name, icon, components }) => (
-                    <div
-                      key={key}
-                      className={classnames('module-content-item', {
-                        active: active && state.index === key
-                      })}
-                      onClick={() => {
-                        toggleTemplate(key, components)
-                      }}
-                    >
-                      <div className="module-content-item-title">{name}</div>
-                      {ICONS[icon]}
-                    </div>
-                  ))
-                }
-              </div>
-            </Panel>
-            ))
-          }
-        </Collapse>
+
+  state = {
+    components: [],
+    current: ''
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('sider 介绍参数')
+    console.log(nextProps)
+  }
+
+  // 添加组件到主控制区域
+  addComponent = (config) => {
+    const key = uniqueId(8,8)
+    // 添加组件到列表
+    const { dispatch } = this.props
+    dispatch({
+      type: 'design/add',
+      payload: { ...config, key }
+    })
+  }
+
+  toggleTemplate = (event) => {
+    const { onChange } = this.props
+    const { currentTarget } = event
+    const pid = currentTarget.getAttribute('data-pid')
+    const id = currentTarget.getAttribute('data-id')
+    const template = _find(DATA, ({ key }) => key === pid)
+    if (template && template.key) {
+      const { key, components } = _find(template.children, (item) => id === item.key )
+      if (key && components.length) {
+        this.setState({ components, current: id })
+      } else {
+        this.setState({ current: id })
+      }
+    } else {
+      this.setState({ current: id })
+    }
+    if (onChange) {
+      onChange()
+    }
+  }
+
+  renderTemplateItem = (template) => {
+    const { config, component } = TemplateMaps[template.name]
+    const Lazycomponent = lazy(() => component)
+    const { name, desc, content, style } = config
+    return (
+      <div key={template.id} className="item" onClick={() => { this.addComponent(config) }}>
+        <div className="item-header">
+          <div className="item-header-title">{name}</div>
+          <div className="item-header-desc">{desc}</div>
+        </div>
+        <Tooltip title="点击添加到页面">
+          <div className="item-content">
+            <Suspense fallback={<div>Loading...</div>}>
+              <Lazycomponent style={style} data={content.data} />
+            </Suspense>
+          </div>
+        </Tooltip>
       </div>
-    </Sider>
-  )
+    )
+  }
+
+  render() {
+    console.log('sider-render')
+    const { active } = this.props
+    console.log(active)
+    const { current, components } = this.state
+    const designStyle = classnames('x-design-sider-templates', { active: !!current && active })
+    return (
+      <Fragment>
+        <Sider className="x-design-sider">
+          <div className="x-design-sider-scroll">
+            <Collapse className="x-design-sider-scroll-collapse" bordered={false} defaultActiveKey={['common', 'goods', 'coupon']}>
+              {
+                DATA.map(item => (
+                  <Panel header={item.name} key={item.key}>
+                    <div className="module-content">
+                      {
+                        item.children.map(({ key, name, icon }) => (
+                          <div
+                            key={key}
+                            data-pid={item.key}
+                            data-id={key}
+                            className={classnames('module-content-item', {
+                              active: current === key && active
+                            })}
+                            onClick={this.toggleTemplate}
+                          >
+                            <div className="module-content-item-title">{name}</div>
+                            {ICONS[icon]}
+                          </div>
+                        ))
+                      }
+                    </div>
+                  </Panel>
+                ))
+              }
+            </Collapse>
+          </div>
+          <Sider width="375" className={designStyle}>
+            <div className="x-design-sider-templates-content">
+              {
+                components.map(component => this.renderTemplateItem(component))
+              }
+            </div>
+          </Sider>
+        </Sider>
+      </Fragment>
+    )
+  }
 }
 
-export default LeftSider
+
+export default SiderLeft

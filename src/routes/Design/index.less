@@ -1,142 +1,134 @@
 @import '../../styles/colors';
 @import '../../styles/util';
 
-// 模块区域
-.x-design-modules {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  background-color: @x-sub-primary-color!important;
+.x-design {
+  position: relative;
+  display: flex;
+  flex: 1;
   z-index: 5;
-  &-scroll {
+  &-sider {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    -webkit-overflow-scrolling: touch;
-    overflow-y: auto;
-    overflow-x: hidden;
-    &-collapse {
-      background-color: @x-sub-primary-color;
-      .ant-collapse-content-box {
-        padding-top: 16px !important;
-        padding-bottom: 16px;
-        .module-content {
-          display: flex;
-          flex-wrap: wrap;
-          &-item {
-            position: relative;
+    width: 300px;
+    background-color: @x-sub-primary-color!important;
+    &-scroll {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      -webkit-overflow-scrolling: touch;
+      overflow-y: auto;
+      overflow-x: hidden;
+      z-index: 5;
+      &-collapse {
+        background-color: @x-sub-primary-color;
+        .ant-collapse-content-box {
+          padding-top: 16px !important;
+          padding-bottom: 16px;
+          .module-content {
             display: flex;
-            flex: 1;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-radius: 2px;
-            margin: 5px;
-            padding: 12px 10px;
-            color: @x-font-color;
-            background-color: @x-gray-color;
-            cursor: pointer;
-            &.active {
-              background-color: #696969;
-            }
-            &-title {
-              margin-bottom: 10px;
-              font-size: 12px;
-            }
-            &-icon {
-              fill: @x-font-color;
-              width: 40px;
-              height: 20px;
+            flex-wrap: wrap;
+            &-item {
+              position: relative;
+              display: flex;
+              flex: 1;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              border-radius: 2px;
+              margin: 5px;
+              padding: 12px 10px;
+              color: @x-font-color;
+              background-color: @x-gray-color;
+              cursor: pointer;
+              &.active {
+                background-color: #696969;
+              }
+              &-title {
+                margin-bottom: 10px;
+                font-size: 12px;
+              }
+              &-icon {
+                fill: @x-font-color;
+                width: 40px;
+                height: 20px;
+              }
             }
           }
         }
       }
+      .scroll-bar();
     }
-    .scroll-bar();
+    &-templates {
+      position: absolute;
+      left: -175px;
+      top: 0;
+      bottom: 0;
+      transform: translateX(0) translateZ(0);
+      transition: transform 0.15s cubic-bezier(.9, 0, .3, .7);
+      background-color: @x-sub-primary-color!important;
+      z-index: 4;
+      border-left: 1px solid #121516;
+      border-right: 1px solid #121516;
+      &-content {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        height: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        padding: 10px;
+        .item {
+          border-radius: 2px;
+          background-color: @x-gray-color;
+          padding: 10px;
+          margin-bottom: 10px;
+          cursor: pointer;
+          &-header {
+            color: @x-font-color;
+            &-title {
+              font-size: 16px;
+            }
+            &-desc {
+              font-size: 12px;
+              color: #949494;
+            }
+          }
+          &-content {
+            background-color: #ffffff;
+            margin-top: 10px;
+            border: 1px solid transparent;
+            overflow: hidden;
+          }
+        }
+        .scroll-bar();
+      }
+      &.active {
+        transform: translateX(375px) translateZ(0);
+      }
+    }
   }
-}
-// 装修组件列表
-.x-design-templates {
-  position: absolute;
-  left: -175px;
-  top: 0;
-  bottom: 0;
-  transform: translateX(0);
-  background-color: @x-sub-primary-color!important;
-  z-index: 4;
-  border-left: 1px solid #121516;
-  border-right: 1px solid #121516;
   &-content {
+    position: relative;
     display: flex;
     flex: 1;
-    flex-direction: column;
-    height: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    z-index: 1;
-    padding: 10px;
-    .item {
-      border-radius: 2px;
-      background-color: @x-gray-color;
-      padding: 10px;
-      margin-bottom: 10px;
-      cursor: pointer;
-      &-header {
-        color: @x-font-color;
-        &-title {
-          font-size: 16px;
-        }
-        &-desc {
-          font-size: 12px;
-          color: #949494;
-        }
-      }
-      &-content {
-        background-color: #ffffff;
-        margin-top: 10px;
-        border: 1px solid transparent;
-        overflow: hidden;
-      }
-    }
-    .scroll-bar();
-  }
-  &.active {
-    transform: translateX(375px);
-  }
-}
-// 装修区域
-.x-design-content {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  &-panel {
-    display: flex;
-    height: 100%;
     justify-content: center;
     align-items: center;
-    margin-left: 200px; // antd 的 sider 默认宽度是200px
-    overflow: hidden;
     &-mobile {
-      position: relative;
+      position: absolute;
       width: 375px;
       height: 90%;
       background-color: #f7f7f9;
       box-shadow: 0 0 15px rgba(0,0,0,0.07);
       transform: translateX(0) translateZ(0);
       transition: transform 0.2s ease;
+      z-index: 6;
       .container {
-        width: 100%;
         height: 100%;
         overflow: auto;
         -webkit-overflow-scrolling: touch;
         .scroll-bar();
       }
-
       // 如果只打开模板列表
       &.active-template {
         transform: translateX(187px) translateZ(0);
@@ -151,36 +143,35 @@
       }
     }
   }
-}
-
-// 参数配置
-.x-design-setting {
-  position: absolute;
-  right: -300px;
-  top: 0;
-  bottom:0;
-  transform: translateX(0);
-  transition: transform 0.2s ease;
-  background-color: @x-sub-primary-color!important;
-  z-index: 5;
-  &-scroll {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    -webkit-overflow-scrolling: touch;
-    overflow-y: auto;
-    overflow-x: hidden;
-    &-collapse {
-      background-color: @x-sub-primary-color;
-      .ant-collapse-content-box {
-        padding-top: 16px !important;
-        padding-bottom: 16px;
+  // 参数配置
+  &-setting {
+    position: absolute;
+    right: -300px;
+    top: 0;
+    bottom: 0;
+    transform: translateX(0) translateZ(0);
+    transition: transform 0.15s cubic-bezier(.9, 0, .3, .7);
+    background-color: @x-sub-primary-color!important;
+    z-index: 5;
+    &-scroll {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      -webkit-overflow-scrolling: touch;
+      overflow-y: auto;
+      overflow-x: hidden;
+      &-collapse {
+        background-color: @x-sub-primary-color;
+        .ant-collapse-content-box {
+          padding-top: 16px !important;
+          padding-bottom: 16px;
+        }
       }
+      .scroll-bar();
     }
-    .scroll-bar();
-  }
-  &.active {
-    transform: translateX(-300px);
+    &.active {
+      transform: translateX(-300px);
+    }
   }
 }
