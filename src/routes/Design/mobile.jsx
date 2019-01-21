@@ -59,6 +59,7 @@ class Mobile extends PureComponent {
   }
 
   render() {
+    console.log('mobile render....')
     const { design } = this.props
     // 拖拽元素点
     const SortableItem = SortableElement(({ item }) => {
@@ -88,6 +89,7 @@ class Mobile extends PureComponent {
           ))}
         </Suspense>
       </div>
+
     ));
     return (
       <SortableList

@@ -3,6 +3,8 @@ const Koa = require('koa')
 const webpack = require('webpack')
 const compressible = require('compressible')
 const compress = require('koa-compress')
+const proxy = require('koa2-proxy-middleware')
+const bodyparser = require('koa-bodyparser')
 
 const devMiddleware = require('../build/kao-dev')
 const hotMiddleware = require('../build/kao-hot')
@@ -15,6 +17,22 @@ const webpackConfig = require('../config').webpack
 const compiler = webpack(devConfig)
 
 const app = new Koa()
+
+const options = {
+  targets: {
+    // (.*) 任何类型
+    '/api/(.*)': {
+      target: 'http://m.test.shop.hisense.com',
+      changeOrigin: true
+    }
+  }
+}
+
+
+app.use(proxy(options))
+app.use(bodyparser({
+  enableTypes:['json', 'form', 'text']
+}))
 
 app.use(compress({
   filter: type => !(/event\-stream/i.test(type)) && compressible(type)

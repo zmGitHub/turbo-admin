@@ -11,10 +11,10 @@ const useToggle = (initial) => {
   const [ value, setValue ] = useState(initial)
   const toggle = (nextValue) => {
     if (typeof nextValue !== 'undefined') {
-      setValue(!!value)
+      setValue(!!nextValue)
       return
     }
-    setValue(!!nextValue)
+    setValue(!value)
   }
   return [ value, toggle ]
 }

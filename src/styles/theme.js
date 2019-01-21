@@ -44,5 +44,13 @@ module.exports = {
   // radio
   'radio-button-bg': 'transparent',
   'radio-button-color': '#414141',
-  'radio-dot-color': '#6e6e6e'
+  'radio-dot-color': '#6e6e6e',
+  // modal
+  'modal-header-bg': '#282828',
+  'modal-mask-bg': 'rgba(0, 0, 0, 0.5)',
+  // menu dark theme
+  'menu-dark-color': '#dddddd',
+  'menu-dark-bg': '#282828',
+  'menu-dark-item-active-bg': '#414141',
+  'menu-dark-highlight-color': '#FF835A'
 }
