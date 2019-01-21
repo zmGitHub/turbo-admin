@@ -1,6 +1,7 @@
+@import '../../styles/util.less';
 
 .x-img-picker {
-  padding: 10px;
+  padding: 8px;
   border: 1px solid #333333;
   color: #dddddd;
   &-content {
@@ -11,7 +12,10 @@
     min-height: 380px;
     &-left {
       width: 150px;
+      max-height: 435px;
       border-right: 1px solid #333333;
+      overflow-y: auto;
+      .scroll-bar();
     }
     &-right {
       display: flex;
@@ -38,8 +42,95 @@
           }
         }
         &-uploader {
+          display: flex;
+          justify-content: flex-end;
+          .ant-btn {
+            color: #DDDDDD;
+            background-color: #414141;
+            border-color: #414141;
+          }
+          .upload-list-inline {
+            position: relative;
+          }
+          .ant-upload {
+            &-list {
+              position: absolute;
+              right: 0;
+              width: 300px;
+              color: #dddddd;
+              background: #282828;
+              border-radius: 3px;
+              margin-top: 10px;
+              right: 0;
+              z-index: 2;
+              &-item {
+                padding: 8px;
+                border-radius: 2px;
+                border: 1px solid #414141;
+                height: 66px;
+                position: relative;
+                .anticon {
+                  color: #dddddd;
+                }
+                img {
+                  object-fit: cover;
+                }
+              }
+            }
+          }
 
         }
+      }
+      .x-image-list {
+        display: flex;
+        flex-direction: column;
+        &-content {
+          display: flex;
+          flex-wrap: wrap;
+          min-height: 326px;
+          &-item {
+            margin-bottom: 10px;
+            margin-left: 10px;
+            cursor: pointer;
+            .ant-card {
+              border: 1px solid #333333;
+              &-body {
+                padding: 0;
+              }
+            }
+            &-img {
+              position: relative;
+              width: 111px;
+              height: 111px;
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+              }
+            }
+            &-footer {
+              display: flex;
+              align-items: center;
+              height: 40px;;
+              overflow: hidden;
+              padding: 10px;
+              background: #333;
+              h3 {
+                font-size: 12px;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                word-break: break-all;
+                color: #dddddd;
+              }
+            }
+          }
+        }
+
       }
     }
   }

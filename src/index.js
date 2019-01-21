@@ -17,6 +17,7 @@ const app = dva({
 })
 
 // 注册 model TODO: 后续按需加载
+app.model(require('./models/component').default)
 app.model(require('./models/design').default)
 
 // 插件 loading
