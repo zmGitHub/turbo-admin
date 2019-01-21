@@ -2,6 +2,7 @@ import React, { PureComponent, Suspense } from 'react';
 import { Icon } from 'antd'
 import { connect } from 'dva'
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
+import scrollIntoView from 'scroll-into-view-if-needed'
 import _find from 'lodash/find'
 import TemplateMaps from '@/design/templates'
 
@@ -19,21 +20,31 @@ class Mobile extends PureComponent {
     onChange: () => {}
   }
 
+  scrollContentRef = null
+
+  componentDidMount() {
+    this.scrollContentRef = document.getElementById('js-scroll-content')
+  }
+
   // 点击元素获取对应的样式编辑组件
   getElSetting = (event) => {
     event.stopPropagation()
     const { currentTarget } = event
-    const { design, onChange, active } = this.props
-    // 让当前元素滚动到可视区域的正中间: TODO: 第一次阻止滚动 不知道什么原因会出现整个布局的跳动
-    if(active && currentTarget && currentTarget.scrollIntoView) {
-      currentTarget.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
-    }
+    const { design, onChange } = this.props
+
     const id = currentTarget.getAttribute('data-id')
     // TODO: 做缓存校验 如果同为一个组件 不应该触发 change
     const component = _find(design.list, (item) => item.key === id)
     if (component && component.key) {
       this.component = component
       onChange(component)
+      requestAnimationFrame(() => {
+        scrollIntoView(currentTarget, {
+          behavior: 'smooth',
+          scrollMode: 'if-needed',
+          boundary: this.scrollContentRef
+        })
+      })
     }
   }
 

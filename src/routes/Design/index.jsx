@@ -45,12 +45,11 @@ class Design extends PureComponent {
       <div className="x-design">
         <SiderPanel onChange={this.openTemplate} active={templateCollapse} />
         <div onClick={this.reset} className="x-design-content">
-          <div className={contentStyle}>
+          <div id="js-scroll-content" className={contentStyle}>
             <MobilePabel
               active={settingCollapse}
               onChange={this.getComponentSetting}
             />
-            <div id="drag-content" className="container" />
           </div>
         </div>
         <Sider width="300" className={settingStyle}>

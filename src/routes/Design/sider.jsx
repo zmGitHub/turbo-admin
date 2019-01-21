@@ -141,8 +141,6 @@ class SiderLeft extends PureComponent {
 
   renderTemplateItem = (template) => {
     const { config, component } = TemplateMaps[template.name]
-    console.log('执行加载...')
-    console.log(config())
     const Lazycomponent = lazy(component)
     const { name, desc, content, style } = config()
     return (

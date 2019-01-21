@@ -1,3 +1,4 @@
 export default {
-  textDesign: import('./text')
+  textDesign: import('./text'),
+  error: import('./error')
 }

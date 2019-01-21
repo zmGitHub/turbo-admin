@@ -18,6 +18,7 @@
       -webkit-overflow-scrolling: touch;
       overflow-y: auto;
       overflow-x: hidden;
+      scroll-behavior: smooth;
       z-index: 5;
       &-collapse {
         background-color: @x-sub-primary-color;
@@ -77,6 +78,7 @@
         max-width: 100%;
         overflow-x: hidden;
         overflow-y: scroll;
+        scroll-behavior: smooth;
         padding: 10px;
         .item {
           border-radius: 2px;
@@ -127,8 +129,14 @@
       .container {
         height: 100%;
         overflow: auto;
+        scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
         .scroll-bar();
+        &.active {
+          .drag-component {
+            opacity: 0.5;
+          }
+        }
       }
       // 如果只打开模板列表
       &.active-template {
@@ -162,6 +170,7 @@
       -webkit-overflow-scrolling: touch;
       overflow-y: auto;
       overflow-x: hidden;
+      scroll-behavior: smooth;
       &-collapse {
         background-color: @x-sub-primary-color;
         .ant-collapse-content-box {
