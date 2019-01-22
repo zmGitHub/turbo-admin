@@ -135,6 +135,53 @@ body {
     }
   }
 
+  // pagination
+  .ant-pagination {
+    &-item {
+      border: 1px solid #333333;
+      background-color: #282828;
+      &-active {
+        border-color: #ff835a;
+        a {
+          color: #ff835a !important;
+        }
+      }
+      a {
+        color: #DDDDDD;
+      }
+      &-ellipsis {
+        color: #DDDDDD !important;
+      }
+    }
+    &-next,
+    &-prev {
+      .ant-pagination-item-link {
+        border: 1px solid #333333 !important;
+        background-color: #282828 !important;
+        color: #DDDDDD !important;
+      }
+    }
+  }
+
+  // selection
+  .ant-select {
+    &-arrow {
+      color: #DDDDDD;
+    }
+    &-selection{
+      border: 1px solid #333333;
+      background-color:#414141;
+      color: #DDDDDD;
+    }
+  }
+
+  // form
+  .ant-form-item-label {
+    label{
+      color: #ddd;
+      font-size: 12px;
+    }
+  }
   .drag {
     position: relative;
     border-top: 1px dashed #cccccc;

@@ -34,6 +34,16 @@
             color: #ffffff;
             border-color: #ffffff;
             margin: 0 8px;
+            &:focus {
+              color: #414141;
+              background-color: #fff;
+              border-color: #414141;
+            }
+            &.active {
+              color: #414141;
+              background-color: #fff;
+              border-color: #414141;
+            }
             &[disabled] {
               background-color: #414141;
               border-color: #333333;
@@ -107,6 +117,27 @@
                 height: 100%;
                 object-fit: cover;
               }
+              .choose-item {
+                position: absolute;
+                left:0;
+                top:0;
+                right:0;
+                bottom:0;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 40px;
+                color:#fff;
+                font-weight: bold;
+                opacity: 0;
+                transition: opacity 0.15s ease-in;
+              }
+              &.checked {
+                .choose-item {
+                  opacity: 1;
+                }
+              }
             }
             &-footer {
               display: flex;
@@ -130,7 +161,11 @@
             }
           }
         }
-
+        &-pager {
+          display: flex;
+          justify-content: flex-end;
+          margin-top: 10px;
+        }
       }
     }
   }
@@ -139,5 +174,17 @@
     justify-content: flex-end;
     align-items: center;
     padding: 20px 10px 0px 10px;
+    .ant-btn {
+      color: #DDDDDD;
+      background-color: #414141;
+      border-color: #414141;
+      font-size: 14px;
+      &:hover,
+      &:focus {
+        color: #DDDDDD;
+        background-color: #6e6e6e;
+        border-color: #6e6e6e;
+      }
+    }
   }
 }

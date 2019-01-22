@@ -22,7 +22,7 @@ const options = {
   targets: {
     // (.*) 任何类型
     '/api/(.*)': {
-      target: 'http://m.test.shop.hisense.com',
+      target: 'http://m.hisense.com',
       changeOrigin: true
     }
   }

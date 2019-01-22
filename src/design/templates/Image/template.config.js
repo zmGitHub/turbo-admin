@@ -8,8 +8,11 @@ export default {
     content: {
       component: 'imageDesign',
       data: {
-        clickType: 'navigate', // 跳转页面 或者切换 tab
-        url: '', // 只能是小程序的页面路径,
+        url: {
+          type: 'navigate',
+          page: '',
+          query: ''
+        },
         src: '' // 图片链接 必须是 https 开头
       }
     },
@@ -22,25 +25,25 @@ export default {
             key: "paddingTop",
             title: '内边距(上)',
             component: "slider",
-            value: "10px"
+            value: "0"
           },
           {
             key: "paddingBottom",
             title: '内边距(下)',
             component: "slider",
-            value: "10px"
+            value: "0"
           },
           {
             key: "paddingLeft",
             title: '内边距(左)',
             component: "slider",
-            value: "20px"
+            value: "0"
           },
           {
             key: "paddingRight",
             title: '内边距(右)',
             component: "slider",
-            value: "20px"
+            value: "0"
           },
         ]
       },
@@ -50,16 +53,24 @@ export default {
         component: "image", // 引入装修组件
         items: [ // 可编辑的项
           {
+            key: "backgroundColor",
+            title: '背景颜色',
+            component: "color",
+            value: "#ffffff"
+          },
+          {
             key: "borderRadius",
             title: '圆角',
             component: "slider",
-            value: "10px"
+            value: "2px"
           },
           {
             key: "height",
             title: '高度',
             component: "slider",
-            value: "287px"
+            min: 10,
+            max: 999,
+            value: "200px"
           },
         ]
       }

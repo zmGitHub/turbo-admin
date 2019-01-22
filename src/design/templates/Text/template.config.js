@@ -7,8 +7,11 @@ export default {
     content: {
       component: 'textDesign',
       data: {
-        clickType: 'navigate', // 跳转页面 或者切换 tab
-        url: '', // 只能是小程序的页面路径,
+        url: {
+          type: 'navigate',
+          page: '',
+          query: ''
+        },
         title: '标题文字' // 文本内容
       }
     },
