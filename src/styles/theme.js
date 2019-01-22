@@ -54,5 +54,8 @@ module.exports = {
   'menu-dark-item-active-bg': '#414141',
   'menu-dark-highlight-color': '#FF835A',
   // pagination
-  'pagination-item-size': '28px'
+  'pagination-item-size': '28px',
+  // button
+  'btn-height-base': '28px',
+  'btn-height-lg': '36px'
 }

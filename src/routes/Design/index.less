@@ -173,6 +173,14 @@
       scroll-behavior: smooth;
       &-collapse {
         background-color: @x-sub-primary-color;
+        .module-content {
+          .content-data {
+            &:last-child {
+              border-bottom: none;
+            }
+          }
+
+        }
         .ant-collapse-content-box {
           padding-top: 16px !important;
           padding-bottom: 16px;

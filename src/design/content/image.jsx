@@ -3,6 +3,7 @@ import { Icon } from 'antd'
 import { head } from 'lodash'
 import { useToggle, useSetState } from '@/stores/hook'
 import ImagePicker from '@/components/ImagePicker'
+import Linker from '@/components/Linker'
 import defaultImg from '@/static/images/x.png'
 
 import './index.less'
@@ -17,6 +18,9 @@ const ImageDesign = ({ config, onChange }) => {
     setState({ src: imgItem.url })
     onChange({ id, key: 'src', value: imgItem.url })
   }
+  const onLinkerChange = (value) => {
+    onChange({ id, key: 'url', value })
+  }
   return (
     <Fragment>
       <div className="content-data">
@@ -28,6 +32,13 @@ const ImageDesign = ({ config, onChange }) => {
           </div>
         </div>
       </div>
+      <div className="content-data">
+        <h4 className="content-data-title">链接</h4>
+        <div className="content-data-linker">
+          <Linker url={url} multiGoods={false} onChange={onLinkerChange} />
+        </div>
+      </div>
+
       <ImagePicker visible={on} onChange={onImageChange} />
     </Fragment>
   )

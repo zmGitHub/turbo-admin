@@ -5,10 +5,10 @@ import { trim, split, last } from 'lodash'
 import './index.less'
 
 
-class GoodsPicker extends PureComponent {
+class CouponsPicker extends PureComponent {
 
   static defaultProps = {
-    multiGoods: true,
+    multiCoupons: true,
     visible: false
   }
 
@@ -30,13 +30,13 @@ class GoodsPicker extends PureComponent {
   }
 
   handleConfirm = () => {
-    const { onChange, multiGoods } = this.props
+    const { onChange, multiCoupons } = this.props
     this.setState({ visible: false }, () => {
       let itemIds = this.inputValue
-      if (!multiGoods) {
+      if (!multiCoupons) {
         itemIds = last(split(itemIds, ','))
       }
-      onChange({ page: '/pages/goods', type: 'navigate', query: itemIds })
+      onChange({ page: 'coupons', type: 'click', query: itemIds })
     })
   }
 
@@ -46,7 +46,7 @@ class GoodsPicker extends PureComponent {
       <Modal
         destroyOnClose
         width="520px"
-        title="选择商品"
+        title="选择优惠券"
         className="x-goods-picker-modal"
         cancelText="取消"
         okText="确定"
@@ -54,10 +54,10 @@ class GoodsPicker extends PureComponent {
         onOk={this.handleConfirm}
         visible={visible}
       >
-        <Input onChange={this.handleInputChange} placeholder="多个商品请用,分开" />
+        <Input onChange={this.handleInputChange} placeholder="多个优惠券请用,分开" />
       </Modal>
     );
   }
 }
 
-export default GoodsPicker
+export default CouponsPicker

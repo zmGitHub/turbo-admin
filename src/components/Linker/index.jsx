@@ -1,17 +1,11 @@
 import React, { PureComponent  } from 'react';
-import { Radio } from 'antd'
+import { Button } from 'antd'
 import classnames from 'classnames';
-
 import GoodsPicker from '@/components/GoodsPicker'
+import CouponsPicker from '@/components/CouponsPicker'
 import PageForm from './PageForm'
 
 import './index.less'
-
-const { Group } = Radio
-
-/**
- *
- */
 
 const MAPS = {
   '/pages/goods': '跳转商品',
@@ -39,8 +33,10 @@ class Linker extends PureComponent {
   }
 
   // 类型改变
-  onTypeChange = (e) => {
-    this.setState({ type: e.target.value })
+  onTypeChange = (event) => {
+    const { currentTarget } = event
+    const type = currentTarget.getAttribute('data-type')
+    this.setState({ type })
   }
 
   // 页面路径
@@ -53,21 +49,25 @@ class Linker extends PureComponent {
 
   render() {
     const { type, url } = this.state
+    const { multiGoods, multiCoupons } = this.props
     const linkerStyle = classnames('x-linker-panel', { active: type === 'pages' })
+    const chooseStyle = classnames('x-linker-footer', { active: !!url.page })
     return (
       <div className="x-linker">
-        <Group onChange={this.onTypeChange} value={type}>
-          <Radio value="goods">商 品</Radio>
-          <Radio value="pages">页 面</Radio>
-          <Radio value="coupons">优惠券</Radio>
-        </Group>
-        <div className="x-linker-footer">
-          已选择: {MAPS[url.page]} : {url.query}
+        <div className="x-linker-btns">
+          <Button onClick={this.onTypeChange} data-type="goods" icon="shopping">商 品</Button>
+          <Button onClick={this.onTypeChange} data-type="pages" icon="link">页 面</Button>
+          <Button onClick={this.onTypeChange} data-type="coupons" icon="gift">优惠券</Button>
+        </div>
+        <div className={chooseStyle}>
+          <span>已选择: {MAPS[url.page]}</span>
+          (<strong>{url.query}</strong>)
         </div>
         <div className={linkerStyle}>
           <PageForm onChange={this.onPropsChange} />
         </div>
-        <GoodsPicker onChange={this.onPropsChange} visible={type === 'goods'} />
+        <GoodsPicker multiGoods={multiGoods} onChange={this.onPropsChange} visible={type === 'goods'} />
+        <CouponsPicker multiCoupons={multiCoupons} onChange={this.onPropsChange} visible={type === 'coupons'} />
       </div>
     );
   }

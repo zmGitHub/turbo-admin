@@ -2,10 +2,33 @@
   color: #dddddd;
   padding: 10px;
   border-radius: 2px;
+  &-btns {
+    display: flex;
+    align-items: center;
+    .ant-btn {
+      color: #DDDDDD;
+      background-color: #414141;
+      border-color: #414141;
+      margin-right: 10px;
+      &:hover,
+      &:focus {
+        color: #DDDDDD;
+        background-color: #6e6e6e;
+        border-color: #6e6e6e;
+      }
+    }
+  }
   &-panel {
     display: none;
     padding: 5px;
     border-radius: 2px;
+    margin-top: 10px;
+    &.active {
+      display: block;
+    }
+  }
+  &-footer {
+    display: none;
     margin-top: 10px;
     &.active {
       display: block;

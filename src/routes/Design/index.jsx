@@ -1,9 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Layout } from 'antd'
 import classnames from 'classnames'
-
-import Linker from '@/components/Linker'
-
 import SiderPanel from './sider'
 import MobilePabel from './mobile'
 import SettingPanel from './setting'
@@ -51,7 +48,6 @@ class Design extends PureComponent {
         <SiderPanel onChange={this.openTemplate} active={templateCollapse} />
         <div onClick={this.reset} className="x-design-content">
           <div id="js-scroll-content" className={contentStyle}>
-            <Linker onChange={(res) => { console.log(res) }} />
             <MobilePabel
               active={settingCollapse}
               onChange={this.getComponentSetting}
