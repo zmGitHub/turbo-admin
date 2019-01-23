@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { Icon } from 'antd'
-import { head } from 'lodash'
+import { last } from 'lodash'
 import { useToggle, useSetState } from '@/stores/hook'
 import ImagePicker from '@/components/ImagePicker'
 import Linker from '@/components/Linker'
@@ -13,7 +13,7 @@ const ImageDesign = ({ config, onChange }) => {
   const [ on, toggle ] = useToggle(false)
   const [ state, setState ] = useSetState({ src, url })
   const onImageChange = (images) => {
-    const imgItem = head(images)
+    const imgItem = last(images)
     toggle(false)
     setState({ src: imgItem.url })
     onChange({ id, key: 'src', value: imgItem.url })
@@ -38,7 +38,6 @@ const ImageDesign = ({ config, onChange }) => {
           <Linker url={url} multiGoods={false} onChange={onLinkerChange} />
         </div>
       </div>
-
       <ImagePicker visible={on} onChange={onImageChange} />
     </Fragment>
   )

@@ -34,13 +34,15 @@ class ImageDesign extends PureComponent {
 
   componentDidMount() {
     // 加载图片分组类别
-    const { dispatch } = this.props
-    dispatch({
-      type: 'component/getImageCategory',
-      callback: () => {
-        this.getImageList()
-      }
-    })
+    const { dispatch, categories } = this.props
+    if (!categories.length) {
+      dispatch({
+        type: 'component/getImageCategory',
+        callback: () => {
+          this.getImageList()
+        }
+      })
+    }
   }
 
   getImageList = () => {

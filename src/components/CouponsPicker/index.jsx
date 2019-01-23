@@ -18,11 +18,12 @@ class CouponsPicker extends PureComponent {
     visible: false
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { visible } = this.state
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { visible } = prevState
     if (nextProps.visible !== visible) {
-      this.setState({ visible: nextProps.visible })
+      return { visible: nextProps.visible }
     }
+    return null
   }
 
   handleInputChange = (e) => {

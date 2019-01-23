@@ -1,0 +1,45 @@
+.x-crop {
+  position: relative;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  background-color: #414141;
+  &-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: absolute;
+    box-shadow: 0 0 4px #000;
+    background-color: rgba(55, 57, 80, 0.65);
+    border-radius: 0;
+    padding: 2px;
+    &-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+      width: 24px;
+      height: 24px;
+      font-size: 14px;
+      cursor: pointer;
+      &:hover {
+        background-color: #282828;
+      }
+    }
+    &-number {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+      width: 24px;
+      height: 24px;
+      background-color: #282828;
+    }
+  }
+  img {
+    width: 100%;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+  }
+}

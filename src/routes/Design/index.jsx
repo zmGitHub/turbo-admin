@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Layout } from 'antd'
 import classnames from 'classnames'
+import ThermalZonelPicker from '@/components/ThermalZonePicker'
 import SiderPanel from './sider'
 import MobilePabel from './mobile'
 import SettingPanel from './setting'
@@ -44,7 +45,7 @@ class Design extends PureComponent {
     })
     return (
       <div className="x-design">
-
+        <ThermalZonelPicker />
         <SiderPanel onChange={this.openTemplate} active={templateCollapse} />
         <div onClick={this.reset} className="x-design-content">
           <div id="js-scroll-content" className={contentStyle}>
