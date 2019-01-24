@@ -6,7 +6,7 @@ import './index.less'
 
 const Image = ({ style, data = { src: defaultImg } }) => (
   <div className="x-template-img" style={getStyles(style, ['padding'])}>
-    <img style={getStyles(style, ['img'])} src={data.src || defaultImg} alt="单张图片" />
+    <img style={getStyles(style, ['img'])} src={data.src || defaultImg} alt="单张图片" draggable={false} />
   </div>
 )
 

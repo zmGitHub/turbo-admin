@@ -1,39 +1,46 @@
 import React, { PureComponent } from 'react';
-import { Modal } from 'antd'
-import { trim } from 'lodash'
-
+import { Modal, Collapse } from 'antd'
+import { isFunction, find } from 'lodash'
 import MultiCrops from '@/components/MultiCrops'
-
+import Linker from '@/components/Linker'
+import defaultImg from '@/static/images/x.png'
 import './index.less'
+
+const { Panel } = Collapse
 
 
 class ThermalZonePicker extends PureComponent {
 
   static defaultProps = {
-    multiCoupons: true,
+    coordinates: [],
+    src: defaultImg,
+    height: 244,
     visible: false
   }
 
-  inputValue = ''
-
-  state ={
-    visible: true,
-    coordinates: []
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if(nextProps.visible !== prevState.visible) {
+      return { visible: nextProps.visible }
+    }
+    return null
   }
 
-  handleInputChange = (e) => {
-    this.inputValue = trim(e.target.value)
+
+  constructor(props) {
+    super(props)
+    const { coordinates, visible } = this.props
+    this.state = {
+      visible,
+      coordinates
+    }
   }
 
   handleConfirm = () => {
-    const { onChange, multiCoupons } = this.props
-    this.setState({ visible: false }, () => {
-      // let itemIds = this.inputValue
-      // if (!multiCoupons) {
-      //   itemIds = last(split(itemIds, ','))
-      // }
-      // onChange({ page: 'coupons', type: 'click', query: itemIds })
-    })
+    const { onChange } = this.props
+    const { coordinates } = this.state
+    if(isFunction(onChange)) {
+      onChange(coordinates)
+    }
   }
 
   deleteCoordinate = (coordinate, index, coordinates) => {
@@ -43,21 +50,23 @@ class ThermalZonePicker extends PureComponent {
   }
 
   changeCoordinate = (coordinate, index, coordinates) => {
-    console.log(coordinate)
-    console.log(index)
-    console.log(coordinates)
     this.setState({
       coordinates,
     })
   }
 
-  handleImgLoad = (e) => {
-    console.log('图片加载...')
-    console.log(e)
+  onLinkerChange = (id, res) => {
+    const { coordinates } = this.state
+    const coordinate = find(coordinates, (item) => item.id === id)
+    if (coordinate && coordinate.id) {
+      coordinate.url = res
+      this.setState({ coordinates })
+    }
   }
 
   render() {
     const { visible, coordinates } = this.state
+    const { height, src } = this.props
     return (
       <Modal
         destroyOnClose
@@ -74,14 +83,21 @@ class ThermalZonePicker extends PureComponent {
           <MultiCrops
             coordinates={coordinates}
             width={375}
-            height={244}
-            onLoad={this.handleImgLoad}
+            height={height}
             onChange={this.changeCoordinate}
             onDelete={this.deleteCoordinate}
-            src="http://hisense-img.oss-cn-qingdao.aliyuncs.com/2019/01/17/b26b059c-f7d9-40b8-8aae-2fd756e78a70.png"
+            src={src}
           />
-          <div className="link-items">
-            fasdf
+          <div className="link-items" style={{ height }}>
+            <Collapse bordered={false}>
+              {
+                coordinates.map(({ url, id }, index) => (
+                  <Panel header={`热区${index + 1}`} key={id}>
+                    <Linker url={url} multiGoods={false} multiCoupons={false} onChange={(res) => { this.onLinkerChange(id, res) }} />
+                  </Panel>
+                ))
+              }
+            </Collapse>
           </div>
         </div>
       </Modal>

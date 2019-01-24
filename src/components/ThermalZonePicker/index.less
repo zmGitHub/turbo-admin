@@ -1,10 +1,18 @@
+@import '../../styles/util';
+
 .x-thermal-picker {
   &-body {
     display: flex;
-    align-items: center;
     .link-items {
       display: flex;
       flex: 1;
+      padding-left: 10px;
+      min-height: 100px;
+      max-height: 300px;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      .scroll-bar();
     }
   }
   &-modal {

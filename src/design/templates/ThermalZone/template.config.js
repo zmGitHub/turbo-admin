@@ -8,11 +8,8 @@ export default {
     content: {
       component: 'thermalZoneDesign',
       data: {
-        url: {
-          type: 'navigate',
-          page: '',
-          query: ''
-        },
+        coordinates: [],
+        height: 0,
         src: '' // 图片链接 必须是 https 开头
       }
     },

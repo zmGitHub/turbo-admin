@@ -1,23 +1,51 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Icon } from 'antd'
+import { Icon , Button} from 'antd'
 import { last } from 'lodash'
 import ImagePicker from '@/components/ImagePicker'
-import Linker from '@/components/Linker'
+import ThermalZonelPicker from '@/components/ThermalZonePicker'
+
 import defaultImg from '@/static/images/x.png'
 
 class ThermalZoneDesign extends PureComponent {
   constructor(props) {
     super(props)
-    const { config: { src, url } } = this.props
+    const { config: { src, height, coordinates } } = this.props
     this.state = {
       src,
-      url,
+      height,
+      coordinates,
+      showThermalPicker: false,
       showImgPicker: false
     }
   }
 
+
+  // 图片加载成功 获取图片的高度 允许加载热区组件
+  onImageLoadSuccess = ({ currentTarget }) => {
+    const { src, naturalHeight } = currentTarget
+    const { onChange, config: { id } } = this.props
+    // 判断加载的是不是本地图片 TODO: 临时方案
+    if (src.includes('.aliyuncs.com')) {
+      const height = naturalHeight / 2
+      this.setState({ height }, () => {
+        onChange({ id, key: 'height', value: height })
+      })
+    }
+  }
+
+  // 图片加载失败则禁止加载热区组件
+  onImageLoadError = () => {
+    this.setState({ height: 0 })
+  }
+
+  // 选择图片
   openImgPicker = () => {
     this.setState({ showImgPicker: true })
+  }
+
+  // 设置热区
+  openThermalPicker = () => {
+    this.setState({ showThermalPicker: true })
   }
 
   onImageChange = (images) => {
@@ -28,31 +56,43 @@ class ThermalZoneDesign extends PureComponent {
     })
   }
 
-  onLinkerChange = (value) => {
+  // 编辑热区
+  editThermalZone = (value) => {
     const { config: { id }, onChange } = this.props
-    onChange({ id, key: 'url', value })
+    this.setState({ showThermalPicker: false, coordinates: value }, () => {
+      onChange({ id, key: 'coordinates', value })
+    })
   }
 
   render() {
-    const { showImgPicker, src, url } = this.state
+    const { showImgPicker, showThermalPicker, src, height, coordinates } = this.state
+
     return (
       <Fragment>
         <div className="content-data">
           <h4 className="content-data-title">图片</h4>
-          <div className="content-data-imager">
+          <div className="content-data-thermal">
             <div className="imager-content">
-              <img src={src || defaultImg} alt="单张图片" />
+              <img onLoad={this.onImageLoadSuccess} onError={this.onImageLoadError} src={src || defaultImg} alt="单张图片" />
               <div onClick={this.openImgPicker} className="imager-content-mask"><Icon type="edit" /></div>
             </div>
-          </div>
-        </div>
-        <div className="content-data">
-          <h4 className="content-data-title">链接</h4>
-          <div className="content-data-linker">
-            <Linker url={url} multiGoods={false} onChange={this.onLinkerChange} />
+            <Button
+              onClick={this.openThermalPicker}
+              disabled={height === 0}
+              size="large"
+            >
+              {coordinates.length > 0 ? `您共添加了${coordinates.length}处热区`: '编辑热区'}
+            </Button>
           </div>
         </div>
         <ImagePicker visible={showImgPicker} onChange={this.onImageChange} />
+        <ThermalZonelPicker
+          src={src}
+          height={height}
+          visible={showThermalPicker}
+          coordinates={coordinates}
+          onChange={this.editThermalZone}
+        />
       </Fragment>
     );
   }

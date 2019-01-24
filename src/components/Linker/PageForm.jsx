@@ -62,7 +62,7 @@ class PageForm extends PureComponent {
             initialValue: data.query,
             rules: [
               {
-                required: getFieldValue('page') === 'activity',
+                required: getFieldValue('page') === '/pages/activity',
                 message: '请输入活动 id'
               }
             ]
