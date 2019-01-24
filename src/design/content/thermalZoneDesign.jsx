@@ -49,11 +49,15 @@ class ThermalZoneDesign extends PureComponent {
   }
 
   onImageChange = (images) => {
-    const { onChange, config: { id } } = this.props
-    const imgItem = last(images)
-    this.setState({ src: imgItem.url, showImgPicker: false }, () => {
-      onChange({ id, key: 'src', value: imgItem.url })
-    })
+    if (images && images.length) {
+      const { onChange, config: { id } } = this.props
+      const imgItem = last(images)
+      this.setState({ src: imgItem.url, showImgPicker: false }, () => {
+        onChange({ id, key: 'src', value: imgItem.url })
+      })
+    } else {
+      this.setState({ showImgPicker: false })
+    }
   }
 
   // 编辑热区

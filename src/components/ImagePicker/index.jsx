@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva'
 import classnames from 'classnames'
-import { Modal, Menu, Button, Upload, Icon, Spin, Card, Pagination, message } from 'antd'
+import { Modal, Menu, Button, Upload, Icon, Spin, Card, Pagination, message, Empty } from 'antd'
 import { find, filter, map, includes, parseInt } from 'lodash'
 
 import './index.less'
@@ -13,6 +13,8 @@ const uploadProps = {
   className: 'upload-list-inline'
 }
 
+const imgFormat = '?x-oss-process=image/resize,m_mfit,h_260,w_260/sharpen,100'
+
 @connect(({ component, loading }) => ({
   categories: component.imageCategories,
   loading
@@ -23,13 +25,25 @@ class ImageDesign extends PureComponent {
     visible: false
   }
 
-  state = {
-    categoryId: '1',
-    itemIds: [],
-    items: [],
-    list: [],
-    total: 0,
-    page: 1
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { visible } = prevState
+    if (nextProps.visible !== visible) {
+      return { visible: nextProps.visible }
+    }
+    return null
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      visible: false,
+      categoryId: '1',
+      itemIds: [],
+      items: [],
+      list: [],
+      total: 0,
+      page: 1
+    }
   }
 
   componentDidMount() {
@@ -81,10 +95,20 @@ class ImageDesign extends PureComponent {
     const { items } = this.state
     const { onChange } = this.props
     if (items.length) {
-      onChange(items)
+      // 清空选中的图片
+      this.setState({ items: [], itemIds: [] }, () => {
+        onChange(items)
+      })
     } else {
       message.info('请至少选择一张图片')
     }
+  }
+
+  onChanceChoose = () => {
+    const { onChange } = this.props
+    this.setState({ items: [], itemIds: [] }, () => {
+      onChange()
+    })
   }
 
   // 选择图片
@@ -104,14 +128,15 @@ class ImageDesign extends PureComponent {
   }
 
   render() {
-    const { visible, categories, loading } = this.props
-    const { categoryId, list, page, total, itemIds } = this.state
+    const { categories, loading } = this.props
+    const { visible, categoryId, list, page, total, itemIds } = this.state
     const spinLoading = loading.effects['component/getImageList']
     return (
       <Modal
         width="960px"
         title="选择图片"
         visible={visible}
+        onCancel={this.onChanceChoose}
         footer={null}
       >
         <div className="x-img-picker">
@@ -148,11 +173,11 @@ class ImageDesign extends PureComponent {
                 <Spin spinning={spinLoading}>
                   <div className="x-image-list-content">
                     {
-                      list.length && list.map(({ id, url, originName }) => (
+                      list.length > 0 ? list.map(({ id, url, originName }) => (
                         <div key={`x_image_${id}`} data-id={id} className="x-image-list-content-item" onClick={this.chooseItem}>
                           <Card style={{ width: 113 }}>
                             <div className={classnames("x-image-list-content-item-img", { checked: includes(itemIds, id) })}>
-                              <img src={url} alt={originName} />
+                              <img src={`${url}${imgFormat}`} alt={originName} />
                               <div className="choose-item"><Icon type="check" /></div>
                             </div>
                             <div className="x-image-list-content-item-footer">
@@ -160,7 +185,7 @@ class ImageDesign extends PureComponent {
                             </div>
                           </Card>
                         </div>
-                      ))
+                      )) : <Empty description="暂无图片" />
                     }
                   </div>
                 </Spin>

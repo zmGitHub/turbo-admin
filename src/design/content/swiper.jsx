@@ -59,14 +59,19 @@ class Swiper extends PureComponent {
 
   // 修改轮播图片
   onImageChange = (imgs) => {
-    const imgObj = last(imgs)
-    const { items, swiperIndex } = this.state
-    const swiperItem = items[swiperIndex]
-    swiperItem.src = imgObj.url
-    const newItems = update(swiperIndex, swiperItem, items)
-    this.setState({ imagePickerVisible: false, items: newItems }, () => {
-      this.onPropsChange(newItems)
-    })
+    if (imgs && imgs.length) {
+      const imgObj = last(imgs)
+      const { items, swiperIndex } = this.state
+      const swiperItem = items[swiperIndex]
+      swiperItem.src = imgObj.url
+      const newItems = update(swiperIndex, swiperItem, items)
+      this.setState({ imagePickerVisible: false, items: newItems }, () => {
+        this.onPropsChange(newItems)
+      })
+    } else {
+      this.setState({ imagePickerVisible: false})
+    }
+
   }
 
   // 修改轮播跳转

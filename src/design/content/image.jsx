@@ -13,10 +13,13 @@ const ImageDesign = ({ config, onChange }) => {
   const [ on, toggle ] = useToggle(false)
   const [ state, setState ] = useSetState({ src, url })
   const onImageChange = (images) => {
-    const imgItem = last(images)
     toggle(false)
-    setState({ src: imgItem.url })
-    onChange({ id, key: 'src', value: imgItem.url })
+    if(images && images.length) {
+      const imgItem = last(images)
+      setState({ src: imgItem.url })
+      onChange({ id, key: 'src', value: imgItem.url })
+    }
+
   }
   const onLinkerChange = (value) => {
     onChange({ id, key: 'url', value })
