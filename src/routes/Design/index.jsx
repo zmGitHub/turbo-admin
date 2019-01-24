@@ -30,7 +30,7 @@ class Design extends PureComponent {
   }
 
   getComponentSetting = (component) => {
-    this.setState({ component, settingCollapse: true })
+    this.setState({ component, settingCollapse: true, templateCollapse: false })
   }
 
   render() {

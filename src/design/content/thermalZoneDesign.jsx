@@ -23,12 +23,12 @@ class ThermalZoneDesign extends PureComponent {
   // 图片加载成功 获取图片的高度 允许加载热区组件
   onImageLoadSuccess = ({ currentTarget }) => {
     const { src, naturalHeight } = currentTarget
-    const { onChange, config: { id } } = this.props
+    const { onChange, config } = this.props
     // 判断加载的是不是本地图片 TODO: 临时方案
-    if (src.includes('.aliyuncs.com')) {
+    if (src.includes('.aliyuncs.com') && config.src !== src ) {
       const height = naturalHeight / 2
       this.setState({ height }, () => {
-        onChange({ id, key: 'height', value: height })
+        onChange({ id: config.id, key: 'height', value: height })
       })
     }
   }

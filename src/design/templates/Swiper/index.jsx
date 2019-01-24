@@ -1,0 +1,27 @@
+import React from 'react'
+import { Carousel } from 'antd'
+import { getStyles } from '@/utils'
+import defaultImg from '@/static/images/x.png'
+
+import './index.less'
+
+const defaultItems = [
+  { key: 'swiper_1', src: defaultImg }
+]
+
+const Swiper = ({ style, data }) => {
+  const items = data.items.length > 0 ? data.items : defaultItems
+  return (
+    <Carousel className="x-template-swiper">
+      {
+        items.map((item) => (
+          <div key={item.key} className="x-template-swiper-item">
+            <img style={getStyles(style, ['img'])} src={item.src || defaultImg} alt="轮播图" draggable={false} />
+          </div>
+        ))
+      }
+    </Carousel>
+  )
+}
+
+export default Swiper
