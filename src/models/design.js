@@ -1,10 +1,41 @@
-import { concat } from 'lodash'
+import { includes, concat } from 'ramda'
+
 import _find from 'lodash/find'
 
 export default {
   namespace: 'design',
   state: {
+    designing: false,
     list: [],
+  },
+  effects: {
+    // 监听页面是否处于编辑状态
+    *updateStatus({ payload }, { put }) {
+      yield put({ type: 'updatePageStatus', payload })
+    },
+    // 添加新组件
+    *add(action, { put }) {
+      const { payload } = action
+      yield put({ type: 'addComponent', payload })
+    },
+    // 更新组件样式
+    *updateStyle(action, { put }) {
+      const { payload } = action
+      yield put({ type: 'updateComponentStyle', payload })
+    },
+    // 更新组件样式
+    *updateContent(action, { put }) {
+      const { payload } = action
+      yield put({ type: 'updateComponentContent', payload })
+    },
+    // 组件排序
+    *sort(action, { put }) {
+      const { payload } = action
+      yield put({ type: 'sortComponent', payload })
+    },
+    *getList(action, { put }) {
+      yield put({ type: 'initial' })
+    }
   },
   reducers: {
     initial(state) {
@@ -61,31 +92,19 @@ export default {
         ...state,
         list: payload
       }
+    },
+    updatePageStatus(state, { payload: { designing } }) {
+      return {
+        ...state,
+        designing
+      }
     }
   },
-  effects: {
-    // 添加新组件
-    *add(action, { put }) {
-      const { payload } = action
-      yield put({ type: 'addComponent', payload })
+  subscriptions: {
+    setup({ history, dispatch }) {
+      return history.listen(({ pathname }) => {
+        dispatch({ type: 'updateStatus', payload: { designing: includes('/design', pathname) } })
+      });
     },
-    // 更新组件样式
-    *updateStyle(action, { put }) {
-      const { payload } = action
-      yield put({ type: 'updateComponentStyle', payload })
-    },
-    // 更新组件样式
-    *updateContent(action, { put }) {
-      const { payload } = action
-      yield put({ type: 'updateComponentContent', payload })
-    },
-    // 组件排序
-    *sort(action, { put }) {
-      const { payload } = action
-      yield put({ type: 'sortComponent', payload })
-    },
-    *getList(action, { put }) {
-      yield put({ type: 'initial' })
-    }
-  }
+  },
 }

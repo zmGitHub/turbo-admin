@@ -1,6 +1,6 @@
 import React from 'react'
 import { Layout } from 'antd'
-import Header from '@/components/Header'
+import Header from '@/components/Headers'
 import './index.less'
 
 const { Content } = Layout
