@@ -8,3 +8,8 @@ export async function queryImageCategory() {
 export async function queryImageList(params) {
   return request.get('/api/design/image/list', { params })
 }
+
+// 获取消息列表
+export async function queryNoticeList(params) {
+  return request.post(`/design/component/service-data?path=${params.path}`, params)
+}

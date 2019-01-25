@@ -2,6 +2,7 @@ import { message } from 'antd'
 import axios from 'axios'
 
 const instance = axios.create({
+  xsrfHeaderName: 'x-csrf-token',
   timeout: 8000
 })
 

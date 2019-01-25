@@ -18,13 +18,19 @@ const compiler = webpack(devConfig)
 
 const app = new Koa()
 
+const proxyTarget = 'http://m.hisense.com'
+
 const options = {
   targets: {
     // (.*) 任何类型
     '/api/(.*)': {
-      target: 'http://m.hisense.com',
+      target: proxyTarget,
       changeOrigin: true
-    }
+    },
+    '/design/(.*)': {
+      target: proxyTarget,
+      changeOrigin: true
+    },
   }
 }
 

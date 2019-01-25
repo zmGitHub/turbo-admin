@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import { queryImageCategory, queryImageList } from '@/services/component'
+import { queryImageCategory, queryImageList, queryNoticeList } from '@/services/component'
 
 export default {
   namespace: 'component',
@@ -21,6 +21,13 @@ export default {
     // 获取图片列表
     *getImageList({ payload ,callback }, { call }) {
       const res = yield call(queryImageList, payload)
+      if (callback) {
+        callback(res)
+      }
+    },
+    // 获取消息列表
+    *getNoticeList({ payload ,callback }, { call }) {
+      const res = yield call(queryNoticeList, payload)
       if (callback) {
         callback(res)
       }
