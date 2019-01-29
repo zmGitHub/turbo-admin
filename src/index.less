@@ -133,6 +133,29 @@ body {
     &-footer {
       border-top: 1px solid #333333;
     }
+    &-confirm-btns {
+      .ant-btn {
+        &:first-child {
+          border-color: #414141;
+          background-color: transparent;
+          color: #DDDDDD;
+          &:hover {
+            background-color: #ffffff;
+            border-color: #414141;
+            color: #414141;
+          }
+        }
+        &:last-child {
+          background-color: #414141;
+          color: #DDDDDD;
+          border-color: transparent;
+          &:hover {
+            background-color: #6e6e6e;
+            border-color: #6e6e6e;
+          }
+        }
+      }
+    }
   }
 
   // pagination
@@ -246,6 +269,18 @@ body {
     background-color: #ddd;
   }
 
+  .x-date-modal {
+    .ant-modal-body {
+      position: relative;
+      min-height: 340px;
+      padding: 0;
+      .ant-calendar-picker-container {
+        left: 0 !important;
+        top: 0 !important;
+      }
+    }
+  }
+
   .x-customer-modal {
     .ant-modal-footer {
       .ant-btn {
@@ -262,4 +297,26 @@ body {
 
   }
 
+  // 日期组件
+  .ant-calendar {
+    border-color: #414141;
+    .ant-calendar-input {
+      background-color: #282828;
+    }
+  }
+  .ant-calendar-time-picker-select {
+    &:hover {
+      &::-webkit-scrollbar-track {
+        border: 0 solid black;
+        background-color: #282828;
+      }
+      &::-webkit-scrollbar {
+        width: 4px;
+        background-color: #282828;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #3b3e40;
+      }
+    }
+  }
 }

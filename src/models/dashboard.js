@@ -1,6 +1,6 @@
 import { map } from 'ramda'
 import moment from 'moment'
-import { queryDesignData } from '@/services/design'
+import { queryDesignData, publishDesignData, deleteDesignData } from '@/services/design'
 
 export default {
   namespace: 'dashboard',
@@ -9,18 +9,33 @@ export default {
     total: 0
   },
   effects: {
-    // 获取图片分类
+    *removeTemplate({ payload ,callback }, { call }) {
+      const res = yield call(deleteDesignData, payload)
+      if (callback) {
+        callback(res)
+      }
+    },
+    // 发布(立即/定时)
+    *publishTemplate({ payload ,callback }, { call }) {
+      const res = yield call(publishDesignData, payload)
+      if (callback) {
+        callback(res)
+      }
+    },
+    // 获取模板
     *getTemplates({ payload }, { call, put }) {
       const res = yield call(queryDesignData, payload)
       if (res && res.total) {
         const { total, data } = res
-        const items = map(({ id, isPublish, isTiming, timingTime, type, updatedAt }) => ({
+        const items = map(({ id, name, isPublish, isTiming, timingTime, type, updatedAt, url }) => ({
           id,
+          name,
           isPublish,
           isTiming,
-          timingTime,
+          timingTime: timingTime ? moment(timingTime).valueOf() : false,
           updatedAt: moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
-          type
+          type,
+          url
         }), data)
         yield put({ type: 'initTemplates', payload: { total, data: items  }})
       }
