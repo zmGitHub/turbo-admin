@@ -1,17 +1,28 @@
 import { includes, concat } from 'ramda'
-
 import _find from 'lodash/find'
+import { createDesignData } from '@/services/design'
+import { getPageQuery } from '@/utils'
 
 export default {
   namespace: 'design',
   state: {
-    designing: false,
+    status: {
+      design: false,
+      params: {}
+    },
     list: [],
   },
   effects: {
+    // 保存页面数据
+    *create({ payload, callback }, { call }) {
+      const res = yield call(createDesignData, payload)
+      if(callback) {
+        callback(res)
+      }
+    },
     // 监听页面是否处于编辑状态
     *updateStatus({ payload }, { put }) {
-      yield put({ type: 'updatePageStatus', payload })
+      yield put({ type: 'updatePageStatus', payload})
     },
     // 添加新组件
     *add(action, { put }) {
@@ -46,7 +57,7 @@ export default {
       const { list } = state
       return {
         ...state,
-        list: concat(list, payload)
+        list: concat(list, [payload])
       }
     },
     updateComponentStyle(state, action) {
@@ -93,17 +104,18 @@ export default {
         list: payload
       }
     },
-    updatePageStatus(state, { payload: { designing } }) {
+    updatePageStatus(state, { payload }) {
       return {
         ...state,
-        designing
+        status: payload
       }
     }
   },
   subscriptions: {
     setup({ history, dispatch }) {
       return history.listen(({ pathname }) => {
-        dispatch({ type: 'updateStatus', payload: { designing: includes('/design', pathname) } })
+        const params = getPageQuery(pathname)
+        dispatch({ type: 'updateStatus', payload: { design: includes('/design', pathname), params } })
       });
     },
   },

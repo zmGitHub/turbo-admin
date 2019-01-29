@@ -1,3 +1,5 @@
+import { parse } from 'qs'
+
 /**
  *
  * @param {array} styles
@@ -52,3 +54,7 @@ export const getStyles = (styles = [], types = []) => {
 //   });
 //   return uuid;
 // }
+
+export function getPageQuery() {
+  return parse(window.location.href.split('?')[1]);
+}

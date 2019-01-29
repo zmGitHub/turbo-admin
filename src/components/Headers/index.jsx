@@ -8,13 +8,47 @@ import './index.less'
 const prefixCls = 'x-header'
 
 @connect(({ design, loading }) => ({
-  designing: design.designing,
-  submitting: loading.effects['design/save']
+  list: design.list,
+  status: design.status,
+  submitting: loading.effects['design/create']
 }))
 class Header extends PureComponent {
+
+  save = () => {
+    const { dispatch, status: { params }, list } = this.props
+    const data = JSON.stringify(list)
+    if (!params.id) {
+      const payload = {
+        type: 1,
+        data
+      }
+      dispatch({
+        type: 'design/create',
+        payload,
+        callback: (res) => {
+          console.log(res)
+        }
+      })
+    } else {
+      const payload = {
+        id: params.id,
+        type: params.type,
+        data
+      }
+      dispatch({
+        type: 'design/update',
+        payload,
+        callback: (res) => {
+          console.log(res)
+        }
+      })
+    }
+  }
+
   render() {
-    const { designing } = this.props
-    console.log('header render...', designing)
+    const { status, submitting } = this.props
+    console.log('header render...', status)
+    console.log('提交: ', submitting)
     return (
       <div className={prefixCls}>
         <div className={`${prefixCls}-left`}>
@@ -28,7 +62,7 @@ class Header extends PureComponent {
           </div>
         </div>
         <div className={`${prefixCls}-right`}>
-          { designing ? <Button type="primary">保存</Button> : null }
+          { status.design ? <Button loading={submitting} onClick={this.save} type="primary">保存</Button> : null }
         </div>
       </div>
     )
