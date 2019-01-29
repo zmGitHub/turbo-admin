@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { routerRedux, Link } from 'dva/router'
+import { Link } from 'dva/router'
 import { connect } from 'dva'
 import { Pagination, Empty, Card, Icon, Spin, Button, Modal, DatePicker, message } from 'antd'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
@@ -76,19 +76,6 @@ class Dashboard extends PureComponent {
     })
   }
 
-  // 编辑模板
-  editTemplate = (id) => {
-    const { type } = this.state
-    console.log(type)
-    routerRedux.push({
-      pathname: '/design',
-      query: {
-        id,
-        type: typeMaps[type]
-      },
-    });
-  }
-
   addTemplates = (event) => {
     event.preventDefault()
     this.setState({ visible: true })
@@ -114,7 +101,9 @@ class Dashboard extends PureComponent {
   }
 
   onTabChange = (type) => {
-    this.setState({ type })
+    this.setState({ type }, () => {
+      this.queryTemplate()
+    })
   }
 
   // 切换分页
@@ -211,7 +200,7 @@ class Dashboard extends PureComponent {
       <Empty
         description={<span>当前分类下还没有模板</span>}
       >
-        <Button>立即创建</Button>
+        <Button onClick={this.addTemplates} type="primary">立即创建</Button>
       </Empty>
     </div>
   )

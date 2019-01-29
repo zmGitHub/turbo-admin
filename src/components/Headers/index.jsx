@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Button } from 'antd'
+import { Button, message } from 'antd'
 import { connect } from 'dva';
 
 import './index.less'
@@ -17,6 +17,7 @@ class Header extends PureComponent {
   save = () => {
     const { dispatch, status: { params }, list } = this.props
     const data = JSON.stringify(list)
+    console.log(params)
     if (!params.id) {
       const payload = {
         type: 1,
@@ -27,19 +28,28 @@ class Header extends PureComponent {
         payload,
         callback: (res) => {
           console.log(res)
+          if (res) {
+            message.success('保存成功')
+          } else {
+            message.error('保存失败')
+          }
         }
       })
     } else {
       const payload = {
         id: params.id,
-        type: params.type,
+        name: '更新模板名称',
         data
       }
       dispatch({
         type: 'design/update',
         payload,
         callback: (res) => {
-          console.log(res)
+          if (res) {
+            message.success('更新成功')
+          } else {
+            message.error('更新失败')
+          }
         }
       })
     }

@@ -1,6 +1,6 @@
-import { includes, concat } from 'ramda'
+import { includes, concat, is } from 'ramda'
 import _find from 'lodash/find'
-import { createDesignData } from '@/services/design'
+import { createDesignData, updateDesginData, getDesignDataById } from '@/services/design'
 import { getPageQuery } from '@/utils'
 
 export default {
@@ -13,9 +13,25 @@ export default {
     list: [],
   },
   effects: {
+    // 通过 id 获取数据
+    *getDataById({ payload }, { call, put }) {
+      const res = yield call(getDesignDataById, payload)
+      const list = JSON.parse(res.data)
+      console.log(list);
+      if (is(Array, list) && list.length > 0) {
+        yield put({ type: 'initial', payload: list })
+      }
+    },
     // 保存页面数据
     *create({ payload, callback }, { call }) {
       const res = yield call(createDesignData, payload)
+      if(callback) {
+        callback(res)
+      }
+    },
+    // 更新页面数据
+    *update({ payload, callback }, { call }) {
+      const res = yield call(updateDesginData, payload)
       if(callback) {
         callback(res)
       }
@@ -44,13 +60,14 @@ export default {
       const { payload } = action
       yield put({ type: 'sortComponent', payload })
     },
-    *getList(action, { put }) {
-      yield put({ type: 'initial' })
-    }
   },
   reducers: {
-    initial(state) {
-      return Object.assign(state, { fetch: false })
+    initial(state, action) {
+      const { payload } = action
+      return {
+        ...state,
+        list: payload
+      }
     },
     addComponent(state, action) {
       const { payload } = action
@@ -114,8 +131,12 @@ export default {
   subscriptions: {
     setup({ history, dispatch }) {
       return history.listen(({ pathname }) => {
-        const params = getPageQuery(pathname)
-        dispatch({ type: 'updateStatus', payload: { design: includes('/design', pathname), params } })
+        const isDesignPage = includes('/design', pathname)
+        if (isDesignPage) {
+          const params = getPageQuery(pathname)
+          dispatch({ type: 'updateStatus', payload: { design: isDesignPage, params } })
+          dispatch({ type: 'getDataById', payload: { id: params.id } })
+        }
       });
     },
   },

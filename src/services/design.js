@@ -4,6 +4,12 @@ import request from '@/utils/request'
 export async function createDesignData(params) {
   return request.post('/api/hisense/applet/design/create', params)
 }
+
+// 更新装修数据
+export async function updateDesginData(params) {
+  return request.post('/api/hisense/applet/design/update', params)
+}
+
 // 查询装修数据
 export async function queryDesignData(params) {
   return request.get('/api/hisense/applet/design/paging', { params })
@@ -17,4 +23,9 @@ export async function publishDesignData(params) {
 // 删除模板
 export async function deleteDesignData(id) {
   return request.delete(`/api/hisense/applet/design/delete/${id}`)
+}
+
+// 根据 id 获取装修数据
+export async function getDesignDataById(params) {
+  return request.get(`/api/hisense/applet/design/find/${params.id}`)
 }

@@ -25,20 +25,18 @@ export default {
     // 获取模板
     *getTemplates({ payload }, { call, put }) {
       const res = yield call(queryDesignData, payload)
-      if (res && res.total) {
-        const { total, data } = res
-        const items = map(({ id, name, isPublish, isTiming, timingTime, type, updatedAt, url }) => ({
-          id,
-          name,
-          isPublish,
-          isTiming,
-          timingTime: timingTime ? moment(timingTime).valueOf() : false,
-          updatedAt: moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
-          type,
-          url
-        }), data)
-        yield put({ type: 'initTemplates', payload: { total, data: items  }})
-      }
+      const { total, data } = res
+      const items = map(({ id, name, isPublish, isTiming, timingTime, type, updatedAt, url }) => ({
+        id,
+        name,
+        isPublish,
+        isTiming,
+        timingTime: timingTime ? moment(timingTime).valueOf() : false,
+        updatedAt: moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
+        type,
+        url
+      }), data)
+      yield put({ type: 'initTemplates', payload: { total, data: items  }})
     },
   },
   reducers: {
