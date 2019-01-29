@@ -163,14 +163,14 @@ class Dashboard extends PureComponent {
     return (
       <div className="x-dashboard-content-body-list">
         {
-          data.map(({ id, name, isPublish, url, timingTime }) => (
+          data.map(({ id, name, isPublish, url, timingTime, updatedAt }) => (
             <div key={id} className={classnames('x-dashboard-content-body-list-item', { active: isPublish === 1 })}>
               <img src={url || templateImg} alt="官方模板" />
               <div className="template-modal">
                 <Link
                   to={{
                     pathname: '/design',
-                    search: `?id=${id}`,
+                    search: `?id=${id}&name=${name}`,
                   }}
                 >
                   <Button>编辑模板</Button>
@@ -179,7 +179,7 @@ class Dashboard extends PureComponent {
                 <Button disabled={isPublish === 1} onClick={() => { this.setDefaultTemplate(id) }}>设为默认</Button>
                 <Button onClick={() => { this.deleteTemlate(id) }}>删除模板</Button>
               </div>
-              <div className="template-footer">{name}--{id}</div>
+              <div className="template-footer">{name || updatedAt }</div>
               {
                 timingTime && (
                   <div className="template-timer">

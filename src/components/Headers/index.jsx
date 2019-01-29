@@ -38,7 +38,7 @@ class Header extends PureComponent {
     } else {
       const payload = {
         id: params.id,
-        name: '更新模板名称',
+        name: params.name || '更新模板名称',
         data
       }
       dispatch({

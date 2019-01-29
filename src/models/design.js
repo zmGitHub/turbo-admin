@@ -132,11 +132,11 @@ export default {
     setup({ history, dispatch }) {
       return history.listen(({ pathname }) => {
         const isDesignPage = includes('/design', pathname)
+        const params = getPageQuery(pathname)
         if (isDesignPage) {
-          const params = getPageQuery(pathname)
-          dispatch({ type: 'updateStatus', payload: { design: isDesignPage, params } })
           dispatch({ type: 'getDataById', payload: { id: params.id } })
         }
+        dispatch({ type: 'updateStatus', payload: { design: isDesignPage, params } })
       });
     },
   },
