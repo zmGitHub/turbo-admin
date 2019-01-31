@@ -9,7 +9,7 @@ export default {
       component: 'imageDesign',
       data: {
         url: {
-          type: 'navigate',
+          type: '',
           page: '',
           query: ''
         },
