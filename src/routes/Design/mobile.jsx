@@ -37,8 +37,7 @@ class Mobile extends PureComponent {
     const component = _find(design.list, (item) => item.key === id)
     if (component && component.key) {
       this.component = component
-      onChange(component)
-      requestAnimationFrame(() => {
+      onChange(component, ()=> {
         scrollIntoView(currentTarget, {
           behavior: 'smooth',
           scrollMode: 'if-needed',
@@ -82,7 +81,7 @@ class Mobile extends PureComponent {
     });
 
     const SortableList = SortableContainer(({ items }) => (
-      <div className="container">
+      <div className="scroll">
         <Suspense fallback={<div>Loading...</div>}>
           {items.map((item, index) => (
             <SortableItem key={`template_${item.key}`} index={index} item={item} />
@@ -98,7 +97,7 @@ class Mobile extends PureComponent {
         items={design.list}
         onSortOver={this.onSortOver}
         onSortEnd={this.onSortEnd}
-        helperContainer={() => document.getElementById('drag-content')}
+        getContainer={() => document.getElementById('js-scroll-content')}
       />
     )
   }

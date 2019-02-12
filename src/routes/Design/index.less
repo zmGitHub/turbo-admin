@@ -122,17 +122,23 @@
       position: absolute;
       width: 375px;
       height: 90%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      .scroll-bar();
       background-color: @x-sub-primary-color;
       box-shadow: 0 0 15px rgba(0,0,0,0.07);
       transform: translateX(0) translateZ(0);
       transition: transform 0.2s ease;
       z-index: 6;
       .container {
-        height: 100%;
-        overflow: auto;
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-        .scroll-bar();
+        position: relative;
+        width: 100%;
+        min-height: 667px;
+        .scroll {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+        }
         &.active {
           .drag-component {
             opacity: 0.5;

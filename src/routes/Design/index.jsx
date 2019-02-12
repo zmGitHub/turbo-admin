@@ -29,8 +29,12 @@ class Design extends PureComponent {
     this.setState({ templateCollapse: true })
   }
 
-  getComponentSetting = (component) => {
-    this.setState({ component, settingCollapse: true, templateCollapse: false })
+  getComponentSetting = (component, callback) => {
+    this.setState({ component, settingCollapse: true, templateCollapse: false }, () => {
+      requestAnimationFrame(() => {
+        callback()
+      })
+    })
   }
 
   render() {
@@ -47,10 +51,12 @@ class Design extends PureComponent {
         <SiderPanel onChange={this.openTemplate} active={templateCollapse} />
         <div onClick={this.reset} className="x-design-content">
           <div id="js-scroll-content" className={contentStyle}>
-            <MobilePabel
-              active={settingCollapse}
-              onChange={this.getComponentSetting}
-            />
+            <div className="container">
+              <MobilePabel
+                active={settingCollapse}
+                onChange={this.getComponentSetting}
+              />
+            </div>
           </div>
         </div>
         <Sider width="300" className={settingStyle}>
