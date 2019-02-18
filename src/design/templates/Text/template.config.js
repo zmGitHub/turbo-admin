@@ -1,5 +1,7 @@
+import component from './index';
+
 export default {
-  component: () => import('./index'),
+  component,
   config: () => ({
     name: '标题文字',
     desc: '标题文字',

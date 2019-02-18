@@ -9,12 +9,11 @@ import { useState } from 'react'
 
 const useSetState = (initial) => {
   const [ state, set ] = useState(initial)
-  const setState = (patch) => {
+  const setState = patch => {
     if (patch instanceof Function) {
-      set(preveState => Object.assign(state, patch(preveState)))
+      set(prevState => Object.assign({}, prevState, patch(prevState)))
     } else {
-      Object.assign(state, patch)
-      set(state)
+      set(Object.assign({}, state, patch))
     }
   }
   return [ state, setState ]

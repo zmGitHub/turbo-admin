@@ -37,10 +37,12 @@ class Setting extends PureComponent {
   // 更新组件样式
   updateComponentStyle = (payload) => {
     const { dispatch } = this.props
-    dispatch({
-      type: 'design/updateStyle',
-      payload
-    })
+    console.log(payload)
+    window.ee.emit('COMPONENT_CONFIG_UPDATE', payload)
+    // dispatch({
+    //   type: 'design/updateStyle',
+    //   payload
+    // })
   }
 
   render() {

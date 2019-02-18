@@ -1,5 +1,7 @@
+import component from './index';
+
 export default {
-  component: () => import('./index'),
+  component,
   config: () => ({
     name: '轮播图',
     desc: '滑块视图容器',

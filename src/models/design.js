@@ -14,12 +14,11 @@ export default {
   },
   effects: {
     // 通过 id 获取数据
-    *getDataById({ payload }, { call, put }) {
+    *getDataById({ payload, callback }, { call }) {
       const res = yield call(getDesignDataById, payload)
       const list = JSON.parse(res.data)
-      console.log(list);
       if (is(Array, list) && list.length > 0) {
-        yield put({ type: 'initial', payload: list })
+        callback(list)
       }
     },
     // 保存页面数据
@@ -133,9 +132,9 @@ export default {
       return history.listen(({ pathname }) => {
         const isDesignPage = includes('/design', pathname)
         const params = getPageQuery(pathname)
-        if (isDesignPage) {
-          dispatch({ type: 'getDataById', payload: { id: params.id } })
-        }
+        // if (isDesignPage) {
+        //   dispatch({ type: 'getDataById', payload: { id: params.id } })
+        // }
         dispatch({ type: 'updateStatus', payload: { design: isDesignPage, params } })
       });
     },

@@ -1,6 +1,8 @@
 
+import component from './index';
+
 export default {
-  component: () => import('./index'),
+  component,
   config: () => ({
     name: '图片热区',
     desc: '在图片上添加热区',

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 
 /**
  *
@@ -9,13 +9,13 @@ import { useState } from 'react'
 
 const useToggle = (initial) => {
   const [ value, setValue ] = useState(initial)
-  const toggle = (nextValue) => {
+  const toggle = useCallback((nextValue) => {
     if (typeof nextValue !== 'undefined') {
       setValue(!!nextValue)
       return
     }
     setValue(!value)
-  }
+  }, [setValue])
   return [ value, toggle ]
 }
 

@@ -1,14 +1,14 @@
 // 模板组件注册
-const textConfig = require('./Text/template.config')
-const imgConfig = require('./Image/template.config')
-const thermalZoneConfig = require('./ThermalZone/template.config')
-const swiperConfig = require('./Swiper/template.config')
-const noticeCardConfig = require('./NoticeCard/template.config')
+import Text from './Text/template.config'
+import Image from './Image/template.config'
+import ThermalZone from './ThermalZone/template.config'
+import Swiper from './Swiper/template.config'
+
 
 export default {
-  text: textConfig.default,
-  image: imgConfig.default,
-  thermalZone: thermalZoneConfig.default,
-  swiper: swiperConfig.default,
-  noticeCard: noticeCardConfig.default
+  text: Text,
+  image: Image,
+  thermalZone: ThermalZone,
+  swiper: Swiper,
+  noticeCard: Text
 }

@@ -39,6 +39,8 @@ class Design extends PureComponent {
 
   render() {
     console.warn('父组件 render......')
+    console.log(this.props);
+    const { location } = this.props
     const { component, settingCollapse, templateCollapse } = this.state
     const settingStyle = classnames('x-design-setting', { active: settingCollapse })
     const contentStyle = classnames('x-design-content-mobile', {
@@ -51,12 +53,11 @@ class Design extends PureComponent {
         <SiderPanel onChange={this.openTemplate} active={templateCollapse} />
         <div onClick={this.reset} className="x-design-content">
           <div id="js-scroll-content" className={contentStyle}>
-            <div className="container">
-              <MobilePabel
-                active={settingCollapse}
-                onChange={this.getComponentSetting}
-              />
-            </div>
+            <MobilePabel
+              location={location}
+              active={settingCollapse}
+              onChange={this.getComponentSetting}
+            />
           </div>
         </div>
         <Sider width="300" className={settingStyle}>

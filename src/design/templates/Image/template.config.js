@@ -1,6 +1,7 @@
+import component from './index';
 
 export default {
-  component: () => import('./index'),
+  component,
   config: () => ({
     name: '单张图片',
     desc: '默认样式',

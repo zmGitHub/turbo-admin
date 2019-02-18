@@ -2,6 +2,7 @@
 import dva from 'dva'
 import createLoading from 'dva-loading'
 import createHistory from 'history/createHashHistory'
+import EventEmitter from 'eventemitter3'
 import router from './routes'
 import './index.less'
 
@@ -20,6 +21,9 @@ const app = dva({
 app.model(require('./models/dashboard').default)
 app.model(require('./models/component').default)
 app.model(require('./models/design').default)
+
+// 定义好 EventEmitter
+window.ee = new EventEmitter()
 
 // 插件 loading
 app.use(createLoading())
