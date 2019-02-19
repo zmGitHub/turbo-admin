@@ -149,6 +149,17 @@
       // 如果只打开设置页面
       &.active-setting {
         transform: translateX(-150px) translateZ(0);
+        .drag {
+          background-color: #000000;
+          &-component {
+            opacity: 0.5;
+          }
+          &.active {
+            .drag-component {
+              opacity: 1;
+            }
+          }
+        }
       }
     }
   }

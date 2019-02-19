@@ -51,9 +51,7 @@ class Container extends PureComponent {
         }
       } else {
         // 改变内容
-        const updateData = {}
-        updateData[key] = value
-        this.setState({ data: { ...data, ...updateData } })
+        this.setState({ data: { ...data, [key]: value } })
       }
 
     }

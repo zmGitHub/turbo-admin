@@ -207,12 +207,15 @@ body {
   }
   .drag {
     position: relative;
-    border-top: 1px dashed #cccccc;
     padding-bottom: 1px;
+    margin-top: -1px;
     background-color: #ffffff;
-    cursor: default;
+    cursor: pointer;
     &-component {
       position: relative;
+      border-top: 1px dashed #cccccc;
+      background-color: #ffffff;
+      transition: opacity 0.2s ease;
     }
     &-btn {
       position: absolute;
@@ -320,3 +323,5 @@ body {
     }
   }
 }
+
+

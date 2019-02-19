@@ -23,6 +23,7 @@ class Mobile extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      componentId: '',
       components: [],
       settingCollapse: false,
       siderCollapse: false,
@@ -52,8 +53,9 @@ class Mobile extends PureComponent {
   getElSetting = (event, data) => {
     event.stopPropagation()
     const { currentTarget } = event
+    const { id } = data
     window.ee.emit('GET_COMPONENT_DATA', data)
-    this.setState({ settingCollapse: true }, () => {
+    this.setState({ componentId: id, settingCollapse: true }, () => {
       scrollIntoView(currentTarget, {
         behavior: 'smooth',
         scrollMode: 'if-needed',
@@ -85,8 +87,7 @@ class Mobile extends PureComponent {
   }
 
   render() {
-    console.warn('警告: mobile render....')
-    const { components, siderCollapse, settingCollapse } = this.state
+    const { componentId, components, siderCollapse, settingCollapse } = this.state
     const contentStyle = classnames('x-design-content-mobile', {
       'active-template': siderCollapse && !settingCollapse,
       'active-all': siderCollapse && settingCollapse,
@@ -101,7 +102,7 @@ class Mobile extends PureComponent {
             onSortEnd={this.onSortEnd}
           >
             {components.map((item, index) => (
-              <SortableItem key={`template_${item.key}`} index={index} item={item} onClick={this.getElSetting} />
+              <SortableItem active={componentId === item.key} key={`template_${item.key}`} index={index} item={item} onClick={this.getElSetting} />
             ))}
           </SortableList>
         </div>
