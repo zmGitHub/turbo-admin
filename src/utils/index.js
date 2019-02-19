@@ -8,7 +8,7 @@ import { parse } from 'qs'
  */
 export const getStyles = (styles = [], types = []) => {
   const inlineStyles = {}
-  if (Array.isArray(types)) {
+  if (Array.isArray(types) && Array.isArray(styles)) {
     types.forEach(style => {
       const styleMap = styles.find(item => item.key === style)
       if (styleMap && Array.isArray(styleMap.items)) {

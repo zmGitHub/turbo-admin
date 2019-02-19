@@ -12,14 +12,14 @@ const format = '?x-oss-process=image/resize,m_mfit,w_375/sharpen,100'
 
 class Swiper extends PureComponent {
   render() {
-    const { style, data } = this.props
+    const { componentStyle, data } = this.props
     const items = data.items.length > 0 ? data.items : defaultItems
     return (
       <Carousel autoplay className="x-template-swiper">
         {
           items.map((item) => (
             <div key={item.key} className="x-template-swiper-item">
-              <img style={getStyles(style, ['img'])} src={item.src ? `${item.src}${format}` : defaultImg} alt="轮播图" draggable={false} />
+              <img style={getStyles(componentStyle, ['img'])} src={item.src ? `${item.src}${format}` : defaultImg} alt="轮播图" draggable={false} />
             </div>
           ))
         }

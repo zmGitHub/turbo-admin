@@ -4,7 +4,6 @@ import { connect } from 'dva';
 
 import './index.less'
 
-
 const prefixCls = 'x-header'
 
 @connect(({ design, loading }) => ({
@@ -17,7 +16,6 @@ class Header extends PureComponent {
   save = () => {
     const { dispatch, status: { params }, list } = this.props
     const data = JSON.stringify(list)
-    console.log(params)
     if (!params.id) {
       const payload = {
         type: 1,
@@ -27,7 +25,6 @@ class Header extends PureComponent {
         type: 'design/create',
         payload,
         callback: (res) => {
-          console.log(res)
           if (res) {
             message.success('保存成功')
           } else {

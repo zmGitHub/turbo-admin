@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment, Suspense, lazy } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Layout, Collapse, Tooltip } from 'antd'
 import { connect } from 'dva'
 import classnames from 'classnames'
@@ -136,24 +136,38 @@ class SiderLeft extends PureComponent {
     active: false
   }
 
-  state = {
-    components: [],
-    current: ''
+  constructor(props) {
+    super(props)
+    this.state = {
+      components: [],
+      current: ''
+    }
+  }
+
+  componentDidMount() {
+    window.ee.on('GET_COMPONENT_DATA', this.resetSiderStatus)
+    window.ee.on('RESET_LAYOUT_STATUS', this.resetSiderStatus)
+  }
+
+  componentWillUnmount() {
+    window.ee.off('GET_COMPONENT_DATA')
+    window.ee.off('RESET_LAYOUT_STATUS')
   }
 
   // 添加组件到主控制区域
-  addComponent = (config) => {
+  addComponent = (data) => {
     const key = uniqueId(8,8)
     // 添加组件到列表
     const { dispatch } = this.props
+    const component = { key, ...data }
+    window.ee.emit('ADD_COMPONENT_DATA', component)
     dispatch({
       type: 'design/add',
-      payload: { ...config, key }
+      payload: component
     })
   }
 
   toggleTemplate = (event) => {
-    const { onChange } = this.props
     const { currentTarget } = event
     const pid = currentTarget.getAttribute('data-pid')
     const id = currentTarget.getAttribute('data-id')
@@ -168,26 +182,31 @@ class SiderLeft extends PureComponent {
     } else {
       this.setState({ current: id })
     }
-    if (onChange) {
-      onChange()
-    }
+    window.ee.emit('OPEN_SIDER_PANEL')
+  }
+
+  resetSiderStatus = () => {
+    this.setState({ current: '' })
   }
 
   renderTemplateItem = (template) => {
     const { config, component } = TemplateMaps[template.name]
-    const Lazycomponent = lazy(component)
-    const { name, desc, content, style } = config()
+    const data = config()
+    const { name, desc, content, style } = data
     return (
-      <div key={template.id} className="item" onClick={() => { this.addComponent(config()) }}>
+      <div key={template.id} className="item" onClick={() => { this.addComponent(data) }}>
         <div className="item-header">
           <div className="item-header-title">{name}</div>
           <div className="item-header-desc">{desc}</div>
         </div>
         <Tooltip title="点击添加到页面">
           <div className="item-content">
-            <Suspense fallback={<div>Loading...</div>}>
-              <Lazycomponent style={style} data={content.data} />
-            </Suspense>
+            {
+              React.createElement(component, {
+                componentStyle: style,
+                data: content.data,
+              })
+            }
           </div>
         </Tooltip>
       </div>
@@ -196,9 +215,8 @@ class SiderLeft extends PureComponent {
 
   render() {
     console.log('sider-render')
-    const { active } = this.props
     const { current, components } = this.state
-    const designStyle = classnames('x-design-sider-templates', { active: !!current && active })
+    const designStyle = classnames('x-design-sider-templates', { active: !!current })
     return (
       <Fragment>
         <Sider className="x-design-sider">
@@ -215,7 +233,7 @@ class SiderLeft extends PureComponent {
                             data-pid={item.key}
                             data-id={key}
                             className={classnames('module-content-item', {
-                              active: current === key && active
+                              active: current === key
                             })}
                             onClick={this.toggleTemplate}
                           >

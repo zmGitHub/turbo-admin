@@ -5,10 +5,10 @@ import './index.less'
 
 class ThermalZone extends PureComponent {
   render() {
-    const { style, data } = this.props
+    const { componentStyle, data } = this.props
     return (
-      <div className="x-template-thermal" style={getStyles(style, ['padding'])}>
-        <img style={getStyles(style, ['img'])} src={data.src || defaultImg} alt="单张图片" draggable={false} />
+      <div className="x-template-thermal" style={getStyles(componentStyle, ['padding'])}>
+        <img style={getStyles(componentStyle, ['img'])} src={data.src || defaultImg} alt="单张图片" draggable={false} />
       </div>
     );
   }
