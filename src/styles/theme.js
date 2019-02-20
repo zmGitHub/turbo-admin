@@ -68,5 +68,7 @@ module.exports = {
   'pagination-item-size': '28px',
   // button
   'btn-height-base': '28px',
-  'btn-height-lg': '36px'
+  'btn-height-lg': '36px',
+  // checkbox
+  'checkbox-check-color': '#424242'
 }

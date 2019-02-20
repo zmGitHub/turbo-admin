@@ -9,7 +9,8 @@ import defaultImg from '@/static/images/x.png'
 class ThermalZoneDesign extends PureComponent {
   constructor(props) {
     super(props)
-    const { config: { src, height, coordinates } } = this.props
+    const { config: { data } } = this.props
+    const { src, height, coordinates } = data
     this.state = {
       src,
       height,

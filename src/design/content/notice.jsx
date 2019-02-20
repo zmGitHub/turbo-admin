@@ -9,7 +9,8 @@ import NoicerPicker from '@/components/NoticePicker'
 class NoticeCardDesign extends PureComponent {
   constructor(props) {
     super(props)
-    const { config: { items } } = this.props
+    const { config } = this.props
+    const { items } = config.data
     this.state = {
       noticeVisible: false,
       notices: items

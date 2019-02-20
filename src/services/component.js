@@ -13,3 +13,8 @@ export async function queryImageList(params) {
 export async function queryNoticeList(params) {
   return request.post(`/design/component/service-data?path=${params.path}`, params)
 }
+
+// 获取文章
+export async function getArticleById(id) {
+  return request.get(`/api/hisense/article/${id}`)
+}

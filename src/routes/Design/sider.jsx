@@ -99,7 +99,7 @@ const DATA = [
       {
         key: 'articleCard',
         name: '文章卡片',
-        components: [{ id: 'text_1', name: 'text' }],
+        components: [{ id: 'articleCard_1', name: 'articleCard' }],
         icon: 'articleCard'
       }
     ]

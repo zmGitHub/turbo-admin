@@ -9,7 +9,7 @@ import defaultImg from '@/static/images/x.png'
 import './index.less'
 
 const ImageDesign = ({ config, onChange }) => {
-  const { id, src, url } = config
+  const { id, data: { src, url } } = config
   const [ on, toggle ] = useToggle(false)
   const [ state, setState ] = useSetState({ src, url })
   const onImageChange = (images) => {

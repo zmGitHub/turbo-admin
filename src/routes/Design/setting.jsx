@@ -89,7 +89,7 @@ class Setting extends PureComponent {
                       onChange={this.updateComponentData}
                       config={{
                         id,
-                        ...data,
+                        data,
                         component: name
                       }}
                     />

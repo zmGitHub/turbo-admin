@@ -29,11 +29,11 @@ class Swiper extends PureComponent {
 
   constructor(props) {
     super(props)
-    const { config: { items } } = this.props
+    const { config: { data } } = this.props
     this.state = {
       swiperIndex: 0,
       imagePickerVisible: false,
-      items
+      items: data.items
     }
   }
 
