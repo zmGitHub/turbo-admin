@@ -9,10 +9,10 @@ export default {
     content: {
       component: 'articleCardDesign',
       data: {
-        id: '', // 文章 id,
         inlineStyle: false,
         display: ['type', 'name', 'desc', 'date', 'read'],
         content: {
+          id: '', // 文章 id,
           tag: '购物指南',
           mainImage: '',
           name: '产品参数查询',
@@ -45,7 +45,7 @@ export default {
       },
       {
         key: "titleFont", // 标志唯一
-        name: "分类文字", // 装修组件上的名称
+        name: "标题文字", // 装修组件上的名称
         items: [ // 可编辑的项
           {
             key: "color",
@@ -84,32 +84,32 @@ export default {
         ]
       },
       {
-        key: "padding", // 标志唯一
-        name: "内边距", // 装修组件上的名称
+        key: "margin", // 标志唯一
+        name: "外边距", // 装修组件上的名称
         items: [ // 可编辑的项
           {
-            key: "paddingTop",
-            title: '内边距(上)',
+            key: "marginTop",
+            title: '外边距(上)',
             component: "slider",
-            value: "0"
+            value: "10px"
           },
           {
-            key: "paddingBottom",
-            title: '内边距(下)',
+            key: "marginBottom",
+            title: '外边距(下)',
             component: "slider",
-            value: "0"
+            value: "10px"
           },
           {
-            key: "paddingLeft",
-            title: '内边距(左)',
+            key: "marginLeft",
+            title: '外边距(左)',
             component: "slider",
-            value: "0"
+            value: "10px"
           },
           {
-            key: "paddingRight",
-            title: '内边距(右)',
+            key: "marginRight",
+            title: '外边距(右)',
             component: "slider",
-            value: "0"
+            value: "10px"
           },
         ]
       },

@@ -13,14 +13,14 @@ const defaultConfig = {
 }
 
 const Ranger = ({ config = defaultConfig, onChange }) => {
-  const { title, value, min, max } = config
+  const { title, value, min, max, unit = 'px' } = config
   const defaultValue = _parseInt(value) || 0
   const [ state, setState ] = useSetState({ value: defaultValue })
   // TODO: 进一步优化 是否可以再生出一个 Hook 来处理所有的数据变化
   const onPropsChange = (changeValue) => {
     setState({ value: changeValue })
     if (onChange && typeof onChange === 'function') {
-      onChange({ ...config, value: `${changeValue}px`, type: 'style' })
+      onChange({ ...config, value: `${changeValue}${unit}`, type: 'style' })
     }
   }
   return (

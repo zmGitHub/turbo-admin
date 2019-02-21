@@ -22,7 +22,7 @@ class ArticleCard extends PureComponent {
     })
     const imgSrc = `${( content.mainImage || defaultImg )}${ inlineStyle ? inlineFormat: blockFormat }`
     return (
-      <div className={xArticleCardStyle}>
+      <div className={xArticleCardStyle} style={getStyles(componentStyle, ['margin'])}>
         <img className="x-article-card-img" src={imgSrc} alt="文章" />
         <div className={xArticleCardContentStyle}>
           <div className={classnames('tag', { hide: !includes('type', display) })} style={getStyles(componentStyle, ['typeFont'])}>{content.tag}</div>

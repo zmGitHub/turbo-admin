@@ -105,7 +105,7 @@ class Setting extends PureComponent {
                       {
                         styleConfig.items.length && styleConfig.items.map((item) => (
                           <DynamicComponent
-                            key={item.key}
+                            key={`${id}_${item.key}`}
                             maps={EditorMaps}
                             config={{ id, styleId: styleConfig.key, ...item }}
                             onChange={this.updateComponentStyle}
