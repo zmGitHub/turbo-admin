@@ -7,6 +7,7 @@ import { parse } from 'qs'
  * 根据样式列表返回 style 对象
  */
 export const getStyles = (styles = [], types = []) => {
+
   const inlineStyles = {}
   if (Array.isArray(types) && Array.isArray(styles)) {
     types.forEach(style => {

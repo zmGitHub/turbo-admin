@@ -18,7 +18,7 @@ const compiler = webpack(devConfig)
 
 const app = new Koa()
 
-const proxyTarget = 'http://m.hisense.com'
+const proxyTarget = 'http://m.test.shop.hisense.com/'
 
 const options = {
   targets: {

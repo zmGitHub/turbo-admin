@@ -35,7 +35,7 @@ const DATA = [
       {
         key: 'text',
         name: '文字',
-        components: [{ id: 'text_1', name: 'text' }],
+        components: [{ id: 'text_1', name: 'text' }, { id: 'title_1', name: 'title' }],
         icon: 'text'
       },
       {
