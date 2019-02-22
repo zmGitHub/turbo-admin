@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { startsWith } from 'ramda'
+import { includes } from 'ramda'
 import { getStyles } from '@/utils'
 import './index.less'
 
@@ -13,7 +13,7 @@ class Coupon extends PureComponent {
       height,
       ...getStyles(componentStyle, ['margin'])
     }
-    if (!startsWith('//', background)) {
+    if (!includes('//', background)) {
       contentStyle.backgroundColor = background
     } else {
       contentStyle.backgroundImage = `url(${background}${imgFormat})`

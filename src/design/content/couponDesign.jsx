@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import { InputNumber, Slider, Radio, Icon } from 'antd'
-import { is, last, startsWith } from 'ramda'
+import { is, last, includes } from 'ramda'
 import classnames from 'classnames'
 import ImagePicker from '@/components/ImagePicker'
 import ColorPicker from '@/design/editor/common/color'
@@ -14,7 +14,7 @@ class CouponDesign extends PureComponent {
     super(props)
     const { config: { data } } = this.props
     const { id, height, background = '#fff' } = data
-    const backgroundType = startsWith('//', background)? 2 : 1
+    const backgroundType = includes('//', background)? 2 : 1
     const heightValue = Number.parseInt(height, 10)
     this.state = {
       id,
