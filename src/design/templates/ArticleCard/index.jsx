@@ -21,6 +21,8 @@ class ArticleCard extends PureComponent {
       hide: display.length === 0,
     })
     const imgSrc = `${( content.mainImage || defaultImg )}${ inlineStyle ? inlineFormat: blockFormat }`
+    // x-article-card inline
+    // x-article-card-content
     return (
       <div className={xArticleCardStyle}>
         <img className="x-article-card-img" src={imgSrc} alt="文章" />

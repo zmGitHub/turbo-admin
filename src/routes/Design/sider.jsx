@@ -25,6 +25,7 @@ const ICONS = {
   articleCard: (<svg className="module-content-item-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5834"><path d="M662.528 205.312H251.904c-15.36 0-28.16 12.8-28.16 28.16s12.8 28.16 28.16 28.16h410.624c15.36 0 28.16-12.8 28.16-28.16s-12.8-28.16-28.16-28.16zM555.008 478.72H252.416c-15.36 0-28.16 12.8-28.16 28.16s12.8 28.16 28.16 28.16h302.592c15.36 0 28.16-12.8 28.16-28.16s-12.8-28.16-28.16-28.16zM408.576 751.616h-156.16c-15.36 0-28.16 12.8-28.16 28.16s12.8 28.16 28.16 28.16h156.16c15.36 0 28.16-12.8 28.16-28.16-0.512-15.36-12.8-28.16-28.16-28.16z" p-id="5835" /><path d="M923.648 136.704c-43.008-5.632-76.8-8.704-93.696-9.728V91.648c0-33.792-27.648-61.44-61.44-61.44H137.216c-33.792 0-61.44 27.648-61.44 61.44v837.12c0 33.792 27.648 61.44 61.44 61.44h609.792l69.632 10.24s45.568 1.536 62.464-41.984 102.912-748.032 102.912-748.032 4.608-65.536-58.368-73.728zM772.096 919.04c0 8.192-6.656 14.336-14.336 14.336H148.48c-8.192 0-14.336-6.656-14.336-14.336V99.84c0-8.192 6.656-14.336 14.336-14.336h609.28c8.192 0 14.336 6.656 14.336 14.336v819.2z m148.992-679.424l-91.136 666.112V194.56c34.816 2.048 89.088 6.144 92.672 12.8 3.584 6.656-1.536 32.256-1.536 32.256z" p-id="5836" /></svg>)
 }
 
+// 左侧折叠面板
 const DATA = [
   {
     key: 'common',
@@ -171,6 +172,9 @@ class SiderLeft extends PureComponent {
     const { currentTarget } = event
     const pid = currentTarget.getAttribute('data-pid')
     const id = currentTarget.getAttribute('data-id')
+    // TODO:
+    // currentTarget为当前元素
+    // 此处的pid为DATA一层数据,id为DATA子元素的children的key(即为组件的种类)
     const template = _find(DATA, ({ key }) => key === pid)
     if (template && template.key) {
       const { key, components } = _find(template.children, (item) => id === item.key )
@@ -221,8 +225,10 @@ class SiderLeft extends PureComponent {
       <Fragment>
         <Sider className="x-design-sider">
           <div className="x-design-sider-scroll">
+
             <Collapse className="x-design-sider-scroll-collapse" bordered={false} defaultActiveKey={['common', 'goods', 'news', 'coupon']}>
               {
+                //  TODO:渲染了左侧栏
                 DATA.map(item => (
                   <Panel header={item.name} key={item.key}>
                     <div className="module-content">

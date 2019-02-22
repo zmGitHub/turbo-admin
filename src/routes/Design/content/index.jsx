@@ -95,6 +95,7 @@ class Mobile extends PureComponent {
     })
     return (
       <div onClick={this.reset} className="x-design-content">
+
         <div id="js-scroll-content" className={contentStyle}>
           <SortableList
             useDragHandle

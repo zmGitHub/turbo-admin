@@ -12,7 +12,7 @@ const formItemLayout = {
 }
 
 @Form.create()
-class PageForm extends PureComponent {
+class  PageForm extends PureComponent {
 
   static defaultProps = {
     data: {}

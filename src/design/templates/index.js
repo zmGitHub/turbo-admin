@@ -5,7 +5,7 @@ import ThermalZone from './ThermalZone/template.config'
 import Swiper from './Swiper/template.config'
 import ArticleCard from './ArticleCard/template.config'
 
-
+// 同时导出所有的模板
 export default {
   text: Text,
   image: Image,
