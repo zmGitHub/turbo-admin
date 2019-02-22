@@ -1,5 +1,7 @@
+import component from './index';
+
 export default {
-  component: () => import('./index'),
+  component,
   config: () => ({
     name: '消息卡片',
     desc: '最新消息列表',
