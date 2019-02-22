@@ -6,7 +6,6 @@ import { useSetState } from '@/stores/hook'
 import './index.less'
 
 const defaultConfig = {
-  title: '未设置名称',
   value: 0,
   min: 0,
   max: 999
@@ -27,7 +26,7 @@ const Colorer = ({ config = defaultConfig, onChange }) => {
   }
   return (
     <div className="editor-content">
-      <h4 className="editor-content-title">{title || '未设置名称'}</h4>
+      { title ? (<h4 className="editor-content-title">{title}</h4>) : null }
       <div className="editor-content-colorer">
         <Popover
           className="editor-content-colorer-box"

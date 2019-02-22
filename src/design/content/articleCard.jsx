@@ -46,6 +46,7 @@ class ArticleCardDesign extends PureComponent {
               id,
               key: 'content',
               value: {
+                id: articleId,
                 tag: hisenseMenu.name,
                 name,
                 mainImage,
@@ -63,15 +64,14 @@ class ArticleCardDesign extends PureComponent {
   }, 500)
 
   render() {
-    console.log(this.state)
-    const { data: { id, inlineStyle, display } } = this.state
+    const { data: { inlineStyle, display, content } } = this.state
     return (
       <Fragment>
         <div className="content-data">
           <h4 className="content-data-title">文章ID</h4>
           <div className="content-data-article">
             <InputNumber
-              defaultValue={id}
+              defaultValue={content.id}
               placeholder="请输入文章id"
               onChange={this.onTitleChange}
               maxLength={10}

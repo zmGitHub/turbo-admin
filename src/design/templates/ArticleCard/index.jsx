@@ -24,7 +24,7 @@ class ArticleCard extends PureComponent {
     // x-article-card inline
     // x-article-card-content
     return (
-      <div className={xArticleCardStyle}>
+      <div className={xArticleCardStyle} style={getStyles(componentStyle, ['margin'])}>
         <img className="x-article-card-img" src={imgSrc} alt="文章" />
         <div className={xArticleCardContentStyle}>
           <div className={classnames('tag', { hide: !includes('type', display) })} style={getStyles(componentStyle, ['typeFont'])}>{content.tag}</div>
