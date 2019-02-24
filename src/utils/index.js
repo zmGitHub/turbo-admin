@@ -211,3 +211,16 @@ export function debounce(func, wait, options) {
   debounced.pending = pending
   return debounced
 }
+
+export const formatGoodName = name => name.replace(/【[^【】]*】/g, '')
+
+// 金额格式化
+export const formatPrice = (price, unit = 2) => {
+  if (!price) {
+    return '0'
+  }
+  const formatedPrice = (price / 100).toFixed(unit)
+  const numberPrice = parseFloat(formatedPrice)
+
+  return `${numberPrice}`
+}

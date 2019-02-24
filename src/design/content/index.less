@@ -1,3 +1,5 @@
+@import '../../styles/util';
+
 .content-data {
   margin-bottom: 10px;
   padding-bottom: 10px;
@@ -172,6 +174,7 @@
       margin-right: 12px;
     }
   }
+  // 口令
   &-coupon {
     display: flex;
     align-items: center;
@@ -194,6 +197,62 @@
     }
     .ant-slider {
       flex: 1;
+    }
+  }
+  // 商品卡片
+  &-goods-card {
+    &.margin-l-10 {
+      margin-left: 10px;
+    }
+    .ant-collapse {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      .scroll-bar();
+    }
+    .ant-radio-button-wrapper {
+      color: #ddd;
+      &-checked {
+        border-color: #ffa582;
+        box-shadow: -1px 0 0 0 #ffa582;
+        color: #ffa582;
+        &:first-child {
+          border-color: #ffa582;
+        }
+      }
+    }
+    .goods-card-item {
+      &-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .title {
+          max-width: 186px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .anticon {
+          font-size: 14px;
+          padding: 0 10px;
+        }
+      }
+      &-panel {
+        display: flex;
+        flex-direction: column;
+        .input-content {
+          display: flex;
+          align-items: center;
+          padding: 5px 0;
+          &-label {
+            display: flex;
+            flex-shrink: 0;
+            flex-basis: auto;
+            margin-right: 10px;
+          }
+        }
+      }
     }
   }
   .imager-content {

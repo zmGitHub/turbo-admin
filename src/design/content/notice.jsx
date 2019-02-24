@@ -36,7 +36,7 @@ class NoticeCardDesign extends PureComponent {
     if (ids) {
       const { config, onChange, dispatch } = this.props
       dispatch({
-        type: 'component/getNoticeList',
+        type: 'component/serviceData',
         payload: {
           path: 'design/announcement',
           ids

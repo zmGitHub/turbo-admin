@@ -6,6 +6,7 @@ import Swiper from './Swiper/template.config'
 import ArticleCard from './ArticleCard/template.config'
 import NoticeCard from './NoticeCard/template.config'
 import CouponCard from './Coupon/template.config'
+import GoodsCard from './GoodsCard/template.config'
 import Error from './error'
 
 
@@ -17,5 +18,6 @@ export default {
   noticeCard: NoticeCard,
   articleCard: ArticleCard,
   coupon: CouponCard,
+  goodsCard: GoodsCard,
   error: Error
 }

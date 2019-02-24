@@ -70,7 +70,7 @@ const DATA = [
       {
         key: 'goodCard',
         name: '商品卡片',
-        components: [{ id: 'text_1', name: 'text' }],
+        components: [{ id: 'goods_card_1', name: 'goodsCard' }],
         icon: 'goodCard'
       },
       {
