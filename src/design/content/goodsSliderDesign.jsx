@@ -1,8 +1,11 @@
 import React, { PureComponent, Fragment } from 'react'
-import { Input, message, Checkbox } from 'antd'
+import { Input, message, Checkbox, Icon } from 'antd'
 import { connect } from 'dva'
-import { is, prop } from 'ramda'
-import { debounce } from '@/utils'
+import { map, prop, last } from 'ramda'
+import ImagePicker from '@/components/ImagePicker'
+import Linker from '@/components/Linker'
+import { formatGoodName, formatPrice, removeHTMLTag } from '@/utils'
+import defaultImg from '@/static/images/x.png'
 
 const { Group } = Checkbox
 const { Search } = Input
@@ -17,7 +20,36 @@ class GoodsSliderDesign extends PureComponent {
   constructor(props) {
     super(props)
     const { config: { data } } = this.props
-    this.state = { data }
+    const { display, moreImg, url, items } = data
+    const ids = map(({ id }) => id, items)
+    this.state = {
+      ids,
+      display,
+      moreImg,
+      url,
+      showImagePicker: false
+    }
+  }
+
+  openImagePicker = () => {
+    this.setState({ showImagePicker: true })
+  }
+
+  onImageChange = (images) => {
+    const { onChange, config: { id } } = this.props
+    if(images && images.length) {
+      const imgItem = last(images)
+      this.setState({ showImagePicker: false, moreImg: imgItem.url }, () => {
+        onChange({ id, key: 'moreImg', value: imgItem.url })
+      })
+    } else {
+      this.setState({ showImagePicker: false, moreImg: '' })
+    }
+  }
+
+  onLinkerChange = (value) => {
+    const { onChange, config: { id } } = this.props
+    onChange({ id, key: 'url', value })
   }
 
   onDisplyaChange = (value) => {
@@ -25,13 +57,8 @@ class GoodsSliderDesign extends PureComponent {
     onChange({ id, key: 'display', value })
   }
 
-  onInlineChange = (value) => {
-    const { config: { id }, onChange } = this.props
-    onChange({ id, key: 'inlineStyle', value })
-  }
-
   onItemsConfirm = (itemIds) => {
-    const { config: { id }, onChange, dispatch } = this.props
+    const { config, onChange, dispatch } = this.props
     dispatch({
       type: 'component/serviceData',
       payload: {
@@ -41,7 +68,17 @@ class GoodsSliderDesign extends PureComponent {
       callback: (res) => {
         const data = prop('_DATA_', res)
         if (res && data) {
-          console.log(data)
+          const items = map(({ item }) => {
+            const { id, name, advertise, mainImage, highPrice } = item
+            return {
+              id,
+              title: formatGoodName(name),
+              desc: removeHTMLTag(advertise),
+              src: mainImage,
+              price: formatPrice(highPrice)
+            }
+          }, data)
+          onChange({ id: config.id, key: 'items', value: items })
         } else {
           message.info('未找到商品, 请确认商品组ID')
         }
@@ -50,13 +87,15 @@ class GoodsSliderDesign extends PureComponent {
   }
 
   render() {
-    const { data: { display } } = this.state
+    const { ids, display, moreImg, url, showImagePicker } = this.state
+    console.log(moreImg);
     return (
       <Fragment>
         <div className="content-data">
           <h4 className="content-data-title">商品ID组</h4>
           <div className="content-data-goods-slider">
             <Search
+              defaultValue={ids}
               placeholder="请输入商品id多个用,分开"
               enterButton="确认"
               onSearch={this.onItemsConfirm}
@@ -70,11 +109,20 @@ class GoodsSliderDesign extends PureComponent {
           </div>
         </div>
         <div className="content-data">
-          <h4 className="content-data-title">更多</h4>
+          <h4 className="content-data-title">配置更多</h4>
           <div className="content-data-goods-slider">
-            sdf
+            <div className="more">
+              <h4>图片</h4>
+              <div className="imager-content">
+                <img src={moreImg || defaultImg} alt="单张图片" />
+                <div onClick={this.openImagePicker} className="imager-content-mask"><Icon type="edit" /></div>
+              </div>
+              <h4>链接</h4>
+              <Linker url={url} multiGoods={false} onChange={this.onLinkerChange} />
+            </div>
           </div>
         </div>
+        <ImagePicker visible={showImagePicker} onChange={this.onImageChange} />
       </Fragment>
     );
   }

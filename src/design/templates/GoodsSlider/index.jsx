@@ -19,7 +19,7 @@ const IMAGE_FORAMT = '?x-oss-process=image/resize,m_fill,w_200,h_200/format,png'
 
 class GoodsSlider extends PureComponent {
   render() {
-    const { componentStyle, data: { display, items } } = this.props
+    const { componentStyle, data: { display, items, moreImg } } = this.props
     const goodsItems = items.length > 0 ? items:goodsArr
     return (
       <div className="x-goods-slider" style={getStyles(componentStyle, ['margin'])}>
@@ -38,7 +38,7 @@ class GoodsSlider extends PureComponent {
           ))
         }
         <div key="more" className="x-goods-slider-more">
-          <img className="img" src={defaultImg} alt="商品图片" />
+          <img className="img" src={moreImg ? `${moreImg}${IMAGE_FORAMT}`: defaultImg} alt="商品图片" />
           <div className="desc">查看更多</div>
         </div>
       </div>

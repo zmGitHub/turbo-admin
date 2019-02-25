@@ -224,3 +224,27 @@ export const formatPrice = (price, unit = 2) => {
 
   return `${numberPrice}`
 }
+
+
+// 获取HTML
+/**
+  *replace(/<\/?[^>]*>/g,'') // 去除HTML tag
+  *replace(/[ | ]*\n/g,'\n') // 去除行尾空白
+  *replace(/\n[\s| | ]*\r/g,'\n') // 去除多余空行
+  *replace(/&nbsp;/ig,'') // 去掉&nbsp;
+  *replace(/\s/g,'') // 将空格去掉
+  */
+export const removeHTMLTag = (htmlStr = '') => {
+  let str = htmlStr
+  if(htmlStr) {
+    str = str.replace(/<\/?[^>]*>/g,'') // 去除HTML tag
+    str = str.replace(/[ | ]*\n/g,'\n') // 去除行尾空白
+    str = str.replace(/\n[\s| | ]*\r/g,'\n') // 去除多余空行
+    str = str.replace(/&nbsp;/ig,'') // 去掉&nbsp;
+    str = str.replace(/\s/g,'') // 将空格去掉
+    str = str.replace(/【[^【】]*】/g, '')
+  } else {
+    str = ''
+  }
+  return str
+}

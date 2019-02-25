@@ -10,7 +10,13 @@ export default {
       component: 'goodsSliderDesign',
       data: {
         display: ['title', 'desc', 'price'],
-        items: [] // { id, src, name, desc }
+        items: [], // { id, src, name, desc }
+        url: {
+          type: '',
+          page: '',
+          query: ''
+        },
+        moreImg: ''
       }
     },
     style: [ // 那些样式是可以编辑的
