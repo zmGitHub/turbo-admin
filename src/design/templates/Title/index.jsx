@@ -15,11 +15,10 @@ class Title extends PureComponent {
       <div className='x-template-title' style={getStyles(componentStyle, ['title'])}>
         <div className='left-title'>{data.title}</div>
         <div className={moreStyle}>
-          <div className='link'>更多</div>
-          <div className='arrow'><Icon type="right" /></div>
+          <div className='x-template-title-link'>更多</div>
+          <div className='x-template-title-arrow'><Icon type="right" /></div>
         </div>
       </div>
-
     )
   }
 }
