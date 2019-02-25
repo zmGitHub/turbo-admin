@@ -76,7 +76,7 @@ const DATA = [
       {
         key: 'slideGood',
         name: '侧滑商品',
-        components: [{ id: 'slideGood_1', name: 'slideGood' }],
+        components: [{ id: 'slideGood_1', name: 'goodsSlider' }],
         icon: 'slideGood'
       },
       {

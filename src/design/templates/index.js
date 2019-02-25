@@ -7,6 +7,7 @@ import ArticleCard from './ArticleCard/template.config'
 import NoticeCard from './NoticeCard/template.config'
 import CouponCard from './Coupon/template.config'
 import GoodsCard from './GoodsCard/template.config'
+import GoodsSlider from './GoodsSlider/template.config'
 import Error from './error'
 
 
@@ -19,5 +20,6 @@ export default {
   articleCard: ArticleCard,
   coupon: CouponCard,
   goodsCard: GoodsCard,
+  goodsSlider: GoodsSlider,
   error: Error
 }

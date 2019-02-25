@@ -39,7 +39,7 @@ class GoodsCard extends PureComponent {
               <div className="content">
                 <div className="left">
                   <div className="title">{title || name}</div>
-                  { desc ? <div className="desc">{desc}</div> : null }
+                  <div className={classnames('desc', { hide: !desc })}>{desc}</div>
                 </div>
                 <div className="right">
                   <div className="price">¥{price}</div>
