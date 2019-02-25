@@ -112,13 +112,13 @@ class GoodsCardDesign extends PureComponent {
         const data = prop('_DATA_', res)
         if (res && data) {
           const goods = head(data)
-          const { mainImage, name, lowPrice } = prop('item', goods)
+          const { mainImage, name, highPrice } = prop('item', goods)
           const newItems = [{
             id: itemIds,
             name: formatGoodName(name),
             src: mainImage,
             desc: '',
-            price: formatPrice(lowPrice),
+            price: formatPrice(highPrice),
           }]
           this.setState(({ items }) => ({
             searching: false,
