@@ -1,4 +1,4 @@
-// 右侧设置 
+// 右侧设置
 import React, { Suspense, lazy, PureComponent } from 'react'
 import { Layout, Collapse } from 'antd'
 import { connect } from 'dva'
