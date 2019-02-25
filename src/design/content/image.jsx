@@ -22,6 +22,7 @@ const ImageDesign = ({ config, onChange }) => {
 
   }
   const onLinkerChange = (value) => {
+    console.log(value)
     onChange({ id, key: 'url', value })
   }
   return (

@@ -9,12 +9,12 @@ export async function queryImageList(params) {
   return request.get('/api/design/image/list', { params })
 }
 
-// 获取消息列表
-export async function queryNoticeList(params) {
-  return request.post(`/design/component/service-data?path=${params.path}`, params)
-}
-
 // 获取文章
 export async function getArticleById(id) {
   return request.get(`/api/hisense/article/${id}`)
+}
+
+// 获取装修数据
+export async function getServiceData(params) {
+  return request.post(`/design/component/service-data?path=${params.path}`, params)
 }

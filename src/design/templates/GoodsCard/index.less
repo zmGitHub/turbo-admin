@@ -1,0 +1,145 @@
+.x-goods-card {
+  .googs-card-item {
+    background-color: #ffffff;
+    margin-bottom: 10px;
+    overflow: hidden;
+    .header {
+      display: flex;
+      flex-shrink: 0;
+      flex-basis: auto;
+      align-content: center;
+      justify-content: center;
+    }
+    .content {
+      padding: 12px;
+      overflow: hidden;
+      .left {
+        overflow: hidden;
+        .title {
+          font-size: 14px;
+          font-weight: 300;
+          color: #2c2e2e;
+          line-height: 16px;
+          max-width: 100%;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        .desc {
+          font-weight: 300;
+          color: #aaaaaa;
+          line-height: 14px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+      }
+      .right {
+        .price {
+          color: #d9161c;
+          font-size: 16px;
+          margin-bottom: 4px;
+        }
+        .btn {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 24px;
+          background-color: #d9161c;
+          color: #ffffff;
+          &.hide {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+  &.full {
+    .googs-card-item {
+      background-color: #ffffff;
+      margin-bottom: 12px;
+      .img {
+        width: 100%;
+        height: 148px;
+      }
+      .content {
+        display: flex;
+        align-items: center;
+        .left {
+          display: flex;
+          flex: 1;
+          flex-direction: column;
+          padding-right: 8px;
+        }
+        .right {
+          .btn {
+            width: 120px;
+          }
+        }
+      }
+    }
+  }
+  &.fullr {
+    .googs-card-item {
+      flex-direction: row-reverse;
+    }
+  }
+  &.fulll,
+  &.fullr {
+    .googs-card-item {
+      display: flex;
+      align-items: center;
+      .img {
+        width: 175px;
+        height: 175px;
+      }
+      .content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        justify-content: flex-start;
+        .left {
+          display: flex;
+          flex: 1;
+          flex-direction: column;
+          margin-bottom: 8px;
+        }
+        .right {
+          .btn {
+            width: 100px;
+          }
+        }
+      }
+    }
+  }
+  &.half {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .googs-card-item {
+      display: flex;
+      flex-basis: auto;
+      flex-shrink: 0;
+      flex-direction: column;
+      margin-bottom: 8px;
+      background-color: #ffffff;
+      .img {
+        width: 171px;
+        height: 171px;
+      }
+      .content {
+        .left {
+          .title,
+          .desc {
+            max-width: 145px;
+          }
+        }
+        .right {
+          .btn {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

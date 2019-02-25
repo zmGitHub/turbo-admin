@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import { Input , Button, message } from 'antd'
 import { connect } from 'dva'
-import { trim , prop, map } from 'ramda'
+import { trim , prop, isNil, map, filter } from 'ramda'
 import Linker from '@/components/Linker'
 import NoicerPicker from '@/components/NoticePicker'
 
@@ -36,7 +36,7 @@ class NoticeCardDesign extends PureComponent {
     if (ids) {
       const { config, onChange, dispatch } = this.props
       dispatch({
-        type: 'component/getNoticeList',
+        type: 'component/serviceData',
         payload: {
           path: 'design/announcement',
           ids
@@ -44,7 +44,8 @@ class NoticeCardDesign extends PureComponent {
         callback: (res) => {
           const list = prop('_DATA_', res)
           if (list && list.length) {
-            const notices = map(({ id, name }) => ({ id, name }), list)
+            const noticeArr = filter(item => !isNil(item), list)
+            const notices = map(({ id, name }) => ({ id, name }), noticeArr)
             this.setState({ notices }, () => {
               onChange({ id: config.id, key: 'items', value: notices })
             })

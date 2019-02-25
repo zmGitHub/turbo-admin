@@ -117,7 +117,6 @@ export default {
     sortComponent(state, action) {
       const { payload: { arrayMove, oldIndex, newIndex } } = action
       const list = arrayMove(state.list, oldIndex, newIndex)
-      console.log(list)
       return {
         ...state,
         list

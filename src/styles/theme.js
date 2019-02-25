@@ -56,6 +56,8 @@ module.exports = {
   'radio-button-bg': 'transparent',
   'radio-button-color': '#414141',
   'radio-dot-color': '#6e6e6e',
+  // button radio
+  'radio-button-active-color': '#ff835a',
   // modal
   'modal-header-bg': '#282828',
   'modal-mask-bg': 'rgba(0, 0, 0, 0.5)',

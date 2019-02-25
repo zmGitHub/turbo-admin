@@ -7,5 +7,6 @@ export default {
   articleCardDesign: import('./articleCard'),
   couponDesign: import('./couponDesign'),
   titleDesign: import('./title'),
+  goodsCardDesign: import('./goodsCardDesign'),
   error: import('./error')
 }

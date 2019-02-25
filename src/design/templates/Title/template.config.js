@@ -10,7 +10,13 @@ config:() => ({
     component: 'titleDesign',
     data: {
       title: '标题',
-      moreSwitch: true
+      moreSwitch: true,
+      url: {
+        type: '',
+        page: '',
+        query: ''
+      },
+      src: '' // 图片链接 必须是https开头
     }
   },
   style: [ // 那些样式是可以编辑的

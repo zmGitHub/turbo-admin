@@ -10,12 +10,14 @@ const DragHandle = SortableHandle(() => <div className="drag-btn"><Icon type="dr
 
 const SortableItem = SortableElement(({ active, item, onClick }) => {
   const { key, component, content, style } = item
-  const componentData = TemplateMaps[component]
+  // TODO: 先这样处理 如果没有找到对应组件 先提示错误
+  const componentData = TemplateMaps[component] || { component: TemplateMaps.error }
   const itemStyle = classnames('drag', { active })
   return (
     <div className={itemStyle}>
       <Container id={key} componentStyle={style} content={content} onClick={onClick}>
-        {(componentStyle, data) => React.createElement(componentData.component, {
+        {(componentStyle, data) => React.createElement(componentData.component || 'div', {
+          component,
           componentStyle,
           data,
         })}

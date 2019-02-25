@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import { queryImageCategory, queryImageList, queryNoticeList, getArticleById } from '@/services/component'
+import { queryImageCategory, queryImageList, getServiceData, getArticleById } from '@/services/component'
 
 export default {
   namespace: 'component',
@@ -25,16 +25,16 @@ export default {
         callback(res)
       }
     },
-    // 获取消息列表
-    *getNoticeList({ payload ,callback }, { call }) {
-      const res = yield call(queryNoticeList, payload)
+    // 获取文章
+    *getArticle({ payload ,callback }, { call }) {
+      const res = yield call(getArticleById, payload)
       if (callback) {
         callback(res)
       }
     },
-    // 获取文章
-    *getArticle({ payload ,callback }, { call }) {
-      const res = yield call(getArticleById, payload)
+    // 通用designdata
+    *serviceData({ payload ,callback }, { call }) {
+      const res = yield call(getServiceData, payload)
       if (callback) {
         callback(res)
       }
