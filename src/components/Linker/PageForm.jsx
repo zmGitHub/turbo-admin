@@ -20,6 +20,7 @@ class PageForm extends PureComponent {
     const { form, onChange } = this.props;
     e.preventDefault();
     form.validateFieldsAndScroll((err, values) => {
+      console.log(err)
       if (!err) {
         onChange(values)
       }
@@ -65,11 +66,11 @@ class PageForm extends PureComponent {
             rules: [
               {
                 required: getFieldValue('page') === '/pages/activity',
-                message: '请输入活动 id'
+                message: '请输入参数'
               }
             ]
           })(
-            <Input placeholder="可选" />
+            <Input placeholder="请输入参数" />
           )}
         </Form.Item>
         <Form.Item>
