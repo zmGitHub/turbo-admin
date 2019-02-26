@@ -160,11 +160,45 @@
   &-article {
     display: flex;
     align-items: center;
+    padding-left: 10px;
+    .ant-spin-nested-loading {
+      width: 100%;
+    }
+    .list-conent {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      .scroll-bar();
+      &-item {
+        display: flex;
+        align-items: center;
+        padding: 5px 0;
+        border-bottom: 1px dashed #6b6b6b;
+        .name {
+          max-width: 230px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        .actions {
+          display: flex;
+          flex: 1;
+          justify-content: flex-end;
+          cursor: pointer;
+          .anticon {
+            font-size: 14px;
+          }
+        }
+        &:last-child {
+          border: none;
+        }
+      }
+    }
     .ant-input-number {
       width: 120px;
     }
     .ant-checkbox-group-item {
-      margin-right: 6px;
+      margin-right: 4px;
       .ant-checkbox + span {
         padding-left: 4px;
         padding-right: 4px;

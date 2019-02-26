@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import { queryImageCategory, queryImageList, getServiceData, getArticleById } from '@/services/component'
+import { queryImageCategory, queryImageList, getServiceData, getArticleById, getMenuInfoById } from '@/services/component'
 
 export default {
   namespace: 'component',
@@ -28,6 +28,12 @@ export default {
     // 获取文章
     *getArticle({ payload ,callback }, { call }) {
       const res = yield call(getArticleById, payload)
+      if (callback) {
+        callback(res)
+      }
+    },
+    *getMenuInfo({ payload ,callback }, { call }) {
+      const res = yield call(getMenuInfoById, payload)
       if (callback) {
         callback(res)
       }
