@@ -150,13 +150,17 @@ class SiderLeft extends PureComponent {
   }
 
   componentDidMount() {
-    window.ee.on('GET_COMPONENT_DATA', this.resetSiderStatus)
     window.ee.on('RESET_LAYOUT_STATUS', this.resetSiderStatus)
+    window.ee.on('RESET_SIDER_STATUS', this.resetSiderStatus)
   }
 
   componentWillUnmount() {
-    window.ee.off('GET_COMPONENT_DATA')
     window.ee.off('RESET_LAYOUT_STATUS')
+    window.ee.off('RESET_SIDER_STATUS')
+  }
+
+  resetSiderStatus = () => {
+    this.setState({ current: '' })
   }
 
   // 添加组件到主控制区域
@@ -193,9 +197,6 @@ class SiderLeft extends PureComponent {
     window.ee.emit('OPEN_SIDER_PANEL')
   }
 
-  resetSiderStatus = () => {
-    this.setState({ current: '' })
-  }
 
   renderTemplateItem = (template) => {
     const { config, component } = TemplateMaps[template.name]

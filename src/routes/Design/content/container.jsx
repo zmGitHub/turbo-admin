@@ -59,9 +59,9 @@ class Container extends PureComponent {
 
   render() {
     const { componentStyle, data } = this.state
-    const { children } = this.props
+    const { id, children } = this.props
     return (
-      <div className="drag-component" onClick={this.handleClick}>
+      <div id={`component_${id}`} className="drag-component" onClick={this.handleClick}>
         {children(componentStyle, data)}
       </div>
     );

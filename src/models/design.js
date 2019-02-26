@@ -1,4 +1,4 @@
-import { includes, concat, is } from 'ramda'
+import { includes, concat, is, remove } from 'ramda'
 import _find from 'lodash/find'
 import { createDesignData, updateDesginData, getDesignDataById } from '@/services/design'
 import { getPageQuery } from '@/utils'
@@ -45,6 +45,10 @@ export default {
       const { payload } = action
       yield put({ type: 'addComponent', payload })
     },
+    // 删除组件
+    *delete({ payload, callback }, { put }) {
+      yield put({ type: 'deleteComponent', payload, callback })
+    },
     // 更新组件样式
     *updateStyle(action, { put }) {
       const { payload } = action
@@ -75,6 +79,22 @@ export default {
       return {
         ...state,
         list: concat(list, [payload])
+      }
+    },
+    deleteComponent(state, { payload, callback }) {
+      const { list } = state
+      const { index } = payload
+      const componentLenth = list.length
+      let component = null
+      if (index < componentLenth) {
+        component = list[index + 1]
+      } else if (index === componentLenth && componentLenth > 0) {
+        component = list[index - 1]
+      }
+      callback(component)
+      return {
+        ...state,
+        list: remove(index, 1, list)
       }
     },
     updateComponentStyle(state, action) {
