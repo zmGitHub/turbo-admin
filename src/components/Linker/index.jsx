@@ -9,7 +9,7 @@ import './index.less'
 
 const MAPS = {
   '/pages/goods': '跳转商品',
-  '/pages/index': '择跳转首页',
+  '/pages/index': '跳转首页',
   '/pages/activity': '择跳转活动页',
   'coupons': '领取优惠券',
 }
