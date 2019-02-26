@@ -1,4 +1,4 @@
-import { includes, concat, is, remove } from 'ramda'
+import { includes, concat, is, remove, add, insert } from 'ramda'
 import _find from 'lodash/find'
 import { createDesignData, updateDesginData, getDesignDataById } from '@/services/design'
 import { getPageQuery } from '@/utils'
@@ -73,12 +73,16 @@ export default {
         list: payload
       }
     },
-    addComponent(state, action) {
-      const { payload } = action
+    addComponent(state, { payload }) {
       const { list } = state
+      const { index, component } = payload
+      let components = concat(list, [component])
+      if (index) {
+        components = insert(add(index, 1), component, list)
+      }
       return {
         ...state,
-        list: concat(list, [payload])
+        list: components
       }
     },
     deleteComponent(state, { payload, callback }) {

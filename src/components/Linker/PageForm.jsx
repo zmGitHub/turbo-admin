@@ -40,6 +40,7 @@ class PageForm extends PureComponent {
             >
               <Option value="/pages/index">首页</Option>
               <Option value="/pages/activity">活动页</Option>
+              <Option value="/pages/filter">商品列表</Option>
             </Select>
           )}
         </Form.Item>
@@ -52,6 +53,7 @@ class PageForm extends PureComponent {
               placeholder="请选择跳转方式"
             >
               <Option value="navigateTo">跳转</Option>
+              <Option value="switchTab">切换Tab</Option>
               <Option value="redirectTo">重定向</Option>
               <Option value="navigateBack">返回</Option>
             </Select>

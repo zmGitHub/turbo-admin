@@ -48,12 +48,14 @@ class Mobile extends PureComponent {
 
   addComponent = (component) => {
     const { componentId, components } = this.state
+    const { dispatch } = this.props
     const { key, content, style } = component
     let componentArr = []
+    let index = 0
     if (!componentId) {
       componentArr = components.concat(component)
     } else {
-      const index = findIndex(propEq('key', componentId))(components)
+      index = findIndex(propEq('key', componentId))(components)
       componentArr = insert(add(index, 1), component, components)
     }
     this.setState({ componentId: key, components: componentArr, siderCollapse: true }, () => {
@@ -64,6 +66,10 @@ class Mobile extends PureComponent {
         name: content.component,
         data: content.data,
         componentStyle: style
+      })
+      dispatch({
+        type: 'design/add',
+        payload: { component, index }
       })
     })
   }

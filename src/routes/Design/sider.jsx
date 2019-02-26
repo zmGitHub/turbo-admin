@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Layout, Collapse, Tooltip } from 'antd'
-import { connect } from 'dva'
 import classnames from 'classnames'
 import _find from 'lodash/find'
 import TemplateMaps from '@/design/templates'
@@ -135,7 +134,6 @@ const DATA = [
   }
 ]
 
-@connect()
 class SiderLeft extends PureComponent {
   static defaultProps = {
     active: false
@@ -167,13 +165,8 @@ class SiderLeft extends PureComponent {
   addComponent = (data) => {
     const key = uniqueId(8,8)
     // 添加组件到列表
-    const { dispatch } = this.props
     const component = { key, ...data }
     window.ee.emit('ADD_COMPONENT_DATA', component)
-    dispatch({
-      type: 'design/add',
-      payload: component
-    })
   }
 
   toggleTemplate = (event) => {
