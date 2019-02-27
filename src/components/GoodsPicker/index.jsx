@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Modal, Input } from 'antd'
-import { trim, split, last } from 'lodash'
+import { trim, includes } from 'ramda'
 
 import './index.less'
 
@@ -15,34 +15,36 @@ class GoodsPicker extends PureComponent {
   inputValue = ''
 
   state ={
+    value: '',
     visible: false
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { visible } = prevState
     if (nextProps.visible !== visible) {
-      return { visible: nextProps.visible }
+      return { visible: nextProps.visible, value: nextProps.value }
     }
-    return null
+    return { value: nextProps.value }
   }
 
   handleInputChange = (e) => {
     this.inputValue = trim(e.target.value)
   }
 
-  handleConfirm = () => {
-    const { onChange, multiGoods } = this.props
+  handleConfirm = (evt) => {
+    const classNames = evt.currentTarget.className
+    const { onChange } = this.props
     this.setState({ visible: false }, () => {
-      let itemIds = this.inputValue
-      if (!multiGoods) {
-        itemIds = last(split(itemIds, ','))
+      if (includes('ant-btn-primary', classNames)) {
+        onChange({ page: '/pages/goods', type: 'navigate', query: this.inputValue })
+      } else {
+        onChange({ query: '' })
       }
-      onChange({ page: '/pages/goods', type: 'navigate', query: itemIds })
     })
   }
 
   render() {
-    const { visible } = this.state
+    const { visible, value } = this.state
     return (
       <Modal
         destroyOnClose
@@ -55,7 +57,7 @@ class GoodsPicker extends PureComponent {
         onOk={this.handleConfirm}
         visible={visible}
       >
-        <Input onChange={this.handleInputChange} placeholder="多个商品请用,分开" />
+        <Input type="number" defaultValue={value} onChange={this.handleInputChange} placeholder="多个商品请用,分开" />
       </Modal>
     );
   }

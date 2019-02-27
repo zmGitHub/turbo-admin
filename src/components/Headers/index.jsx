@@ -55,7 +55,6 @@ class Header extends PureComponent {
   render() {
     const { status, submitting } = this.props
     console.log('header render...', status)
-    console.log('提交: ', submitting)
     return (
       <div className={prefixCls}>
         <div className={`${prefixCls}-left`}>

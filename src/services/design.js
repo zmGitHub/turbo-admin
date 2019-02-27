@@ -1,5 +1,9 @@
 import request from '@/utils/request'
 
+// 获取 csrftoken
+export async function getCSRFToken(params) {
+  return request.get('/api/get-csrf', params)
+}
 // 创建装修数据
 export async function createDesignData(params) {
   return request.post('/api/hisense/applet/design/create', params)

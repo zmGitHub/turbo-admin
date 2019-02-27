@@ -4,6 +4,7 @@ export default {
   thermalZoneDesign: import('./thermalZone'),
   swiperDesign: import('./swiper'),
   noticeCardDesign: import('./notice'),
+  messageListDesign: import('./messageListDesign'),
   articleCardDesign: import('./articleCard'),
   couponDesign: import('./couponDesign'),
   titleDesign: import('./title'),

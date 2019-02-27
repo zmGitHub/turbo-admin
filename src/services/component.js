@@ -14,6 +14,11 @@ export async function getArticleById(id) {
   return request.get(`/api/hisense/article/${id}`)
 }
 
+// 获取资讯标题
+export async function getMenuInfoById(menuIds) {
+  return request.get('/api/hisense/article/menu/listMenuInfo', { params: { menuIds } })
+}
+
 // 获取装修数据
 export async function getServiceData(params) {
   return request.post(`/design/component/service-data?path=${params.path}`, params)

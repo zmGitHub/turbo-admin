@@ -9,8 +9,9 @@ import './index.less'
 
 const MAPS = {
   '/pages/goods': '跳转商品',
-  '/pages/index': '择跳转首页',
+  '/pages/index': '跳转首页',
   '/pages/activity': '择跳转活动页',
+  '/pages/filter': '商品列表',
   'coupons': '领取优惠券',
 }
 
@@ -42,14 +43,25 @@ class Linker extends PureComponent {
   // 页面路径
   onPropsChange = (url) => {
     const { onChange } = this.props
+    if (url.query) {
+      this.setState({ url, type: '' }, () => {
+        onChange(url)
+      })
+    } else {
+      this.setState({ type: '' })
+    }
+  }
+
+  onPageChange = (url) => {
+    const { onChange } = this.props
     this.setState({ url, type: '' }, () => {
       onChange(url)
     })
   }
 
+
   render() {
     const { type, url } = this.state
-    const { multiGoods, multiCoupons } = this.props
     const linkerStyle = classnames('x-linker-panel', { active: type === 'pages' })
     const chooseStyle = classnames('x-linker-footer', { active: !!url.page })
     return (
@@ -64,10 +76,10 @@ class Linker extends PureComponent {
           (<strong>{url.query}</strong>)
         </div>
         <div className={linkerStyle}>
-          <PageForm onChange={this.onPropsChange} />
+          <PageForm onChange={this.onPageChange} />
         </div>
-        <GoodsPicker multiGoods={multiGoods} onChange={this.onPropsChange} visible={type === 'goods'} />
-        <CouponsPicker multiCoupons={multiCoupons} onChange={this.onPropsChange} visible={type === 'coupons'} />
+        <GoodsPicker value={url.page === 'goods' ? url.query : ''} onChange={this.onPropsChange} visible={type === 'goods'} />
+        <CouponsPicker value={url.page === 'coupons' ? url.query : ''} onChange={this.onPropsChange} visible={type === 'coupons'} />
       </div>
     );
   }
