@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const instance = axios.create({
   xsrfCookieName: 'x-csrf-token',
-  timeout: 8000
+  timeout: 10000
 })
 
 // 错误处理拦截器
@@ -12,7 +12,6 @@ instance.interceptors.response.use((response) => {
   return data || { code: 200 };
 }, (error) => {
   let info = { code: -1, message: '系统错误' };
-  console.log(error)
   if (error.response) {
     const { data, status } = error.response;
     // 如果用户未授权这个时候回自动跳转

@@ -20,7 +20,7 @@ class ThermalZonePicker extends PureComponent {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if(nextProps.visible !== prevState.visible) {
-      return { visible: nextProps.visible }
+      return { visible: nextProps.visible, coordinates: nextProps.coordinates }
     }
     return null
   }

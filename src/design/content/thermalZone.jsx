@@ -1,10 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Icon , Button} from 'antd'
+import { Icon, Button } from 'antd'
 import { last } from 'lodash'
 import ImagePicker from '@/components/ImagePicker'
 import ThermalZonelPicker from '@/components/ThermalZonePicker'
 
 import defaultImg from '@/static/images/x.png'
+
+const formatImg = '?x-oss-process=image/resize,m_mfit,w_375/sharpen,100'
 
 class ThermalZoneDesign extends PureComponent {
   constructor(props) {
@@ -12,7 +14,7 @@ class ThermalZoneDesign extends PureComponent {
     const { config: { data } } = this.props
     const { src, height, coordinates } = data
     this.state = {
-      src,
+      src: `${src}${formatImg}`,
       height,
       coordinates,
       showThermalPicker: false,
@@ -23,13 +25,13 @@ class ThermalZoneDesign extends PureComponent {
 
   // 图片加载成功 获取图片的高度 允许加载热区组件
   onImageLoadSuccess = ({ currentTarget }) => {
-    const { src, naturalHeight } = currentTarget
+    const { naturalHeight } = currentTarget
+    const { height } = this.state
     const { onChange, config } = this.props
     // 判断加载的是不是本地图片 TODO: 临时方案
-    if (src.includes('.aliyuncs.com') && config.src !== src ) {
-      const height = naturalHeight / 2
-      this.setState({ height }, () => {
-        onChange({ id: config.id, key: 'height', value: height })
+    if (height !== naturalHeight) {
+      this.setState({ height: naturalHeight }, () => {
+        onChange({ id: config.id, key: 'height', value: naturalHeight })
       })
     }
   }
@@ -53,7 +55,8 @@ class ThermalZoneDesign extends PureComponent {
     if (images && images.length) {
       const { onChange, config: { id } } = this.props
       const imgItem = last(images)
-      this.setState({ src: imgItem.url, showImgPicker: false }, () => {
+      const randomSrc = `${imgItem.url}${formatImg}&_=${+new Date()}`
+      this.setState({ src: randomSrc, showImgPicker: false, coordinates: [] }, () => {
         onChange({ id, key: 'src', value: imgItem.url })
       })
     } else {

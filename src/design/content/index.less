@@ -17,14 +17,21 @@
   &-imager {
     display: flex;
     flex-direction: column;
+    .ant-spin-nested-loading {
+      width: 100px;
+      height: 100px;
+    }
+    .ant-input-number {
+      width: 120px;
+    }
   }
   &-thermal {
     display: flex;
     flex-direction: column;
     .imager-content {
       position: relative;
-      width: 100%;
-      height: 160px;
+      width: 100% !important;
+      height: 160px !important;
       background-color: #414141;
       cursor: pointer;
       border-bottom: 1px dashed #DDDDDD;
