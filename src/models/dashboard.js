@@ -1,6 +1,7 @@
 import { map } from 'ramda'
 import moment from 'moment'
-import { queryDesignData, publishDesignData, deleteDesignData } from '@/services/design'
+import Cookies from 'js-cookie'
+import { getCSRFToken, queryDesignData, publishDesignData, deleteDesignData } from '@/services/design'
 
 export default {
   namespace: 'dashboard',
@@ -9,6 +10,12 @@ export default {
     total: 0
   },
   effects: {
+    *initCSRFToken(_, { call }) {
+      const res = yield call(getCSRFToken)
+      if(res) {
+        Cookies.set('x-csrf-token', res)
+      }
+    },
     *removeTemplate({ payload ,callback }, { call }) {
       const res = yield call(deleteDesignData, payload)
       if (callback) {
@@ -52,6 +59,7 @@ export default {
   subscriptions: {
     setpu({ dispatch, history }) {
       history.listen(({ pathname }) => {
+        dispatch({ type: 'initCSRFToken' })
         if (pathname === '/') {
           dispatch({ type: 'getTemplates', payload: { type: 1, pageNo: 1, pageSize: 8 } })
         }
