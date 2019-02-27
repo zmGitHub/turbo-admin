@@ -1,6 +1,6 @@
 import React, { Fragment, PureComponent } from 'react'
-import { Switch, Icon, Button, Collapse, Slider} from 'antd'
-import { concat, update, remove, last } from 'ramda'
+import { Switch, Icon, Button, Collapse, Slider, Progress} from 'antd'
+import { concat, update, remove, last, prop, pluck, reduce, map} from 'ramda'
 // import { useToggle, useSetState } from '@/stores/hook'
 import ImagePicker from '@/components/ImagePicker'
 import Linker from '@/components/Linker'
@@ -34,29 +34,57 @@ class MultImageDesign extends PureComponent {
   constructor(props) {
     super(props)
     const { config: { data } } = this.props
+    console.log(this.props)
     this.state = {
       multImageIndex: 0,
       imagePickerVisible: false,
-      items: data.items
+      items: data.items,
+      proportionBase: data.proportionBase
     }
+  }
+
+  // 求和前置函数
+  sumPre = (num1, num2) => {
+    return num1 + num2;
+  }
+  // 除法前置函数
+
+  divisionPre = (num) => {
+    const { proportionBase } = this.state
+    const returnNum = num/proportionBase*100
+    return Number(returnNum.toFixed(1))
+  }
+
+  // 获取所有条目,并且重新给所有条目赋值
+  proportionCount = (items) => {
+    const allProportion =  pluck("proportion")(items)
+    const result = reduce(this.sumPre, 0)(allProportion)
+
+    const { config: { id }, onChange } = this.props
+
+    this.setState({ proportionBase:result }, () => {
+      onChange({ id, key: 'proportionBase', value: result })
+    })
   }
 
   // 添加图片
   addMultImageItem = () => {
     const key = uniqueId(6,7)
     const { items } = this.state
-    const newItems = concat(items, [{ key, src: defaultImg }])
+    const proportionDefault = 50
+    const newItems = concat(items, [{ key, src: defaultImg, proportion: proportionDefault }])
     this.setState({ items: newItems }, () => {
       this.onPropsChange(newItems)
+      this.proportionCount(newItems)
     })
-    console.log(items)
-  }
 
-    onSwitchChange = (value) => {
-      const { config: { id }, onChange } = this.props
-     onChange({ id, key: 'changeSwitch', value })
-     console.log(this.props)
-    }
+  }
+  // 改变行列 TODO:  改的标准  装入status中
+
+  onSwitchChange = (value) => {
+    const { config: { id }, onChange } = this.props
+    onChange({ id, key: 'changeSwitch', value })
+  }
 
 
   // 删除图片
@@ -66,6 +94,7 @@ class MultImageDesign extends PureComponent {
     const newItems = remove(index, 1, items)
     this.setState({ items: newItems }, () => {
       this.onPropsChange(newItems)
+      this.proportionCount(newItems)
     })
   }
 
@@ -105,36 +134,26 @@ class MultImageDesign extends PureComponent {
   // 修改多张图片的 data
   onPropsChange = (value) => {
     const { config: { id }, onChange } = this.props
+    console.log(value)
     onChange({ id, key: 'items', value })
 
   }
   // 根据滑块值修改样式
 
-  onAfterChange = (value) => {
-    const {config: { id,data:items }} = this.props
-    console.log(value)
-    console.log(id)
-    console.log(items)
-    // onChange({ id, key: 'items', value})
-    console.log(this.props)
-
-    // this.setState({items: newItems }, () =>{
-    //   this.onPropsChange(newItems)
-    // })
-    // TODO:
-    // const imgObj = last(imgs)
-    // const { items, swiperIndex } = this.state
-    // const swiperItem = items[swiperIndex]
-    // swiperItem.src = imgObj.url
-    // const newItems = update(swiperIndex, swiperItem, items)
-    // this.setState({ imagePickerVisible: false, items: newItems }, () => {
-    //   this.onPropsChange(newItems)
-    // })
+  onAfterChange = (index,value) => {
+    const { items } = this.state
+    const multImageItem = items[index]
+    multImageItem.proportion = value
+    const newItems = update(index, multImageItem, items)
+    this.setState({items: newItems },()=>{
+      this.onPropsChange(newItems)
+      this.proportionCount(newItems)
+    })
   }
 
 
   render() {
-    const { items, imagePickerVisible } = this.state
+    const { items, imagePickerVisible,proportionBase } = this.state
     return (
       <Fragment>
         <div className="content-data">
@@ -152,6 +171,7 @@ class MultImageDesign extends PureComponent {
             <Collapse bordered={false}>
               {
                 items.map((item, index) => (
+
                   <Panel header={<HeaderItem data-id={item.id} onDelete={(e) => { this.deleteMultImageItem(e, index) }} index={index+1} />} key={item.key}>
                     <div className="content-data-multImage-item">
                       <div className="content-data-multImage-item-panel">
@@ -167,7 +187,11 @@ class MultImageDesign extends PureComponent {
                       </div>
                       <div className="content-data-multImage-item-panel">
                         <h4>占比</h4>
-                        <Slider className="Proportion" defaultValue={50} marks={{0:"0",50:"50",100:"100"}} onAfterChange={this.onAfterChange}  />
+                        <Slider className="Proportion" defaultValue={50} marks={{0:"0",25:"25",50:"50",75:"75",100:"100"}} onChange={(value)=>{this.onAfterChange(index,value)}}  />
+                        <div className="item-Progress">
+                          {/* {console.log()} */}
+                          <Progress type="circle" percent={Number((item.proportion/proportionBase*100).toFixed(1))} width={40} strokeColor="#ff835a" status="normal" />
+                        </div>
                       </div>
                     </div>
                   </Panel>

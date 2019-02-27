@@ -10,6 +10,7 @@ export default {
       component: 'multImageDesign',
       data: {
         changeSwitch:true,
+        proportionBase:50,
         items:[]
       }
     },

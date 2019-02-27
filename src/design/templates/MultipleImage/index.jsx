@@ -14,16 +14,19 @@ class MultipleImage extends PureComponent {
   render() {
     const { componentStyle, data } = this.props
     const items = data.items.length > 0 ? data.items : defalutItems
+    console.log(data.items)
     const switchStyle = classnames('x-template-multipleImage',{
       switch: !data.changeSwitch
     })
-    
+
     return (
       <div className={switchStyle} style={getStyles(componentStyle, ['padding','img'])}>
         {
+          // eslint-disable-next-line no-return-assign
           items.map((item) => (
-            <div key={item.key} className="x-template-multipleImage-item">
-              <img style={getStyles(componentStyle, ['img'])} src={item.src ? `${item.src}${format}` : defaultImg} alt="轮播图" draggable={false} />
+            <div key={item.key} className="x-template-multipleImage-item" style={{flex:items.length!==1?item.proportion:1}}>
+
+              <img style={getStyles(componentStyle, ['img'])} src={item.src ? `${item.src}${format}` : defaultImg} alt="多张图片" draggable={false} />
             </div>
           ))
         }
