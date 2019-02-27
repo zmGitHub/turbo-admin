@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
-import { Icon } from 'antd'
-import { last } from 'lodash'
+import { InputNumber, Spin, Icon } from 'antd'
+import { last } from 'ramda'
 import { useToggle, useSetState } from '@/stores/hook'
 import ImagePicker from '@/components/ImagePicker'
 import Linker from '@/components/Linker'
@@ -8,15 +8,18 @@ import defaultImg from '@/static/images/x.png'
 
 import './index.less'
 
+const formatImg = '?x-oss-process=image/resize,m_mfit,w_375/sharpen,100'
+
 const ImageDesign = ({ config, onChange }) => {
-  const { id, data: { src, url } } = config
+  const { id, data: { src, height, url } } = config
   const [ on, toggle ] = useToggle(false)
-  const [ state, setState ] = useSetState({ src, url })
+  const [ state, setState ] = useSetState({ src: `${src}${formatImg}`, height, url, loading: false })
   const onImageChange = (images) => {
     toggle(false)
     if(images && images.length) {
       const imgItem = last(images)
-      setState({ src: imgItem.url })
+      const srcRandom = `${imgItem.url}${formatImg}&_=${+new Date()}`
+      setState({ src: srcRandom, loading: true })
       onChange({ id, key: 'src', value: imgItem.url })
     }
 
@@ -24,15 +27,38 @@ const ImageDesign = ({ config, onChange }) => {
   const onLinkerChange = (value) => {
     onChange({ id, key: 'url', value })
   }
+
+  const onHeightChange = (value) => {
+    if(state.height !== value) {
+      setState({ height: value })
+      onChange({ id, key: 'height', value })
+    }
+  }
+
+  const onImageLoad = ({ currentTarget }) => {
+    const { naturalHeight } = currentTarget
+    if(state.height !== naturalHeight) {
+      setState({ height: naturalHeight, loading: false })
+      onChange({ id, key: 'height', value: naturalHeight })
+    }
+  }
   return (
     <Fragment>
       <div className="content-data">
         <h4 className="content-data-title">图片</h4>
         <div className="content-data-imager">
-          <div className="imager-content">
-            <img src={state.src || defaultImg} alt="单张图片" />
-            <div onClick={() => { toggle(true) }} className="imager-content-mask"><Icon type="edit" /></div>
-          </div>
+          <Spin size="small" spinning={state.loading} tip="图片加载中...">
+            <div className="imager-content">
+              <img onLoad={onImageLoad} src={state.src || defaultImg} alt="单张图片" />
+              <div onClick={() => { toggle(true) }} className="imager-content-mask"><Icon type="edit" /></div>
+            </div>
+          </Spin>
+        </div>
+      </div>
+      <div className="content-data">
+        <h4 className="content-data-title">高度</h4>
+        <div className="content-data-imager">
+          <InputNumber disabled={state.loading} min={10} value={state.height} onChange={onHeightChange} />
         </div>
       </div>
       <div className="content-data">
