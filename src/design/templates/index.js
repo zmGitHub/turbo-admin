@@ -9,6 +9,7 @@ import CouponCard from './Coupon/template.config'
 import Title from './Title/template.config'
 import GoodsCard from './GoodsCard/template.config'
 import GoodsSlider from './GoodsSlider/template.config'
+import MultipleImage from './MultipleImage/template.config'
 import Error from './error'
 
 // 同时导出所有的模板
@@ -23,5 +24,6 @@ export default {
   title:Title,
   goodsCard: GoodsCard,
   goodsSlider: GoodsSlider,
+  multipleImage: MultipleImage,
   error: Error
 }

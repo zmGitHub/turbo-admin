@@ -15,7 +15,7 @@ export default {
     },
     style: [ // 那些样式是可以编辑的
       {
-        key: "img", // 标志唯一
+        key: "img", // 标志唯一img
         name: "图片", // 装修组件上的名称
         items: [ // 可编辑的项
           {

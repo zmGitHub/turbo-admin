@@ -47,7 +47,7 @@ const DATA = [
       {
         key: 'multiImg',
         name: '多张图片',
-        components: [{ id: 'text_1', name: 'text' }],
+        components: [{ id: 'mult_img_1', name: 'multipleImage' }],
         icon: 'multiImg'
       },
       {

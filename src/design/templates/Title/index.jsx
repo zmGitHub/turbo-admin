@@ -10,7 +10,6 @@ class Title extends PureComponent {
     const moreStyle = classnames('right-content', {
       hide: !data.moreSwitch
     })
-
     return (
       <div className='x-template-title' style={getStyles(componentStyle, ['title'])}>
         <div className='left-title'>{data.title}</div>

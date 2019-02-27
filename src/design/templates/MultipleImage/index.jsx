@@ -1,32 +1,35 @@
 import React, { PureComponent } from 'react'
-import { Carousel } from 'antd'
 import { getStyles } from '@/utils'
+import classnames from 'classnames'
 import defaultImg from '@/static/images/x.png'
-
 import './index.less'
 
-const defaultItems = [
-  { key: 'swiper_1', src: defaultImg }
+const defalutItems = [
+    {key: 'multImg_1',src: defaultImg}
 ]
+
 const format = '?x-oss-process=image/resize,m_mfit,w_375/sharpen,100'
 
-class Swiper extends PureComponent {
+class MultipleImage extends PureComponent {
   render() {
     const { componentStyle, data } = this.props
-    const items = data.items.length > 0 ? data.items : defaultItems
-    console.log(items)  
+    const items = data.items.length > 0 ? data.items : defalutItems
+    const switchStyle = classnames('x-template-multipleImage',{
+      switch: !data.changeSwitch
+    })
+    
     return (
-      <Carousel autoplay className="x-template-swiper">
+      <div className={switchStyle} style={getStyles(componentStyle, ['padding','img'])}>
         {
           items.map((item) => (
-            <div key={item.key} className="x-template-swiper-item">
+            <div key={item.key} className="x-template-multipleImage-item">
               <img style={getStyles(componentStyle, ['img'])} src={item.src ? `${item.src}${format}` : defaultImg} alt="轮播图" draggable={false} />
             </div>
           ))
         }
-      </Carousel>
+      </div>
     );
   }
 }
 
-export default Swiper
+export default MultipleImage

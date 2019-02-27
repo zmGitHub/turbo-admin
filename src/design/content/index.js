@@ -9,5 +9,6 @@ export default {
   titleDesign: import('./title'),
   goodsCardDesign: import('./goodsCardDesign'),
   goodsSliderDesign: import('./goodsSliderDesign'),
+  multImageDesign: import('./multImageDesign'),
   error: import('./error')
 }

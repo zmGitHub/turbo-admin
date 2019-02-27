@@ -1,0 +1,20 @@
+.x-template-multipleImage {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  &-item{
+    flex: 1;
+    display: flex;
+  }
+  img {
+    width: 100%;
+    height: inherit !important;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+  }
+  &.switch {
+    flex-direction: row;
+  }
+
+}
