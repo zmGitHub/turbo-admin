@@ -3,6 +3,7 @@ export default {
   imageDesign: import('./image'),
   thermalZoneDesign: import('./thermalZone'),
   swiperDesign: import('./swiper'),
+  tabsDesign: import('./tabsDesign'),
   noticeCardDesign: import('./notice'),
   messageListDesign: import('./messageListDesign'),
   articleCardDesign: import('./articleCard'),

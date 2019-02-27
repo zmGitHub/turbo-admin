@@ -31,8 +31,8 @@ class GoodsCard extends PureComponent {
     return (
       <div className={cardStyle} style={getStyles(componentStyle, ['margin'])}>
         {
-          goodsItems.map(({ id, title, name, desc, src, price }) => (
-            <div key={id} className="googs-card-item">
+          goodsItems.map(({ id, title, name, desc, src, price }, index) => (
+            <div key={`${id}_${index}_goods_card`} className="googs-card-item">
               <div className="header">
                 <img className="img" src={`${src}${IMAGE_FORAMT[type]}`} alt="商品图片" />
               </div>

@@ -114,7 +114,10 @@ const config = {
     new Webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1
     }),
-    new LodashModuleReplacementPlugin(),
+    new LodashModuleReplacementPlugin({
+      'collections': true,
+      'paths': true
+    }),
     new MomentLocalesPlugin({
       localesToKeep: ['zh-cn'],
     })
