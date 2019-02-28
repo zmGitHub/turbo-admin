@@ -13,7 +13,8 @@ const formatImg = '?x-oss-process=image/resize,m_mfit,w_375/sharpen,100'
 const ImageDesign = ({ config, onChange }) => {
   const { id, data: { src, height, url } } = config
   const [ on, toggle ] = useToggle(false)
-  const [ state, setState ] = useSetState({ src: `${src}${formatImg}`, height, url, loading: false })
+  const imgSrc = src ? `${src}${formatImg}` : defaultImg
+  const [ state, setState ] = useSetState({ src: imgSrc, height, url, loading: false })
   const onImageChange = (images) => {
     toggle(false)
     if(images && images.length) {

@@ -259,6 +259,47 @@
       }
     }
   }
+  &-tabs {
+    padding-left: 10px;
+    &.inline {
+      display: flex;
+      align-items: center;
+      .label {
+        margin-right: 12px;
+      }
+    }
+    .list-conent {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      .scroll-bar();
+      &-item {
+        display: flex;
+        align-items: center;
+        padding: 5px 0;
+        border-bottom: 1px dashed #6b6b6b;
+        .name {
+          max-width: 230px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        .actions {
+          display: flex;
+          flex: 1;
+          justify-content: flex-end;
+          cursor: pointer;
+          .anticon {
+            font-size: 14px;
+          }
+        }
+        &:last-child {
+          border: none;
+        }
+      }
+    }
+
+  }
   &-article {
     display: flex;
     align-items: center;

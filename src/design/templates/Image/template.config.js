@@ -14,6 +14,7 @@ export default {
           page: '',
           query: ''
         },
+        height: 200, // 图片默认高度
         src: '' // 图片链接 必须是 https 开头
       }
     },
@@ -34,15 +35,7 @@ export default {
             title: '圆角',
             component: "slider",
             value: "2px"
-          },
-          {
-            key: "height",
-            title: '高度',
-            component: "slider",
-            min: 10,
-            max: 9999,
-            value: "200px"
-          },
+          }
         ]
       },
       {
