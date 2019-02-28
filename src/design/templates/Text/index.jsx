@@ -6,7 +6,7 @@ class Text extends PureComponent {
   render() {
     const { componentStyle, data } = this.props
     return (
-      <div className='x-template-text' style={getStyles(componentStyle, ['title'])}>{data.title}</div>
+      <div className='x-template-text' style={getStyles(componentStyle, ['title', 'margin'])}>{data.title}</div>
     );
   }
 }

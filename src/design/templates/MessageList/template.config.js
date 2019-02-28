@@ -33,6 +33,11 @@ export default {
             min: 10,
             max: 100,
             value: "12px"
+          },
+          {
+            key: "fontWeight",
+            component: "fontWeight",
+            value: "300"
           }
         ]
       },
@@ -53,6 +58,11 @@ export default {
             min: 10,
             max: 100,
             value: "16px"
+          },
+          {
+            key: "fontWeight",
+            component: "fontWeight",
+            value: "300"
           }
         ]
       },
@@ -73,6 +83,11 @@ export default {
             min: 10,
             max: 100,
             value: "12px"
+          },
+          {
+            key: "fontWeight",
+            component: "fontWeight",
+            value: "300"
           }
         ]
       },

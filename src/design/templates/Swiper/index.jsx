@@ -8,7 +8,7 @@ import './index.less'
 const defaultItems = [
   { key: 'swiper_1', src: defaultImg }
 ]
-const format = '?x-oss-process=image/resize,m_mfit,w_375/sharpen,100'
+// const format = '?x-oss-process=image/resize,m_mfit,w_375/sharpen,100'
 
 class Swiper extends PureComponent {
   render() {
@@ -16,15 +16,18 @@ class Swiper extends PureComponent {
     const items = data.items.length > 0 ? data.items : defaultItems
     console.log(items)  
     return (
-      <Carousel autoplay className="x-template-swiper">
-        {
-          items.map((item) => (
-            <div key={item.key} className="x-template-swiper-item">
-              <img style={getStyles(componentStyle, ['img'])} src={item.src ? `${item.src}${format}` : defaultImg} alt="轮播图" draggable={false} />
-            </div>
-          ))
-        }
-      </Carousel>
+      <div className="x-template-swiper" style={getStyles(componentStyle, ['margin'])}>
+        <Carousel autoplay>
+          {
+            items.map((item) => (
+              <div key={item.key} className="x-template-swiper-item">
+                <img style={getStyles(componentStyle, ['img'])} src={item.src || defaultImg} alt="轮播图" draggable={false} />
+              </div>
+            ))
+          }
+        </Carousel>
+      </div>
+
     );
   }
 }

@@ -24,7 +24,7 @@ class Tabs extends PureComponent {
         {
           tabItems.map(({ key, name }, index) => (
             <div
-              key={key}
+              key={`${key}_${index}_tab`}
               className="x-template-tabs-item"
               style={getStyles(componentStyle, index === 0 ? tabItemActiveStyle : tabItemsStyle)}
             >

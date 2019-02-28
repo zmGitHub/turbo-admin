@@ -88,7 +88,7 @@ class NoticeCardDesign extends PureComponent {
             <Linker url={url} multiGoods={false} onChange={this.onLinkerChange} />
           </div>
         </div>
-        <NoicerPicker visible={noticeVisible} onChange={this.getNoticeList} />
+        <NoicerPicker value={notices} visible={noticeVisible} onChange={this.getNoticeList} />
       </Fragment>
     );
   }
