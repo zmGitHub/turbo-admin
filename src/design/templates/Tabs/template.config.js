@@ -48,7 +48,7 @@ export default {
             key: "color",
             title: '字体颜色',
             component: "color",
-            value: "#aaa"
+            value: "#262626"
           },
           {
             key: "fontSize",
@@ -57,6 +57,11 @@ export default {
             min: 10,
             max: 100,
             value: "14px"
+          },
+          {
+            key: "fontWeight",
+            component: "fontWeight",
+            value: "300"
           },
           {
             key: "height",
