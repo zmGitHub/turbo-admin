@@ -41,6 +41,7 @@ class PageForm extends PureComponent {
               <Option value="/pages/index">首页</Option>
               <Option value="/pages/design">装修页</Option>
               <Option value="/pages/filter">商品列表</Option>
+              <Option value="/pages/article">文章详情</Option>
             </Select>
           )}
         </Form.Item>
