@@ -20,7 +20,6 @@ class PageForm extends PureComponent {
     const { form, onChange } = this.props;
     e.preventDefault();
     form.validateFieldsAndScroll((err, values) => {
-      console.log(err)
       if (!err) {
         onChange(values)
       }
@@ -40,7 +39,7 @@ class PageForm extends PureComponent {
               placeholder="请选择页面"
             >
               <Option value="/pages/index">首页</Option>
-              <Option value="/pages/activity">活动页</Option>
+              <Option value="/pages/design">装修页</Option>
               <Option value="/pages/filter">商品列表</Option>
             </Select>
           )}
@@ -65,12 +64,12 @@ class PageForm extends PureComponent {
             initialValue: data.query,
             rules: [
               {
-                required: getFieldValue('page') === '/pages/activity',
+                required: getFieldValue('page') === '/pages/design',
                 message: '请输入参数'
               }
             ]
           })(
-            <Input placeholder="请输入参数" />
+            <Input placeholder="比如: id=xx&fcid=xx" />
           )}
         </Form.Item>
         <Form.Item>

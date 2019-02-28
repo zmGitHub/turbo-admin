@@ -10,7 +10,7 @@ import './index.less'
 const MAPS = {
   '/pages/goods': '跳转商品',
   '/pages/index': '跳转首页',
-  '/pages/activity': '择跳转活动页',
+  '/pages/design': '跳转装修页',
   '/pages/filter': '商品列表',
   'coupons': '领取优惠券',
 }
@@ -73,7 +73,7 @@ class Linker extends PureComponent {
         </div>
         <div className={chooseStyle}>
           <span>已选择: {MAPS[url.page]}</span>
-          (<strong>{url.query}</strong>)
+          (<strong>参数: {url.query}</strong>)
         </div>
         <div className={linkerStyle}>
           <PageForm onChange={this.onPageChange} />
