@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Modal, Input } from 'antd'
-import { trim } from 'ramda'
+import { trim, map } from 'ramda'
 
 import './index.less'
 
@@ -39,6 +39,8 @@ class NoticePicker extends PureComponent {
 
   render() {
     const { visible } = this.state
+    const { value } = this.props
+    const defaultValue = map(({ id }) => id, value)
     return (
       <Modal
         destroyOnClose
@@ -51,7 +53,7 @@ class NoticePicker extends PureComponent {
         onOk={this.handleConfirm}
         visible={visible}
       >
-        <Input onChange={this.handleInputChange} placeholder="多个消息组ID请用,分开" />
+        <Input defaultValue={defaultValue.join(',')} onChange={this.handleInputChange} placeholder="多个消息组ID请用,分开" />
       </Modal>
     );
   }

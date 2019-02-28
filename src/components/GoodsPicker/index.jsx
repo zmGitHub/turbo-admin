@@ -15,16 +15,15 @@ class GoodsPicker extends PureComponent {
   inputValue = ''
 
   state ={
-    value: '',
     visible: false
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { visible } = prevState
     if (nextProps.visible !== visible) {
-      return { visible: nextProps.visible, value: nextProps.value }
+      return { visible: nextProps.visible }
     }
-    return { value: nextProps.value }
+    return null
   }
 
   handleInputChange = (e) => {
@@ -44,7 +43,8 @@ class GoodsPicker extends PureComponent {
   }
 
   render() {
-    const { visible, value } = this.state
+    const { visible } = this.state
+    const { value } = this.props
     return (
       <Modal
         destroyOnClose
@@ -57,7 +57,7 @@ class GoodsPicker extends PureComponent {
         onOk={this.handleConfirm}
         visible={visible}
       >
-        <Input type="number" defaultValue={value} onChange={this.handleInputChange} placeholder="多个商品请用,分开" />
+        <Input defaultValue={value} onChange={this.handleInputChange} placeholder="跳转参数id=xx(商品id)" />
       </Modal>
     );
   }
