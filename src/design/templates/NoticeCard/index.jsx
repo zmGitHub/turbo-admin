@@ -13,7 +13,7 @@ class NoticeCard extends PureComponent {
     const { componentStyle, data } = this.props
     const items = data.items.length > 0 ? data.items : defaultItems
     return (
-      <div className="x-template-notice">
+      <div className="x-template-notice" style={getStyles(componentStyle, ['margin'])}>
         <div className="x-template-notice-header">
           <div className="name" style={getStyles(componentStyle, ['title'])}>{data.title}</div>
           <div className="divider">|</div>

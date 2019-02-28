@@ -15,15 +15,18 @@ class Swiper extends PureComponent {
     const { componentStyle, data } = this.props
     const items = data.items.length > 0 ? data.items : defaultItems
     return (
-      <Carousel autoplay className="x-template-swiper">
-        {
-          items.map((item) => (
-            <div key={item.key} className="x-template-swiper-item">
-              <img style={getStyles(componentStyle, ['img'])} src={item.src ? `${item.src}${format}` : defaultImg} alt="轮播图" draggable={false} />
-            </div>
-          ))
-        }
-      </Carousel>
+      <div className="x-template-swiper" style={getStyles(componentStyle, ['margin'])}>
+        <Carousel autoplay>
+          {
+            items.map((item) => (
+              <div key={item.key} className="x-template-swiper-item">
+                <img style={getStyles(componentStyle, ['img'])} src={item.src ? `${item.src}${format}` : defaultImg} alt="轮播图" draggable={false} />
+              </div>
+            ))
+          }
+        </Carousel>
+      </div>
+
     );
   }
 }

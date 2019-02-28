@@ -12,7 +12,7 @@ class Title extends PureComponent {
     })
 
     return (
-      <div className='x-template-title' style={getStyles(componentStyle, ['title'])}>
+      <div className='x-template-title' style={getStyles(componentStyle, ['title', 'margin'])}>
         <div className='left-title'>{data.title}</div>
         <div className={moreStyle}>
           <div className='x-template-title-link'>更多</div>
