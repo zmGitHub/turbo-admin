@@ -14,7 +14,6 @@ class Swiper extends PureComponent {
   render() {
     const { componentStyle, data } = this.props
     const items = data.items.length > 0 ? data.items : defaultItems
-    console.log(items)  
     return (
       <div className="x-template-swiper" style={getStyles(componentStyle, ['margin'])}>
         <Carousel autoplay>

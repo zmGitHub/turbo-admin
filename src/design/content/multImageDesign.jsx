@@ -34,7 +34,6 @@ class MultImageDesign extends PureComponent {
   constructor(props) {
     super(props)
     const { config: { data } } = this.props
-    console.log(this.props)
     this.state = {
       multImageIndex: 0,
       imagePickerVisible: false,
@@ -134,7 +133,6 @@ class MultImageDesign extends PureComponent {
   // 修改多张图片的 data
   onPropsChange = (value) => {
     const { config: { id }, onChange } = this.props
-    console.log(value)
     onChange({ id, key: 'items', value })
 
   }
@@ -189,7 +187,6 @@ class MultImageDesign extends PureComponent {
                         <h4>占比</h4>
                         <Slider className="Proportion" defaultValue={50} marks={{0:"0",25:"25",50:"50",75:"75",100:"100"}} onChange={(value)=>{this.onAfterChange(index,value)}}  />
                         <div className="item-Progress">
-                          {/* {console.log()} */}
                           <Progress type="circle" percent={Number((item.proportion/proportionBase*100).toFixed(1))} width={40} strokeColor="#ff835a" status="normal" />
                         </div>
                       </div>

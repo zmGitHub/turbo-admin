@@ -14,7 +14,6 @@ class MultipleImage extends PureComponent {
   render() {
     const { componentStyle, data } = this.props
     const items = data.items.length > 0 ? data.items : defalutItems
-    console.log(data.items)
     const switchStyle = classnames('x-template-multipleImage',{
       switch: !data.changeSwitch
     })
