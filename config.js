@@ -9,3 +9,4 @@ module.exports = {
     extensions: ['.js', '.jsx', '.json', '.less', '.scss']
   },
 }
+

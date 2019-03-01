@@ -113,6 +113,10 @@ class GoodsCardDesign extends PureComponent {
         if (res && data) {
           const goods = head(data)
           const { mainImage, name, highPrice } = prop('item', goods)
+          // const skus = prop('skus', goods)
+          // if (skus.length) {
+
+          // }
           const newItems = [{
             id: itemIds,
             name: formatGoodName(name),
