@@ -21,6 +21,7 @@ const Ranger = ({ title, value, onChange }) => {
     <div className="content-data">
       <h4 className="content-data-title">{title || '未设置名称'}</h4>
       <div className="content-data-textarea">
+
         <TextArea
           autosize
           value={state.value}
