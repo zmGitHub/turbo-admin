@@ -58,11 +58,8 @@ export default {
   },
   subscriptions: {
     setpu({ dispatch, history }) {
-      history.listen(({ pathname }) => {
+      history.listen(() => {
         dispatch({ type: 'initCSRFToken' })
-        if (pathname === '/') {
-          dispatch({ type: 'getTemplates', payload: { type: 1, pageNo: 1, pageSize: 8 } })
-        }
       })
     }
   }

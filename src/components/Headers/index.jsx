@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import { Button, message } from 'antd'
 import { connect } from 'dva';
+import { Link } from 'dva/router'
+import classnames from 'classnames'
 
 import './index.less'
 
@@ -16,31 +18,13 @@ class Header extends PureComponent {
   save = () => {
     const { dispatch, status: { params }, list } = this.props
     const data = JSON.stringify(list)
-    if (!params.id) {
-      const payload = {
-        type: 1,
-        data
-      }
-      dispatch({
-        type: 'design/create',
-        payload,
-        callback: (res) => {
-          if (res) {
-            message.success('保存成功')
-          } else {
-            message.error('保存失败')
-          }
-        }
-      })
-    } else {
-      const payload = {
-        id: params.id,
-        name: params.name || '更新模板名称',
-        data
-      }
+    if (params.id) {
       dispatch({
         type: 'design/update',
-        payload,
+        payload: {
+          id: params.id,
+          data
+        },
         callback: (res) => {
           if (res) {
             message.success('更新成功')
@@ -67,8 +51,11 @@ class Header extends PureComponent {
             <span className="desc">装修</span>
           </div>
         </div>
-        <div className={`${prefixCls}-right`}>
-          { status.design ? <Button loading={submitting} onClick={this.save} type="primary">保存</Button> : null }
+        <div className={classnames(`${prefixCls}-right`, { hide: !status.design })}>
+          <Link to="/">
+            <Button ghost>返回</Button>
+          </Link>
+          <Button loading={submitting} onClick={this.save} type="primary">保存</Button>
         </div>
       </div>
     )
