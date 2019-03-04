@@ -4,10 +4,11 @@ import { connect } from 'dva'
 import { Pagination, Empty, Card, Icon, Spin, Button, Modal, DatePicker, message } from 'antd'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import classnames from 'classnames'
-import CountDown from '@/components/CountDown'
+import Countdown from '@/components/CountDown'
 import templateImg from '@/static/images/template.jpg'
 import CreateTemplatesModal from './CreatForm'
 import './index.less'
+
 
 const { confirm } = Modal
 
@@ -28,6 +29,7 @@ const typeMaps = {
   'personal': '3'
 }
 
+
 @connect(({ dashboard, loading }) => ({
   dashboard,
   loading: loading.effects['dashboard/getTemplates']
@@ -39,6 +41,7 @@ class Dashboard extends PureComponent {
   static defaultProps = {
     loading: false,
     dashboard: {
+      tab: 'home',
       total: 0,
       data: []
     }
@@ -46,38 +49,18 @@ class Dashboard extends PureComponent {
 
   constructor(props) {
     super(props)
+    const { dashboard: { tab } } = this.props
     this.state = {
       pageNo: 1,
-      type: 'home',
+      type: tab,
       dateVisible: false,
       visible: false
     }
   }
 
   componentDidMount() {
+    console.log(this.state);
     this.queryTemplate()
-  }
-
-  // 设置默认
-  setDefaultTemplate(id) {
-    const { dispatch } = this.props
-    confirm({
-      title: '确认设置该模板为默认吗?',
-      content: '设置后小程序对应页面默认展示该模板',
-      okText: '确认',
-      okType: 'okType',
-      cancelText: '取消',
-      onOk: () => {
-        dispatch({
-          type: 'dashboard/publishTemplate',
-          payload: { id, isPublish: 1, isTiming: 0, timingTime: '' },
-          callback: () => {
-            message.success('设置默认成功')
-            this.queryTemplate()
-          }
-        })
-      }
-    })
   }
 
   addTemplates = (event) => {
@@ -100,7 +83,7 @@ class Dashboard extends PureComponent {
     const { type, pageNo } = this.state
     dispatch({
       type: 'dashboard/getTemplates',
-      payload: { type: typeMaps[type], pageNo, pageSize: 8 }
+      payload: { tab: type, type: typeMaps[type], pageNo, pageSize: 8 }
     })
   }
 
@@ -140,6 +123,28 @@ class Dashboard extends PureComponent {
     this.setState({ dateVisible: false })
   }
 
+  // 发布
+  publishNow(id) {
+    const { dispatch } = this.props
+    confirm({
+      title: '确认发布该模板吗?',
+      content: '发布后小程序对应页面默认展示该模板',
+      okText: '确认',
+      okType: 'okType',
+      cancelText: '取消',
+      onOk: () => {
+        dispatch({
+          type: 'dashboard/publishTemplate',
+          payload: { id, isPublish: 1, isTiming: 0, timingTime: '' },
+          callback: () => {
+            message.success('发布成功')
+            this.queryTemplate()
+          }
+        })
+      }
+    })
+  }
+
   // 删除模板
   deleteTemlate(id) {
     const { dispatch } = this.props
@@ -162,25 +167,12 @@ class Dashboard extends PureComponent {
     })
   }
 
-  // 立即发布
-  publishNow(id) {
-    const { dispatch } = this.props
-    dispatch({
-      type: 'dashboard/publishTemplate',
-      payload: { id, isPublish: 1, isTiming: 0 },
-      callback: () => {
-        message.success('发布成功')
-        this.queryTemplate()
-      }
-    })
-  }
-
   renderItem = () => {
     const { dashboard: { data } } = this.props
     return (
       <div className="x-dashboard-content-body-list">
         {
-          data.map(({ id, name, isPublish, url, timingTime }) => (
+          data.map(({ id, name, isPublish, url, isTiming, timingTime }) => (
             <div key={id} className={classnames('x-dashboard-content-body-list-item', { active: isPublish === 1 })}>
               <img src={url || templateImg} alt="官方模板" />
               { isPublish === 1 ? (<div className="triangle"><Icon type="check-circle" /></div>) : null }
@@ -195,17 +187,16 @@ class Dashboard extends PureComponent {
                 </Link>
                 <Button onClick={() => { this.publishNow(id) }}>立即发布</Button>
                 <Button onClick={() => { this.openDateModal(id) }}>定时发布</Button>
-                {isPublish === 1 ? (<Button onClick={() => { this.setDefaultTemplate(id) }}>设为默认</Button>) : null}
                 <Button onClick={() => { this.deleteTemlate(id) }}>删除模板</Button>
               </div>
               <div className="template-footer">{id}-{name}</div>
               {
-                timingTime && (
+                isTiming ? (
                   <div className="template-timer">
                     <span>距离发布还有: </span>
-                    <CountDown target={timingTime} />
+                    <Countdown target={timingTime} onEnd={this.queryTemplate} />
                   </div>
-                )
+                ) : null
               }
             </div>
           ))

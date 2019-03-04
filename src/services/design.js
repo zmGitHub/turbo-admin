@@ -36,5 +36,5 @@ export async function deleteDesignData(id) {
 
 // 根据 id 获取装修数据
 export async function getDesignDataById(params) {
-  return request.get(`/api/hisense/applet/design/find/${params.id}`)
+  return request.get(`/api/hisense/applet/design/find/save/${params.id}`)
 }

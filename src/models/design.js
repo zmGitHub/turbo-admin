@@ -1,15 +1,10 @@
-import { includes, concat, is, remove, add, insert } from 'ramda'
+import { concat, is, remove, add, insert } from 'ramda'
 import _find from 'lodash/find'
 import { createDesignData, updateDesginData, getDesignDataById } from '@/services/design'
-import { getPageQuery } from '@/utils'
 
 export default {
   namespace: 'design',
   state: {
-    status: {
-      design: false,
-      params: {}
-    },
     list: [],
   },
   effects: {
@@ -35,10 +30,6 @@ export default {
       if(callback) {
         callback(res)
       }
-    },
-    // 监听页面是否处于编辑状态
-    *updateStatus({ payload }, { put }) {
-      yield put({ type: 'updatePageStatus', payload})
     },
     // 添加新组件
     *add(action, { put }) {
@@ -145,21 +136,6 @@ export default {
         ...state,
         list
       }
-    },
-    updatePageStatus(state, { payload }) {
-      return {
-        ...state,
-        status: payload
-      }
     }
-  },
-  subscriptions: {
-    setup({ history, dispatch }) {
-      return history.listen(({ pathname }) => {
-        const isDesignPage = includes('/design', pathname)
-        const params = getPageQuery(pathname)
-        dispatch({ type: 'updateStatus', payload: { design: isDesignPage, params } })
-      });
-    },
-  },
+  }
 }

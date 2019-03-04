@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
@@ -22,7 +22,7 @@ const initTime = props => {
   };
 };
 
-class CountDown extends Component {
+class CountDown extends PureComponent {
   timer = 0;
 
   interval = 1000;

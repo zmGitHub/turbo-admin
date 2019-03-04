@@ -19,12 +19,13 @@
         .scroll-bar();
         &-item {
           position: relative;
+          min-width: 180px;
           margin: 8px;
           background-color: #ffffff;
           cursor: pointer;
           img {
             width: 180px;
-            height: 100%;
+            min-height: 320px;
           }
           .template-modal {
             display: none;
@@ -89,6 +90,10 @@
                 font-size: 13px;
                 font-weight: bold;
               }
+            }
+            .ant-statistic-content {
+              display: flex;
+              align-items: center;
             }
           }
           &.active {

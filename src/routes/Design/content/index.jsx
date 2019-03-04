@@ -1,8 +1,10 @@
 import React, { PureComponent, Suspense } from 'react';
 import { connect } from 'dva'
+import { message } from 'antd'
 import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import scrollIntoView from 'scroll-into-view-if-needed'
-import { is, remove, add, dec, findIndex, propEq, insert } from 'ramda'
+import html2canvas from 'html2canvas'
+import { is, remove, add, dec, findIndex, propEq, insert, map } from 'ramda'
 import classnames from 'classnames'
 import { getPageQuery } from '@/utils'
 import SortableItem from './sortableItem'
@@ -10,16 +12,21 @@ import SortableItem from './sortableItem'
 
 
 const SortableList = SortableContainer(({ children }) => (
-  <div className="container">
+  <div id="canvas" className="container">
     <Suspense fallback={<div>Loading...</div>}>
       {children}
     </Suspense>
   </div>
 ));
 
-@connect()
+@connect(({ design, loading }) => ({
+  list: design.list,
+  submitting: loading.effects['design/create']
+}))
 class Mobile extends PureComponent {
   scrollContentRef = null
+
+  params = null
 
   constructor(props) {
     super(props)
@@ -29,21 +36,29 @@ class Mobile extends PureComponent {
       settingCollapse: false,
       siderCollapse: false,
     }
+    this.dragEleRef = React.createRef()
   }
 
   componentDidMount() {
     const { location, dispatch } = this.props;
     this.scrollContentRef = document.getElementById('js-scroll-content')
-    const params = getPageQuery(location.pathname)
+    this.params = getPageQuery(location.pathname)
     window.ee.on('OPEN_SIDER_PANEL', this.openSiderPanel)
     window.ee.on('ADD_COMPONENT_DATA', this.addComponent)
+    window.ee.on('SAVE_COMPONENT_DATA', this.save)
     dispatch({
       type: 'design/getDataById',
-      payload: { id: params.id },
+      payload: { id: this.params.id },
       callback: (components) => {
         this.setState({ components })
       }
     })
+  }
+
+  componentWillUnmount() {
+    window.ee.off('OPEN_SIDER_PANEL')
+    window.ee.off('ADD_COMPONENT_DATA')
+    window.ee.off('SAVE_COMPONENT_DATA')
   }
 
   addComponent = (component) => {
@@ -114,13 +129,11 @@ class Mobile extends PureComponent {
   }
 
   scrollElement = (target) => {
-    setTimeout(() => {
-      scrollIntoView(target, {
-        behavior: 'smooth',
-        scrollMode: 'if-needed',
-        boundary: this.scrollContentRef
-      })
-    }, 500)
+    scrollIntoView(target, {
+      behavior: 'smooth',
+      scrollMode: 'if-needed',
+      boundary: this.scrollContentRef
+    })
   }
 
   // 点击元素获取对应的样式编辑组件
@@ -187,6 +200,54 @@ class Mobile extends PureComponent {
     })
   }
 
+  save = () => {
+    const { dispatch, list } = this.props
+    const { id } = this.params
+    const data = JSON.stringify(list)
+    message.loading('数据处理中...').then(() => {
+      const { firstChild, clientHeight } = this.scrollContentRef
+      firstChild.style.overflowY='hidden'
+      map((el) => {
+        // eslint-disable-next-line no-param-reassign
+        el.style.backgroundColor = '#ffffff'
+        // eslint-disable-next-line no-param-reassign
+        el.style.opacity = 1
+        if (el.offsetTop > clientHeight) {
+          el.setAttribute('data-html2canvas-ignore', true)
+        } else {
+          el.removeAttribute('data-html2canvas-ignore')
+        }
+      }, firstChild.childNodes)
+
+      html2canvas(this.scrollContentRef, {
+        height: 667,
+        foreignObjectRendering: true,
+        backgroundColor: '#fff',
+        useCORS: true,
+        allowTaint: true
+      }).then((canvas) => {
+        const url = canvas.toDataURL('image/jpeg', 0.5)
+        firstChild.style.overflowY='auto'
+        dispatch({
+          type: 'design/update',
+          payload: {
+            id,
+            url,
+            data
+          },
+          callback: (res) => {
+            if (res) {
+              message.success('更新成功')
+            } else {
+              message.error('更新失败')
+            }
+          }
+        })
+      })
+    })
+
+  }
+
   render() {
     const { componentId, components, siderCollapse, settingCollapse } = this.state
     const contentStyle = classnames('x-design-content-mobile', {
@@ -197,8 +258,7 @@ class Mobile extends PureComponent {
     console.warn('mobile render')
     return (
       <div onClick={this.reset} className="x-design-content">
-
-        <div id="js-scroll-content" className={contentStyle}>
+        <div ref={this.dragEleRef} id="js-scroll-content" className={contentStyle}>
           <SortableList
             useDragHandle
             helperClass="drag-el"
