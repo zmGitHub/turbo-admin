@@ -54,8 +54,8 @@ module.exports = {
   'popover-arrow-outer-color': '#414141',
   // radio
   'radio-button-bg': 'transparent',
-  'radio-button-color': '#414141',
-  'radio-dot-color': '#6e6e6e',
+  'radio-button-color': '#6b6b6b',
+  'radio-dot-color': '#6b6b6b',
   // button radio
   'radio-button-active-color': '#ff835a',
   // modal

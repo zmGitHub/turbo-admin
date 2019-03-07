@@ -11,8 +11,14 @@ const formItemLayout = {
   wrapperCol: { span: 14 },
 }
 
+const TYPE_MAPS = {
+  home: '1',
+  activity: '2',
+  personal: '3',
+}
+
 @Form.create()
-class  PageForm extends PureComponent {
+class PageForm extends PureComponent {
 
   static defaultProps = {
     data: {}
@@ -62,7 +68,7 @@ class  PageForm extends PureComponent {
 
   render() {
     const { visible } = this.state
-    const { form: { getFieldDecorator }, data } = this.props
+    const { form: { getFieldDecorator }, data, type } = this.props
     return (
       <Modal
         destroyOnClose
@@ -91,7 +97,7 @@ class  PageForm extends PureComponent {
           </Form.Item>
           <Form.Item hasFeedback {...formItemLayout} label="模板类型">
             {getFieldDecorator('type', {
-              initialValue: data.type,
+              initialValue: data.type || TYPE_MAPS[type],
               rules: [
                 {
                   required: true,

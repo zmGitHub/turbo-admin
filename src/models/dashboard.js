@@ -1,7 +1,7 @@
 import { map, sort } from 'ramda'
 import moment from 'moment'
 import Cookies from 'js-cookie'
-import { getCSRFToken, queryDesignData, publishDesignData, deleteDesignData } from '@/services/design'
+import { getCSRFToken, queryDesignData, publishDesignData, setDefaultDesignData, cancelPublish, deleteDesignData } from '@/services/design'
 
 export default {
   namespace: 'dashboard',
@@ -30,16 +30,32 @@ export default {
         callback(res)
       }
     },
+    // 取消发布
+    *canclePublish({ payload ,callback }, { call }) {
+      const res = yield call(cancelPublish, payload)
+      if (callback) {
+        callback(res)
+      }
+    },
+    // 设置默认
+    *setDefaultTemplate({ payload ,callback }, { call }) {
+      const res = yield call(setDefaultDesignData, payload)
+      if (callback) {
+        callback(res)
+      }
+    },
+
     // 获取模板
     *getTemplates({ payload }, { call, put }) {
       const res = yield call(queryDesignData, payload)
-      const { total, data } = res
+      const { total } = res
       const { tab } = payload
-      const sortItems = sort((pre, next) => pre > next, data)
-      const items = map(({ id, name, isPublish, isTiming, timingTime, type, updatedAt, url }) => ({
+      const sortItems = sort((pre, next) => pre > next, res.data)
+      const items = map(({ id, name, isPublish, data, isTiming, timingTime, type, updatedAt, url }) => ({
         id,
         name,
-        isPublish,
+        isDefault: isPublish === 1,
+        isPublish: data !== "[]",
         isTiming: isPublish === 0 && isTiming && moment(timingTime).isAfter(),
         timingTime: timingTime ? moment(timingTime).valueOf() : false,
         updatedAt: moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),

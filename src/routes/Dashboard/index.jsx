@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'dva/router'
 import { connect } from 'dva'
-import { Pagination, Empty, Card, Icon, Spin, Button, Modal, DatePicker, message } from 'antd'
-import locale from 'antd/lib/date-picker/locale/zh_CN'
+import { Pagination, Empty, Card, Icon, Spin, Button, Modal, message } from 'antd'
 import classnames from 'classnames'
 import Countdown from '@/components/CountDown'
 import templateImg from '@/static/images/template.jpg'
-import CreateTemplatesModal from './CreatForm'
+import CreateTemplatesModal from './createForm'
+import PublishTemplateModal from './publishForm'
+
 import './index.less'
 
 
@@ -53,28 +54,27 @@ class Dashboard extends PureComponent {
     this.state = {
       pageNo: 1,
       type: tab,
-      dateVisible: false,
-      visible: false
+      itemId: '',
+      create: false
     }
   }
 
   componentDidMount() {
-    console.log(this.state);
     this.queryTemplate()
   }
 
   addTemplates = (event) => {
     event.preventDefault()
-    this.setState({ visible: true })
+    this.setState({ create: true })
   }
 
   createTemplatesCallback = (res) => {
     if (res) {
-      this.setState({ visible: false, pageNo: 1 }, () => {
+      this.setState({ create: false, pageNo: 1 }, () => {
         this.queryTemplate()
       })
     } else {
-      this.setState({ visible: false })
+      this.setState({ create: false })
     }
   }
 
@@ -100,44 +100,70 @@ class Dashboard extends PureComponent {
     })
   }
 
-  // 选择日期
-  openDateModal = (itemId) => {
-    this.itemId = itemId
-    this.setState({ dateVisible: true })
-  }
-
-  // 选择日期
-  onDateChange = (date) => {
-    if (date && date.format) {
-      const { dispatch } = this.props
-      const timingTime = date.format('YYYY-MM-DD HH:mm:ss')
-      dispatch({
-        type: 'dashboard/publishTemplate',
-        payload: { id: this.itemId, isTiming: 1, timingTime },
-        callback: () => {
-          message.success('定时设置成功')
-          this.queryTemplate()
-        }
-      })
-    }
-    this.setState({ dateVisible: false })
-  }
-
-  // 发布
-  publishNow(id) {
+  // 取消模板发布
+  canclePublish = ({ currentTarget }) => {
+    const { id } = currentTarget.dataset
     const { dispatch } = this.props
     confirm({
-      title: '确认发布该模板吗?',
-      content: '发布后小程序对应页面默认展示该模板',
+      title: '确认取消发布该模板吗?',
+      content: '取消后小程序对应页面将不可访问',
       okText: '确认',
       okType: 'okType',
       cancelText: '取消',
       onOk: () => {
         dispatch({
-          type: 'dashboard/publishTemplate',
-          payload: { id, isPublish: 1, isTiming: 0, timingTime: '' },
+          type: 'dashboard/canclePublish',
+          payload: id,
           callback: () => {
-            message.success('发布成功')
+            message.success('取消成功')
+            this.queryTemplate()
+          }
+        })
+      }
+    })
+  }
+
+  // 发布模板
+  publish = ({ currentTarget }) => {
+    const { id } = currentTarget.dataset
+    this.setState({ itemId: id })
+  }
+
+  onPublishChange = (params) => {
+    const { dispatch } = this.props
+    const { itemId } = this.state
+    if (params) {
+      dispatch({
+        type: 'dashboard/publishTemplate',
+        payload: { id: itemId, ...params },
+        callback: () => {
+          message.success('发布成功')
+          this.setState({ itemId: '' }, () => {
+            this.queryTemplate()
+          })
+        }
+      })
+    } else {
+      this.setState({ itemId: '' })
+    }
+  }
+
+  // 设置模板为默认
+  setDefault = ({ currentTarget }) => {
+    const { id } = currentTarget.dataset
+    const { dispatch } = this.props
+    confirm({
+      title: '确认设置该模板为默认吗?',
+      content: '设置后小程序对应页面默认展示该模板',
+      okText: '确认',
+      okType: 'okType',
+      cancelText: '取消',
+      onOk: () => {
+        dispatch({
+          type: 'dashboard/setDefaultTemplate',
+          payload: id,
+          callback: () => {
+            message.success('设置成功')
             this.queryTemplate()
           }
         })
@@ -146,7 +172,8 @@ class Dashboard extends PureComponent {
   }
 
   // 删除模板
-  deleteTemlate(id) {
+  deleteTemlate = ({ currentTarget }) => {
+    const { id } = currentTarget.dataset
     const { dispatch } = this.props
     confirm({
       title: '确认删除该模板吗?',
@@ -172,10 +199,10 @@ class Dashboard extends PureComponent {
     return (
       <div className="x-dashboard-content-body-list">
         {
-          data.map(({ id, name, isPublish, url, isTiming, timingTime }) => (
-            <div key={id} className={classnames('x-dashboard-content-body-list-item', { active: isPublish === 1 })}>
+          data.map(({ id, name, isDefault, isPublish, url, isTiming, timingTime }) => (
+            <div key={id} className={classnames('x-dashboard-content-body-list-item', { active: isDefault })}>
               <img src={url || templateImg} alt="官方模板" />
-              { isPublish === 1 ? (<div className="triangle"><Icon type="check-circle" /></div>) : null }
+              { isDefault ? (<div className="triangle"><Icon type="check-circle" /></div>) : null }
               <div className="template-modal">
                 <Link
                   to={{
@@ -185,9 +212,10 @@ class Dashboard extends PureComponent {
                 >
                   <Button>编辑模板</Button>
                 </Link>
-                <Button onClick={() => { this.publishNow(id) }}>立即发布</Button>
-                <Button onClick={() => { this.openDateModal(id) }}>定时发布</Button>
-                <Button onClick={() => { this.deleteTemlate(id) }}>删除模板</Button>
+                <Button data-id={id} onClick={this.publish}>发布模板</Button>
+                { isTiming ? <Button data-id={id} onClick={this.canclePublish}>取消定时</Button> : null }
+                {isPublish && !isDefault && !isTiming ? <Button data-id={id} onClick={this.setDefault}>设为默认</Button> : null }
+                { !isDefault ? <Button data-id={id} onClick={this.deleteTemlate}>删除模板</Button> : null }
               </div>
               <div className="template-footer">{id}-{name}</div>
               {
@@ -217,7 +245,7 @@ class Dashboard extends PureComponent {
 
   render() {
     const { loading, dashboard: { data, total }, dispatch } = this.props
-    const { type, pageNo, visible, dateVisible } = this.state
+    const { type, pageNo, create, itemId } = this.state
     return (
       <div className="x-dashboard">
         <div className="x-dashboard-content">
@@ -237,22 +265,8 @@ class Dashboard extends PureComponent {
             </Spin>
           </Card>
         </div>
-        <CreateTemplatesModal dispatch={dispatch} visible={visible} onChange={this.createTemplatesCallback} />
-        <Modal
-          width="280px"
-          className="x-date-modal"
-          onCancel={this.onDateChange}
-          footer={null}
-          visible={dateVisible}
-        >
-          <DatePicker
-            locale={locale}
-            showTime
-            open
-            getCalendarContainer={trigger => trigger.parentNode}
-            onOk={this.onDateChange}
-          />
-        </Modal>
+        <CreateTemplatesModal type={type} dispatch={dispatch} visible={create} onChange={this.createTemplatesCallback} />
+        <PublishTemplateModal visible={!!itemId} onChange={this.onPublishChange} />
       </div>
     )
   }

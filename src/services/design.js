@@ -29,10 +29,21 @@ export async function publishDesignData(params) {
   return request.post('/api/hisense/applet/design/publish', params)
 }
 
+// 取消发布
+export async function cancelPublish(id) {
+  return request.post(`/api/hisense/applet/design/publish/cancel/${id}`)
+}
+
 // 删除模板
 export async function deleteDesignData(id) {
   return request.delete(`/api/hisense/applet/design/delete/${id}`)
 }
+
+// 设置默认模板
+export async function setDefaultDesignData(id) {
+  return request.post(`/api/hisense/applet/design/default/${id}`)
+}
+
 
 // 根据 id 获取装修数据
 export async function getDesignDataById(params) {
