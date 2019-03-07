@@ -1,6 +1,6 @@
 import { concat, is, remove, add, insert } from 'ramda'
 import _find from 'lodash/find'
-import { createDesignData, updateDesginBasic, getDesignDataById } from '@/services/design'
+import { createDesignData, updateDesginBasic, updateDesginData, getDesignDataById } from '@/services/design'
 
 export default {
   namespace: 'design',
@@ -25,8 +25,15 @@ export default {
       }
     },
     // 更新页面数据
-    *update({ payload, callback }, { call }) {
+    *edit({ payload, callback }, { call }) {
       const res = yield call(updateDesginBasic, payload)
+      if(callback) {
+        callback(res)
+      }
+    },
+    // 更新页面数据
+    *update({ payload, callback }, { call }) {
+      const res = yield call(updateDesginData, payload)
       if(callback) {
         callback(res)
       }
