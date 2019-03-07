@@ -6,7 +6,7 @@ import TemplateMaps from '@/design/templates'
 import Container from './container'
 
 // 拖拽元素点
-const DragHandle = SortableHandle(() => <div className="drag-btn"><Icon type="drag" /></div>)
+const DragHandle = SortableHandle(() => <div data-html2canvas-ignore="true" className="drag-btn"><Icon type="drag" /></div>)
 
 const SortableItem = SortableElement(({ indexing, index, active, item, onClick, onDelete, onSort }) => {
   const { key, component, content, style } = item
@@ -22,7 +22,7 @@ const SortableItem = SortableElement(({ indexing, index, active, item, onClick, 
         })}
       </Container>
       <DragHandle />
-      <div className={classnames('drag-tool', { hide: !active })}>
+      <div data-html2canvas-ignore="true" className={classnames('drag-tool', { hide: !active })}>
         <Tooltip title="删除">
           <div data-index={indexing} onClick={onDelete} className="drag-tool-item"><Icon type="delete" />{index}</div>
         </Tooltip>

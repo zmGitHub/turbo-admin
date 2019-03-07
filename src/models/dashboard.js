@@ -1,4 +1,4 @@
-import { map } from 'ramda'
+import { map, sort } from 'ramda'
 import moment from 'moment'
 import Cookies from 'js-cookie'
 import { getCSRFToken, queryDesignData, publishDesignData, deleteDesignData } from '@/services/design'
@@ -6,6 +6,7 @@ import { getCSRFToken, queryDesignData, publishDesignData, deleteDesignData } fr
 export default {
   namespace: 'dashboard',
   state: {
+    tab: 'home',
     data: [],
     total: 0
   },
@@ -33,24 +34,27 @@ export default {
     *getTemplates({ payload }, { call, put }) {
       const res = yield call(queryDesignData, payload)
       const { total, data } = res
+      const { tab } = payload
+      const sortItems = sort((pre, next) => pre > next, data)
       const items = map(({ id, name, isPublish, isTiming, timingTime, type, updatedAt, url }) => ({
         id,
         name,
         isPublish,
-        isTiming,
+        isTiming: isPublish === 0 && isTiming && moment(timingTime).isAfter(),
         timingTime: timingTime ? moment(timingTime).valueOf() : false,
         updatedAt: moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
         type,
         url
-      }), data)
-      yield put({ type: 'initTemplates', payload: { total, data: items  }})
+      }), sortItems)
+      yield put({ type: 'initTemplates', payload: { tab, total, data: items  }})
     },
   },
   reducers: {
     initTemplates(state, action) {
-      const { payload: { total, data } } = action
+      const { payload: { tab, total, data } } = action
       return {
         ...state,
+        tab,
         total,
         data
       }
@@ -58,11 +62,8 @@ export default {
   },
   subscriptions: {
     setpu({ dispatch, history }) {
-      history.listen(({ pathname }) => {
+      history.listen(() => {
         dispatch({ type: 'initCSRFToken' })
-        if (pathname === '/') {
-          dispatch({ type: 'getTemplates', payload: { type: 1, pageNo: 1, pageSize: 8 } })
-        }
       })
     }
   }

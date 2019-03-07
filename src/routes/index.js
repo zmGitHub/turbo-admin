@@ -7,12 +7,12 @@ import Design from './Design'
 
 const RouterConfig = ({ history }) => (
   <Router history={history}>
-    <Layout>
-      <Switch>
+    <Switch>
+      <Layout>
         <Route exact path="/" component={Dashboard} />
         <Route exact path="/design" component={Design} />
-      </Switch>
-    </Layout>
+      </Layout>
+    </Switch>
   </Router>
 )
 

@@ -5,10 +5,10 @@ import './index.less'
 
 const { Content } = Layout
 
-const LayoutBase = ({ children }) => (
+const LayoutBase = ({ location, children }) => (
   <Layout className="x-layout">
     <Content className="x-layout-content">
-      <Header />
+      <Header location={location} />
       <Layout className="x-layout-content-main">{children}</Layout>
     </Content>
   </Layout>

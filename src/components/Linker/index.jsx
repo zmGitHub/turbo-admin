@@ -13,6 +13,7 @@ const MAPS = {
   '/pages/design': '跳转装修页',
   '/pages/filter': '商品列表',
   '/pages/article': '文章详情',
+  '/pages/my/point-mall': '积分商城',
   'coupons': '领取优惠券',
 }
 
