@@ -84,7 +84,7 @@ class Dashboard extends PureComponent {
     if (payload) {
       const { dispatch } = this.props
       dispatch({
-        type: payload.id ? 'design/update':'design/create',
+        type: payload.id ? 'design/edit':'design/create',
         payload,
         callback: (res) => {
           if (res) {
