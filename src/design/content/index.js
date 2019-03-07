@@ -12,5 +12,6 @@ export default {
   goodsCardDesign: import('./goodsCardDesign'),
   goodsSliderDesign: import('./goodsSliderDesign'),
   multImageDesign: import('./multImageDesign'),
+  photoArticleLinkageDesign:import('./photoArticleLinkage'),
   error: import('./error')
 }
