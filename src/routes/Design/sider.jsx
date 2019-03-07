@@ -116,7 +116,13 @@ const DATA = [
         name: '资讯列表',
         components: [{ id: 'messageList_1', name: 'messageList' }],
         icon: 'message'
-      }
+      },
+      {
+        key: 'photoArticleLinkage',
+        name: '图文联动',
+        components: [{ id: 'photoArticleLinkage_1', name: 'photoArticleLinkage' }],
+        icon: 'swiper'
+      },
     ]
   },
   {

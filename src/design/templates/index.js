@@ -12,6 +12,7 @@ import Title from './Title/template.config'
 import GoodsCard from './GoodsCard/template.config'
 import GoodsSlider from './GoodsSlider/template.config'
 import MultipleImage from './MultipleImage/template.config'
+import PhotoArticleLinkage from './PhotoArticleLinkage/template.config'
 import Error from './error'
 
 // 同时导出所有的模板
@@ -29,5 +30,6 @@ export default {
   goodsCard: GoodsCard,
   goodsSlider: GoodsSlider,
   multipleImage: MultipleImage,
+  photoArticleLinkage:PhotoArticleLinkage,
   error: Error
 }

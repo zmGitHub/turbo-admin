@@ -23,3 +23,4 @@ export async function getMenuInfoById(menuIds) {
 export async function getServiceData(params) {
   return request.post(`/design/component/service-data?path=${params.path}`, params)
 }
+
