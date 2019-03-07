@@ -56,7 +56,7 @@ export default {
         name,
         isDefault: isPublish === 1,
         isPublish: data !== "[]",
-        isTiming: isPublish === 0 && isTiming && moment(timingTime).isAfter(),
+        isTiming: isTiming && moment(timingTime).isAfter(),
         timingTime: timingTime ? moment(timingTime).valueOf() : false,
         updatedAt: moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
         type,

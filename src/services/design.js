@@ -14,6 +14,12 @@ export async function publishDesign(params) {
   return request.post('/api/hisense/applet/design/create', params)
 }
 
+// update
+// 更新基本信息 name
+export async function updateDesginBasic(params) {
+  return request.post('/api/hisense/applet/design/update', params)
+}
+
 // 更新装修数据
 export async function updateDesginData(params) {
   return request.post('/api/hisense/applet/design/save', params)

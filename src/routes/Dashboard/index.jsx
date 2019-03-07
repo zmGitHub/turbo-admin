@@ -52,6 +52,7 @@ class Dashboard extends PureComponent {
     super(props)
     const { dashboard: { tab } } = this.props
     this.state = {
+      item: {},
       pageNo: 1,
       type: tab,
       itemId: '',
@@ -63,15 +64,37 @@ class Dashboard extends PureComponent {
     this.queryTemplate()
   }
 
+  editTemplate = ({ currentTarget }) => {
+    const { index } = currentTarget.dataset
+    const { dashboard: { data } } = this.props
+    if (data[index]) {
+      const { id, name, type } = data[index]
+      this.setState({ create: true, item: { id, name, type } })
+    } else {
+      message.warning('模板不存在')
+    }
+  }
+
   addTemplates = (event) => {
     event.preventDefault()
     this.setState({ create: true })
   }
 
-  createTemplatesCallback = (res) => {
-    if (res) {
-      this.setState({ create: false, pageNo: 1 }, () => {
-        this.queryTemplate()
+  onTemplateEdit = (payload) => {
+    if (payload) {
+      const { dispatch } = this.props
+      dispatch({
+        type: payload.id ? 'design/update':'design/create',
+        payload,
+        callback: (res) => {
+          if (res) {
+            this.setState({ create: false, pageNo: 1 }, () => {
+              this.queryTemplate()
+            })
+          } else {
+            message.warn(res.message || '模板创建失败, 请重试!')
+          }
+        }
       })
     } else {
       this.setState({ create: false })
@@ -199,7 +222,7 @@ class Dashboard extends PureComponent {
     return (
       <div className="x-dashboard-content-body-list">
         {
-          data.map(({ id, name, isDefault, isPublish, url, isTiming, timingTime }) => (
+          data.map(({ id, name, isDefault, isPublish, url, isTiming, timingTime }, index) => (
             <div key={id} className={classnames('x-dashboard-content-body-list-item', { active: isDefault })}>
               <img src={url || templateImg} alt="官方模板" />
               { isDefault ? (<div className="triangle"><Icon type="check-circle" /></div>) : null }
@@ -213,6 +236,7 @@ class Dashboard extends PureComponent {
                   <Button>编辑模板</Button>
                 </Link>
                 <Button data-id={id} onClick={this.publish}>发布模板</Button>
+                <Button data-index={index} onClick={this.editTemplate}>修改模板</Button>
                 { isTiming ? <Button data-id={id} onClick={this.canclePublish}>取消定时</Button> : null }
                 {isPublish && !isDefault && !isTiming ? <Button data-id={id} onClick={this.setDefault}>设为默认</Button> : null }
                 { !isDefault ? <Button data-id={id} onClick={this.deleteTemlate}>删除模板</Button> : null }
@@ -245,7 +269,7 @@ class Dashboard extends PureComponent {
 
   render() {
     const { loading, dashboard: { data, total }, dispatch } = this.props
-    const { type, pageNo, create, itemId } = this.state
+    const { type, pageNo, create, item, itemId } = this.state
     return (
       <div className="x-dashboard">
         <div className="x-dashboard-content">
@@ -265,7 +289,7 @@ class Dashboard extends PureComponent {
             </Spin>
           </Card>
         </div>
-        <CreateTemplatesModal type={type} dispatch={dispatch} visible={create} onChange={this.createTemplatesCallback} />
+        <CreateTemplatesModal type={type} item={item} dispatch={dispatch} visible={create} onChange={this.onTemplateEdit} />
         <PublishTemplateModal visible={!!itemId} onChange={this.onPublishChange} />
       </div>
     )

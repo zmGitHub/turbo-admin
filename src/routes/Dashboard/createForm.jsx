@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Form, Select, Input, Modal, message } from 'antd'
-import { is } from 'ramda'
+import { Form, Select, Input, Modal } from 'antd'
 
 import './index.less'
 
@@ -12,16 +11,16 @@ const formItemLayout = {
 }
 
 const TYPE_MAPS = {
-  home: '1',
-  activity: '2',
-  personal: '3',
+  home: 1,
+  activity: 2,
+  personal: 3,
 }
 
 @Form.create()
 class PageForm extends PureComponent {
 
   static defaultProps = {
-    data: {}
+    item: {}
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -40,21 +39,15 @@ class PageForm extends PureComponent {
   }
 
   handleSubmit = e => {
-    const { form, onChange, dispatch } = this.props;
+    const { form, onChange, item } = this.props;
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        dispatch({
-          type: 'design/create',
-          payload: { ...values, data: '[]' },
-          callback: (res) => {
-            if (is(Boolean, res)) {
-              onChange('reload')
-            } else {
-              message.warn(res.message || '模板创建失败, 请重试!')
-            }
-          }
-        })
+        if (!item.id) {
+          onChange({ ...values, data: '[]' })
+        } else {
+          onChange({ id: item.id, name: values.name })
+        }
       }
     });
   }
@@ -68,12 +61,12 @@ class PageForm extends PureComponent {
 
   render() {
     const { visible } = this.state
-    const { form: { getFieldDecorator }, data, type } = this.props
+    const { form: { getFieldDecorator }, type, item } = this.props
     return (
       <Modal
         destroyOnClose
         width="520px"
-        title="创建新模板"
+        title={item.id ? '编辑模板' : '创建新模板'}
         className="x-customer-modal"
         cancelText="取消"
         okText="确定"
@@ -84,7 +77,7 @@ class PageForm extends PureComponent {
         <Form layout="horizontal">
           <Form.Item hasFeedback {...formItemLayout} label="模板名称">
             {getFieldDecorator('name', {
-              initialValue: data.query,
+              initialValue: item && item.name,
               rules: [
                 {
                   required: true,
@@ -97,7 +90,7 @@ class PageForm extends PureComponent {
           </Form.Item>
           <Form.Item hasFeedback {...formItemLayout} label="模板类型">
             {getFieldDecorator('type', {
-              initialValue: data.type || TYPE_MAPS[type],
+              initialValue: item.type || TYPE_MAPS[type],
               rules: [
                 {
                   required: true,
@@ -106,26 +99,14 @@ class PageForm extends PureComponent {
               ]
             })(
               <Select
+                disabled={!!item.id}
                 style={{ width: '100%' }}
                 placeholder="请选择模板类型"
               >
-                <Option value="1">首页模板</Option>
-                <Option value="2">活动模板</Option>
-                <Option value="3">专区模板</Option>
+                <Option value={1}>首页模板</Option>
+                <Option value={2}>活动模板</Option>
+                <Option value={3}>专区模板</Option>
               </Select>
-            )}
-          </Form.Item>
-          <Form.Item hasFeedback {...formItemLayout} label="缩略图">
-            {getFieldDecorator('url', {
-              rules: [
-                {
-                  type: 'url',
-                  message: '请输入有效地址'
-                }
-              ],
-              initialValue: data.url
-            })(
-              <Input type="url" placeholder="缩略图(500*890)" />
             )}
           </Form.Item>
         </Form>
