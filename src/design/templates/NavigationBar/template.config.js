@@ -9,12 +9,8 @@ export default {
     content: {
       component: 'navigationBarDesign',
       data: {
-        url: {
-          type: 'navigate',
-          page: '',
-          query: ''
-        },
-        title: '标题文字' // 文本内容
+        items: [],
+        lateralSwitch:false
       }
     },
     style: [ // 那些样式是可以编辑的
@@ -48,17 +44,6 @@ export default {
             max: 100,
             component: "slider",
             value: "40px"
-          },
-          {
-            key: "textAlign",
-            title: '对齐方式',
-            component: "radioGroup",
-            options: [
-              { label: '左对齐', value: 'left' },
-              { label: '居中', value: 'center' },
-              { label: '右对齐', value: 'right' },
-            ],
-            value: "center"
           },
           {
             key: "backgroundColor",
