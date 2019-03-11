@@ -35,8 +35,7 @@ class PhotoArticleLinkageDesign extends PureComponent {
     })
   }
 
-    // 添加官方资讯
-
+  // 添加官方资讯
   addOfficialItem = (articleId) => {
     if (articleId && is(Number, +articleId)) {
       const { config: { id }, onChange, dispatch } = this.props
