@@ -28,9 +28,9 @@ export default {
             key: "height",
             title: '高度',
             component: "slider",
-            min: 50,
+            min: 84,
             max: 999,
-            value: "148px"
+            value: "232px"
           }
         ]
       },
