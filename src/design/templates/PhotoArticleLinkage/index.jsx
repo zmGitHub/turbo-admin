@@ -21,7 +21,7 @@ class PotoArticleLinkage extends PureComponent {
           {
             items.map((item, index) => (
               <div key={`${item.key}_article_${index}`} className="x-template-photoArticleLinkage-item">
-                <img style={getStyles(componentStyle, ['img'])} src={item.mainImage || defaultImg} alt="轮播图" draggable={false} />
+                <img style={getStyles(componentStyle, ['img'])} className="x-template-photoArticleLinkage-item-img" src={item.mainImage || defaultImg} alt="轮播图" draggable={false} />
                 <div className="x-template-photoArticleLinkage-content">
                   <div className="x-template-photoArticleLinkage-content-title">
                     {item.name}

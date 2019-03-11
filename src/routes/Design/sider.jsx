@@ -243,7 +243,6 @@ class SiderLeft extends PureComponent {
   }
 
   render() {
-    console.log('sider-render')
     const { current, components } = this.state
     const designStyle = classnames('x-design-sider-templates', { active: !!current })
     return (

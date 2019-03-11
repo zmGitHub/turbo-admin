@@ -92,7 +92,7 @@ class PhotoArticleLinkageDesign extends PureComponent {
               <div className="list-conent">
                 {
                   list.map((item, index) => (
-                    <div key={`item_${item.id}_${index}`} className="list-conent-item" onClick={this.deleteOfficialItem}>
+                    <div key={`item_${item.id}_${index}`} className="list-conent-item">
                       <div className="name">{item.id}-{item.name}</div>
                       <div className="actions" data-index={index} onClick={this.deleteOfficialItem}>
                         <Icon type="delete" />

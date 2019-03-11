@@ -31,13 +31,7 @@ export default {
             min: 50,
             max: 999,
             value: "148px"
-          },
-          {
-            key: "width",
-            title: '宽度',
-            component: "slider",
-            value: "100%"
-          },
+          }
         ]
       },
       {

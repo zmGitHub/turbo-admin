@@ -115,7 +115,6 @@ class NavigationBarDesign extends PureComponent {
 
   render() {
     const { items, imagePickerVisible,lateralSwitch } = this.state
-    console.log(items)
     return (
       <Fragment>
         <div className="content-data">
