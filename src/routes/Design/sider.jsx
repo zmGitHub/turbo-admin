@@ -68,7 +68,13 @@ const DATA = [
         name: '标签页',
         components: [{ id: 'tabs_1', name: 'tabs' }],
         icon: 'tabs'
-      }
+      },
+      {
+        key: 'navigatorBar',
+        name: '导航栏',
+        components: [{ id: 'navigationBar_1', name: 'navigationBar' }],
+        icon: 'text'
+      },
     ]
   },
   {

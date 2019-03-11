@@ -13,5 +13,6 @@ export default {
   goodsSliderDesign: import('./goodsSliderDesign'),
   multImageDesign: import('./multImageDesign'),
   photoArticleLinkageDesign:import('./photoArticleLinkage'),
+  navigationBarDesign:import('./navigationBar'),
   error: import('./error')
 }
