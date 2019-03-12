@@ -14,5 +14,6 @@ export default {
   multImageDesign: import('./multImageDesign'),
   photoArticleLinkageDesign:import('./photoArticleLinkage'),
   navigationBarDesign:import('./navigationBar'),
+  giftDesign: import('./gift'),
   error: import('./error')
 }
