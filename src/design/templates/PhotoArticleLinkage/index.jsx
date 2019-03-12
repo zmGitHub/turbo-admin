@@ -15,13 +15,15 @@ class PotoArticleLinkage extends PureComponent {
   render() {
     const { componentStyle, data } = this.props
     const items = data.items.length > 0 ? data.items : defaultItems
+    const imgHeight = parseInt(getStyles(componentStyle, ['img']).height,10) - 84
+    const imgHeightValue = `${String(imgHeight)}px`
     return (
-      <div className="x-template-photoArticleLinkage" style={getStyles(componentStyle, ['margin'])}>
+      <div className="x-template-photoArticleLinkage" style={getStyles(componentStyle, ['img','margin'])}>
         <Carousel autoplay>
           {
             items.map((item, index) => (
               <div key={`${item.key}_article_${index}`} className="x-template-photoArticleLinkage-item">
-                <img style={getStyles(componentStyle, ['img'])} src={item.mainImage || defaultImg} alt="轮播图" draggable={false} />
+                <img className="x-template-photoArticleLinkage-item-img" src={item.mainImage || defaultImg} alt="轮播图" draggable={false} style={{height: imgHeightValue }}/>
                 <div className="x-template-photoArticleLinkage-content">
                   <div className="x-template-photoArticleLinkage-content-title">
                     {item.name}

@@ -14,6 +14,7 @@ const defaultItems = [
 
 class NavigationBar extends PureComponent {
   render() {
+
     const { componentStyle, data:{ items, lateralSwitch }} = this.props
     const Navigationitems = items.length > 0 ? items : defaultItems
     const switchStatus = classnames({
@@ -32,9 +33,6 @@ class NavigationBar extends PureComponent {
             </div>
             ))
             }
-
-
-
       </div>
     )
   }

@@ -28,16 +28,10 @@ export default {
             key: "height",
             title: '高度',
             component: "slider",
-            min: 50,
+            min: 84,
             max: 999,
-            value: "148px"
-          },
-          {
-            key: "width",
-            title: '宽度',
-            component: "slider",
-            value: "100%"
-          },
+            value: "232px"
+          }
         ]
       },
       {

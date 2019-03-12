@@ -30,12 +30,12 @@ export default {
             component: "slider",
             min: 10,
             max: 100,
-            value: "14px"
+            value: "12px"
           },
           {
             key: "fontWeight",
             component: "fontWeight",
-            value: "normal"
+            value: "300"
           },
           {
             key: "lineHeight",
@@ -43,7 +43,7 @@ export default {
             min: 0,
             max: 100,
             component: "slider",
-            value: "40px"
+            value: "16px"
           },
           {
             key: "backgroundColor",
