@@ -14,6 +14,7 @@ import GoodsSlider from './GoodsSlider/template.config'
 import MultipleImage from './MultipleImage/template.config'
 import PhotoArticleLinkage from './PhotoArticleLinkage/template.config'
 import NavigationBar from './NavigationBar/template.config'
+import Gift from './Gift/template.config'
 import Error from './error'
 
 // 同时导出所有的模板
@@ -27,11 +28,12 @@ export default {
   articleCard: ArticleCard,
   messageList: MessageList,
   coupon: CouponCard,
-  title:Title,
+  title: Title,
   goodsCard: GoodsCard,
   goodsSlider: GoodsSlider,
   multipleImage: MultipleImage,
-  photoArticleLinkage:PhotoArticleLinkage,
-  navigationBar:NavigationBar,
+  photoArticleLinkage: PhotoArticleLinkage,
+  navigationBar: NavigationBar,
+  gift: Gift,
   error: Error
 }

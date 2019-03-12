@@ -153,7 +153,7 @@ const DATA = [
       {
         key: 'gift',
         name: '新人礼包',
-        components: [{ id: 'text_1', name: 'text' }],
+        components: [{ id: 'gift_1', name: 'gift' }],
         icon: 'gift'
       },
     ]

@@ -43,6 +43,7 @@ class PageForm extends PureComponent {
               <Option value="/pages/filter">商品列表</Option>
               <Option value="/pages/article">文章详情</Option>
               <Option value="/pages/my/point-mall">积分商城</Option>
+              <Option value="/pages/my/coupon/my-coupon">优惠券中心</Option>
             </Select>
           )}
         </Form.Item>

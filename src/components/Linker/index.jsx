@@ -14,6 +14,7 @@ const MAPS = {
   '/pages/filter': '商品列表',
   '/pages/article': '文章详情',
   '/pages/my/point-mall': '积分商城',
+  '/pages/my/coupon/my-coupon': '优惠券中心',
   'coupons': '领取优惠券',
 }
 
