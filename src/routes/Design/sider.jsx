@@ -137,8 +137,8 @@ const DATA = [
     children: [
       {
         key: 'seckill',
-        name: '秒杀',
-        components: [{ id: 'text_1', name: 'text' }],
+        name: '整点秒杀',
+        components: [{ id: 'seckill_1', name: 'seckill' }],
         icon: 'seckill'
       },
       {

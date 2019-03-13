@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Icon, Button } from 'antd'
+import { Icon, Button, message } from 'antd'
 import { last } from 'lodash'
 import ImagePicker from '@/components/ImagePicker'
 import ThermalZonelPicker from '@/components/ThermalZonePicker'
@@ -56,8 +56,9 @@ class ThermalZoneDesign extends PureComponent {
       const { onChange, config: { id } } = this.props
       const imgItem = last(images)
       const randomSrc = `${imgItem.url}${formatImg}&_=${+new Date()}`
-      this.setState({ src: randomSrc, showImgPicker: false, coordinates: [] }, () => {
+      this.setState({ src: randomSrc, showImgPicker: false }, () => {
         onChange({ id, key: 'src', value: imgItem.url })
+        message.info('修改图片后请注意调整热区位置')
       })
     } else {
       this.setState({ showImgPicker: false })

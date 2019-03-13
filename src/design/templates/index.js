@@ -15,6 +15,7 @@ import MultipleImage from './MultipleImage/template.config'
 import PhotoArticleLinkage from './PhotoArticleLinkage/template.config'
 import NavigationBar from './NavigationBar/template.config'
 import Gift from './Gift/template.config'
+import Seckill from './Seckill/template.config'
 import Error from './error'
 
 // 同时导出所有的模板
@@ -35,5 +36,6 @@ export default {
   photoArticleLinkage: PhotoArticleLinkage,
   navigationBar: NavigationBar,
   gift: Gift,
+  seckill: Seckill,
   error: Error
 }
