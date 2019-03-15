@@ -15,5 +15,6 @@ export default {
   photoArticleLinkageDesign:import('./photoArticleLinkage'),
   navigationBarDesign:import('./navigationBar'),
   giftDesign: import('./gift'),
+  seckillDesign: import('./seckill'),
   error: import('./error')
 }

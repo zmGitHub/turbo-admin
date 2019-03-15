@@ -1,5 +1,5 @@
 import { parse } from 'qs'
-
+import defaultImg from '@/static/images/x.png'
 /**
  *
  * @param {array} styles
@@ -214,6 +214,8 @@ export function debounce(func, wait, options) {
 }
 
 export const formatGoodName = name => name.replace(/【[^【】]*】/g, '')
+
+export const formatImg = (src, format = '') => src ? `${src}?${format}` : defaultImg
 
 // 金额格式化
 export const formatPrice = (price, unit = 2) => {

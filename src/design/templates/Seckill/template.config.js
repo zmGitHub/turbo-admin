@@ -9,7 +9,12 @@ export default {
     content: {
       component: 'seckillDesign',
       data: {
-        items: []
+        times: [],
+        seckill: {
+          startAt: '',
+          endAt: '',
+          items: [],
+        }
       }
     },
     style: []

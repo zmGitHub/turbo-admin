@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import { queryImageCategory, queryImageList, getServiceData, getArticleById, getMenuInfoById } from '@/services/component'
+import { queryImageCategory, queryImageList, getServiceData, getArticleById, getMenuInfoById, getSeckillData } from '@/services/component'
 
 export default {
   namespace: 'component',
@@ -44,7 +44,14 @@ export default {
       if (callback) {
         callback(res)
       }
-    }
+    },
+    // 获取整点秒杀
+    *getSeckill({ payload ,callback }, { call }) {
+      const res = yield call(getSeckillData, payload)
+      if (callback) {
+        callback(res)
+      }
+    },
   },
   reducers: {
     initImageCategory(state, action) {

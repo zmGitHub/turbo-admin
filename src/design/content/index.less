@@ -336,6 +336,90 @@
       }
     }
   }
+  &-seckill {
+    padding-left: 10px;
+    .list-conent {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      .scroll-bar();
+      &-item {
+        display: flex;
+        align-items: center;
+        padding: 5px 0;
+        border-bottom: 1px dashed #6b6b6b;
+        .content {
+          display: flex;
+          flex: 1;
+          align-items: center;
+          .name {
+            margin-right: 10px;
+          }
+        }
+
+        .actions {
+          cursor: pointer;
+          padding-right: 10px;
+          .anticon {
+            font-size: 14px;
+          }
+        }
+        &:last-child {
+          border: none;
+        }
+      }
+    }
+    .ant-btn-add {
+      color: #DDDDDD;
+      background-color: #414141;
+      border-color: #414141;
+      &:hover,
+      &:focus {
+        color: #DDDDDD;
+        background-color: #6e6e6e;
+        border-color: #6e6e6e;
+      }
+    }
+    .ant-time-picker {
+      &-panel {
+        &-addon {
+          .ant-btn {
+            width: 100%;
+          }
+        }
+        &-inner {
+          background-color:#414141;
+        }
+        &-input  {
+          background-color: #414141;
+          color: #dddddd;
+        }
+        &-select {
+          &-option-selected {
+            background-color: #333;
+          }
+          &:hover {
+            &::-webkit-scrollbar-track {
+              border: 0 solid black;
+              background-color: #3b3e40;
+            }
+            &::-webkit-scrollbar {
+              width: 4px;
+              background-color: #3b3e40;
+            }
+            &::-webkit-scrollbar-thumb {
+              background-color: #282828;
+            }
+          }
+          li {
+            &:hover {
+              background-color: #333;
+            }
+          }
+        }
+      }
+    }
+  }
   &-tabs {
     padding-left: 10px;
     &.inline {

@@ -24,3 +24,7 @@ export async function getServiceData(params) {
   return request.post(`/design/component/service-data?path=${params.path}`, params)
 }
 
+// 获取整点秒杀
+export async function getSeckillData(params) {
+  return request.get('/api/hisense/seckill-promotion/shows/current', { params })
+}
