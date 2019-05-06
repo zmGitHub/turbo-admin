@@ -6,7 +6,7 @@ const Webpack = require('webpack')
 const merge = require('webpack-merge')
 // 优化 webpack 输出信息
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const uitls = require('./utils')
+const uitls = require('./koa/utils')
 const baseConfig = require('./webpack.config.base')
 
 const config = merge(baseConfig, {

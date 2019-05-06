@@ -6,11 +6,11 @@ const compress = require('koa-compress')
 const proxy = require('koa2-proxy-middleware')
 const bodyparser = require('koa-bodyparser')
 
-const devMiddleware = require('../build/kao-dev')
-const hotMiddleware = require('../build/kao-hot')
-const historyApiFallback = require('../server/middleware/koa2-connect-history-api-fallback')
+const devMiddleware = require('../build/koa/kao-dev')
+const hotMiddleware = require('../build/koa/kao-hot')
+const historyApiFallback = require('../build/koa/koa2-connect-history-api-fallback')
 const devConfig = require('../build/webpack.config.dev')
-const uitls = require('../build/utils')
+const uitls = require('../build/koa/utils')
 const webpackConfig = require('../config').webpack
 
 
@@ -19,12 +19,13 @@ const compiler = webpack(devConfig)
 const app = new Koa()
 
 const proxyTarget = 'http://m.test.shop.hisense.com'
+const backEndTarget = 'http://design.hisense.com'
 
 const options = {
   targets: {
     // (.*) 任何类型
-    '/api/(.*)': {
-      target: proxyTarget,
+    '/api/category/(.*)': {
+      target: backEndTarget,
       changeOrigin: true
     },
     '/design/(.*)': {

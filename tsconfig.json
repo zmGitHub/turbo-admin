@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2017" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */,
+    "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */,
+    "lib": ["es2017"] /* Specify library files to be included in the compilation. */,
+    "sourceMap": true /* Generates corresponding '.map' file. */,
+    // "noImplicitAny": true, /* 强制变量设置变量类型 */
+    "outDir": "servers" /* Redirect output structure to the directory. */,
+    "rootDir": "server",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
+    "baseUrl": "." /* Base directory to resolve non-absolute module names. */,
+    "typeRoots": ["node_modules/@types"],/* List of folders to include type definitions from. */
+    "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
+    "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */
+  },
+  "exclude": ["src", "node_modules", "build", "bin"],
+  "include": ["server/**/*"]
+}

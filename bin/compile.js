@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import _debug from 'debug';
 import webpackCompiler from '../build/webpack-compiler';
-import webpackConfig from '../build/webpack.config';
+import webpackConfig from '../build/webpack.config.prod';
 import config from '../config';
 
 const debug = _debug('app:bin:compile');

@@ -3,7 +3,7 @@
  */
 
 module.exports = {
-  port: 3000, // 主服务启动端口
+  port: 3001, // 主服务启动端口
   webpack: {
     publicPath: '/',
     extensions: ['.js', '.jsx', '.json', '.less', '.scss']

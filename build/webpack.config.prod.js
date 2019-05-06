@@ -5,7 +5,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 
 const baseConfig = require('./webpack.config.base')
-const uitls = require('./utils')
+const uitls = require('./koa/utils')
 
 const config = merge(baseConfig, {
   mode: 'production',

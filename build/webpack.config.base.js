@@ -14,7 +14,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const modifyVars = require('../src/styles/theme')
 
 
-const uitls = require('./utils')
+const uitls = require('./koa/utils')
 const webpackConfig = require('../config').webpack
 
 const cssLoaders = ['css-loader', 'postcss-loader']
