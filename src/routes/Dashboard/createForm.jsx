@@ -44,7 +44,7 @@ class PageForm extends PureComponent {
     form.validateFields((err, values) => {
       if (!err) {
         if (!item.id) {
-          onChange({ ...values, data: '[]' })
+          onChange({ ...values })
         } else {
           onChange({ id: item.id, name: values.name })
         }

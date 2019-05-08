@@ -1,6 +1,5 @@
 import * as Koa from 'koa'
 import * as bodyParser from 'koa-bodyparser'
-import { port } from '../config'
 import routers from './routers'
 
 const app:Koa = new Koa()
@@ -16,6 +15,5 @@ app.use(routers.allowedMethods())
 app.on('error', (err:any) => {
   console.error(err)
 })
-app.listen(port, () => {
-  console.log(`服务端启动: ${port}`)
-})
+
+export default app

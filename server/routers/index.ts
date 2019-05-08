@@ -1,15 +1,15 @@
-import { BaseContext } from 'koa'
 import * as Router from 'koa-router'
-import auth from '../middleware/auth'
-import categories from './categories'
+import design from './design'
 import hisense from './hisense'
 
 const router:Router = new Router({
   prefix: '/api',
 })
-// 权限拦截
-router.use(auth)
+router.use(async (ctx, next) => {
+  console.log('路由跳转')
+  await next()
+})
 router.use('/hisense', hisense.routes(), hisense.allowedMethods())
-router.use('/category', categories.routes(), categories.allowedMethods())
+router.use('/design', design.routes(), design.allowedMethods())
 
 export default router

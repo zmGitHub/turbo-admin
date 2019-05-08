@@ -1,7 +1,6 @@
 import { map, sort } from 'ramda'
 import moment from 'moment'
-import Cookies from 'js-cookie'
-import { getCSRFToken, queryDesignData, publishDesignData, setDefaultDesignData, cancelPublish, deleteDesignData } from '@/services/design'
+import { queryDesignData, publishDesignData, setDefaultDesignData, cancelPublish, deleteDesignData } from '@/services/design'
 
 export default {
   namespace: 'dashboard',
@@ -11,12 +10,7 @@ export default {
     total: 0
   },
   effects: {
-    *initCSRFToken(_, { call }) {
-      const res = yield call(getCSRFToken)
-      if(res) {
-        Cookies.set('x-csrf-token', res)
-      }
-    },
+
     *removeTemplate({ payload ,callback }, { call }) {
       const res = yield call(deleteDesignData, payload)
       if (callback) {
@@ -74,13 +68,6 @@ export default {
         total,
         data
       }
-    }
-  },
-  subscriptions: {
-    setpu({ dispatch, history }) {
-      history.listen(() => {
-        dispatch({ type: 'initCSRFToken' })
-      })
     }
   }
 }

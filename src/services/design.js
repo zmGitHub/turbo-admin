@@ -1,12 +1,8 @@
 import request from '@/utils/request'
 
-// 获取 csrftoken
-export async function getCSRFToken(params) {
-  return request.get('/api/hisense/csrf', params)
-}
 // 创建装修数据
 export async function createDesignData(params) {
-  return request.post('/api/hisense/applet/design/create', params)
+  return request.post('/api/design/add', params)
 }
 
 // 发布装修
@@ -27,7 +23,7 @@ export async function updateDesginData(params) {
 
 // 查询装修数据
 export async function queryDesignData(params) {
-  return request.get('/api/hisense/applet/design/paging', { params })
+  return request.get('/api/design/paging', { params })
 }
 
 // 立即发布/定时发布
@@ -53,5 +49,5 @@ export async function setDefaultDesignData(id) {
 
 // 根据 id 获取装修数据
 export async function getDesignDataById(params) {
-  return request.get(`/api/hisense/applet/design/find/save/${params.id}`)
+  return request.get(`/api/design/${params.id}`)
 }
