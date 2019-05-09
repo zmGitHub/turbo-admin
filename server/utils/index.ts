@@ -9,7 +9,7 @@ export interface Config {
 }
 
 const config: Config = {
-  resolve: (dir:string) => path.join(__dirname, '..', dir),
+  resolve: (dir:string) => path.join(__dirname, '../../', dir),
   isDev: process.env.NODE_ENV === 'development',
 }
 

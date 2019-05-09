@@ -1,16 +1,22 @@
+
 import React from 'react'
+import { Route } from 'dva/router'
 import { Layout } from 'antd'
-import Header from '@/components/Headers'
-import './index.less'
 
-const { Content } = Layout
 
-const LayoutBase = ({ location, children }) => (
-  <Layout className="x-layout">
-    <Content className="x-layout-content">
-      <Header location={location} />
-      <Layout className="x-layout-content-main">{children}</Layout>
-    </Content>
+
+const LayoutBase = ({ routes }) => (
+  <Layout>
+    {
+      routes.map((route, index) => (
+        <Route
+          key={`${index}_root`}
+          path={route.path}
+          exact={route.exact}
+          render={props => (<route.component {...props} routes={route.routes} />)}
+        />
+      ))
+    }
   </Layout>
 )
 

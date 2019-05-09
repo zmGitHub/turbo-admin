@@ -21,7 +21,7 @@
     "build-web": "cross-env NODE_ENV=production webpack --config build/webpack.config.prod.js --progress --hide-modules"
   },
   "dependencies": {
-    "antd": "^3.13.6",
+    "antd": "^3.17.0",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "dva": "^2.4.1",
@@ -36,6 +36,7 @@
     "koa-bodyparser": "^4.2.1",
     "koa-compress": "^3.0.0",
     "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
     "koa2-proxy-middleware": "0.0.4",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
