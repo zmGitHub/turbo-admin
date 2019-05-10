@@ -5,11 +5,6 @@ import hisense from './hisense'
 const router:Router = new Router({
   prefix: '/api',
 })
-router.use(async (ctx, next) => {
-  console.log('路由跳转')
-  ctx.cookies.set('koa', '123123123')
-  await next()
-})
 router.use('/hisense', hisense.routes(), hisense.allowedMethods())
 router.use('/design', design.routes(), design.allowedMethods())
 

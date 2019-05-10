@@ -1,7 +1,7 @@
 import React from 'react'
 import { LocaleProvider } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
-import { Router, Switch } from 'dva/router'
+import { Router } from 'dva/router'
 import Authorized from './authorized'
 import LayoutBase from './Layout/base'
 import LayoutDesign from './Layout/design'
@@ -14,36 +14,45 @@ import Exception from './Exception/404'
 const routes = [
   {
     path: '/design',
+    name: 'designBase',
     component: LayoutDesign,
     routes: [
       {
+        name: 'designO2o',
         path: '/design/o2o',
         component: Design
       },
       {
+        name: 'designException',
         component: Exception
       }
     ]
   },
   {
     path: '/',
+    name: 'index',
     component: LayoutBase,
     routes: [
       {
-        path: '/dashboard',
+        name: 'dashboardIndex',
+        path: '/dashboard/index',
         exact: true,
         component: Dashboard,
       },
       {
-        path: '/auth',
+        name: 'dashboardAuth',
+        path: '/dashboard/auth',
+        exact: true,
         component: CMPAuth,
       },
       {
+        name: 'dashboardException',
         component: Exception
       }
     ]
   },
   {
+    name: 'exception',
     component: Exception
   }
 ]
@@ -51,13 +60,7 @@ const routes = [
 const RouterConfig = ({ history }) => (
   <LocaleProvider locale={zhCN}>
     <Router history={history}>
-      <Switch>
-        {
-          routes.map((route, index) => (
-            <Authorized key={`${index}_root`} {...route} />
-          ))
-        }
-      </Switch>
+      <Authorized routes={routes} />
     </Router>
   </LocaleProvider>
 

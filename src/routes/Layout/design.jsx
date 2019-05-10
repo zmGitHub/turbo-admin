@@ -1,7 +1,7 @@
 import React from 'react'
 import { Layout } from 'antd'
-import { Route, Switch } from 'dva/router'
 import Header from '@/components/Headers'
+import Authorized from '../authorized'
 import './design.less'
 
 const { Content } = Layout
@@ -11,19 +11,7 @@ const LayoutDesignBase = ({ location, routes }) => (
     <Content className="x-layout-content">
       <Header location={location} />
       <Layout className="x-layout-content-main">
-        <Switch>
-          {
-            routes.map((route, index) => (
-              <Route
-                key={`${index}_design`}
-                path={route.path}
-                exact={route.exact}
-                render={props => (<route.component {...props} routes={route.routes} />)}
-              />
-            ))
-          }
-        </Switch>
-
+        <Authorized routes={routes} />
       </Layout>
     </Content>
   </Layout>

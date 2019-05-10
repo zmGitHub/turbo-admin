@@ -1,7 +1,7 @@
 
 import React from 'react'
-import { Route, Switch } from 'dva/router'
 import { Layout, Menu, Icon } from 'antd'
+import Authorized from '../authorized'
 
 const { Header, Sider, Content } = Layout
 
@@ -39,18 +39,7 @@ const LayoutIndexBase = ({ routes }) => (
         margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280,
         }}
       >
-        <Switch>
-          {
-            routes.map((route, index) => (
-              <Route
-                key={`${index}_base`}
-                path={route.path}
-                exact={route.exact}
-                render={props => (<route.component {...props} routes={route.routes} />)}
-              />
-            ))
-          }
-        </Switch>
+        <Authorized routes={routes} />
       </Content>
     </Layout>
   </Layout>
