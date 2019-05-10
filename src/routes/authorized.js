@@ -1,10 +1,12 @@
 import React from 'react'
 import { Route, Switch } from 'dva/router'
-import Cookies from 'js-cookie'
 
-const Authorized = ({ routes = [] }) => {
-  const userInfo = Cookies.getJSON('nTalk_CACHE_DATA')
-  console.log(userInfo)
+const RenderEl = ({ route, user, ...rest }) => {
+
+  return <route.component user={user} {...rest} routes={route.routes} />
+}
+
+const Authorized = ({ user, routes = [] }) => {
   return (
     <Switch>
       {
@@ -13,7 +15,7 @@ const Authorized = ({ routes = [] }) => {
             key={route.name}
             path={route.path}
             exact={route.exact}
-            render={props => (<route.component {...props} routes={route.routes} />)}
+            render={props => (<RenderEl user={user} {...props} route={route} />)}
           />
         ))
       }

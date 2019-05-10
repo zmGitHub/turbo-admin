@@ -1,12 +1,13 @@
 
 import React from 'react'
 import { Layout, Menu, Icon } from 'antd'
-import Authorized from '../authorized'
+import { Route } from 'dva/router'
+import Dashboard from '../Dashboard'
 
 const { Header, Sider, Content } = Layout
 
 
-const LayoutIndexBase = ({ routes }) => (
+const LayoutIndexBase = () => (
   <Layout>
     <Sider
       trigger={null}
@@ -39,7 +40,7 @@ const LayoutIndexBase = ({ routes }) => (
         margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280,
         }}
       >
-        <Authorized routes={routes} />
+        <Route path="/dashboard/index" component={Dashboard} />
       </Content>
     </Layout>
   </Layout>

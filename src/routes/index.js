@@ -1,66 +1,21 @@
 import React from 'react'
 import { LocaleProvider } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
-import { Router } from 'dva/router'
-import Authorized from './authorized'
+import { Router, Route, Switch } from 'dva/router'
+import Layout from './Layout'
 import LayoutBase from './Layout/base'
 import LayoutDesign from './Layout/design'
-import Dashboard from './Dashboard'
-import CMPAuth from './CMPAuth'
-import Design from './Design'
-
 import Exception from './Exception/404'
-
-const routes = [
-  {
-    path: '/design',
-    name: 'designBase',
-    component: LayoutDesign,
-    routes: [
-      {
-        name: 'designO2o',
-        path: '/design/o2o',
-        component: Design
-      },
-      {
-        name: 'designException',
-        component: Exception
-      }
-    ]
-  },
-  {
-    path: '/',
-    name: 'index',
-    component: LayoutBase,
-    routes: [
-      {
-        name: 'dashboardIndex',
-        path: '/dashboard/index',
-        exact: true,
-        component: Dashboard,
-      },
-      {
-        name: 'dashboardAuth',
-        path: '/dashboard/auth',
-        exact: true,
-        component: CMPAuth,
-      },
-      {
-        name: 'dashboardException',
-        component: Exception
-      }
-    ]
-  },
-  {
-    name: 'exception',
-    component: Exception
-  }
-]
 
 const RouterConfig = ({ history }) => (
   <LocaleProvider locale={zhCN}>
     <Router history={history}>
-      <Authorized routes={routes} />
+      <Switch>
+        <Route exact path="/" component={Layout} />
+        <Route path="/design" component={LayoutDesign} />
+        <Route path="/dashboard" component={LayoutBase} />
+        <Route component={Exception} />
+      </Switch>
     </Router>
   </LocaleProvider>
 

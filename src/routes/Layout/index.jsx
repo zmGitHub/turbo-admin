@@ -1,23 +1,41 @@
 
-import React from 'react'
-import { Route } from 'dva/router'
+import React, { PureComponent } from 'react'
 import { Layout } from 'antd'
+import { connect } from 'dva'
+import { Route, Switch, Redirect } from 'dva/router'
+import Loader from '@/components/Setting'
+import LayoutDesign from './design'
+import LayoutBase from './base'
 
 
-
-const LayoutBase = ({ routes }) => (
-  <Layout>
-    {
-      routes.map((route, index) => (
-        <Route
-          key={`${index}_root`}
-          path={route.path}
-          exact={route.exact}
-          render={props => (<route.component {...props} routes={route.routes} />)}
-        />
-      ))
+@connect(({ app, loading }) => ({
+  app,
+  loading: loading.effects['app/initUserInfo']
+}))
+class LayoutIndex extends PureComponent {
+  render() {
+    console.log(this.props);
+    const { app: { user } } = this.props
+    let children = <Loader />
+    if (user && user.id) {
+      const { o2oShopId } = user.extra
+      const indexPath = user.type === 1 ? '/dashboard/index' : `/design/o2o?id=${o2oShopId}`
+      console.log(indexPath)
+      children = (
+        <Switch>
+          <Redirect from="/" to={indexPath} />
+          <Route path="/design" component={LayoutDesign} />
+          <Route path="/dashboard" component={LayoutBase} />
+        </Switch>
+      )
     }
-  </Layout>
-)
+    return (
+      <Layout className="x-layout-loading">
+        {children}
+      </Layout>
+    )
+  }
+}
 
-export default LayoutBase
+export default LayoutIndex
+

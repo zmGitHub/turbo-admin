@@ -1,5 +1,6 @@
 import React from 'react'
+import { Redirect } from 'dva/router'
 
-const cmpAuth = () => (<h1>权限配置</h1>)
+const cmpAuth = () => (<Redirect to="/design/o2o" />)
 
 export default cmpAuth
