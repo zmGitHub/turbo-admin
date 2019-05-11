@@ -1,6 +1,6 @@
 import React from 'react'
 import { Layout } from 'antd'
-import { Route } from 'dva/router'
+import { Switch, Route } from 'dva/router'
 import Header from '@/components/Headers'
 import Design from '../Design'
 import './design.less'
@@ -12,7 +12,9 @@ const LayoutDesignBase = ({ location }) => (
     <Content className="x-layout-content">
       <Header location={location} />
       <Layout className="x-layout-content-main">
-        <Route path="/design/o2o" component={Design} />
+        <Switch>
+          <Route path="/design/o2o" component={Design} />
+        </Switch>
       </Layout>
     </Content>
   </Layout>

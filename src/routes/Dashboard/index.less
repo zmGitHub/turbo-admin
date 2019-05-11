@@ -2,14 +2,30 @@
 @import '../../styles/util.less';
 
 .x-dashboard {
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  margin-top: 16px;
+  background-color: #535353;
   &-content {
-    width: 850px;
+    .ant-card {
+      background-color: #535353;
+      &-head {
+        background-color: #535353;
+        border-bottom-color: #414141;
+        .ant-tabs {
+          &-ink-bar {
+            background-color: #ff835a;
+          }
+          &-tab {
+            color: #dddddd;
+            &-active {
+              color: #ff835a;
+            }
+          }
+        }
+      }
+      &-body {
+        min-height: 400px;
+      }
+    }
     &-body {
-      background-color: @x-sub-primary-color;
       &-list {
         display: flex;
         align-items: center;
@@ -124,6 +140,7 @@
       .ant-card-head {
         position: relative;
         border-bottom: none;
+
         .ant-card-extra {
           position: absolute;
           right: 24px;

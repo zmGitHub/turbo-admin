@@ -1,0 +1,71 @@
+.base-layout {
+  .ant-layout {
+    background-color: #444444;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 64px;
+    overflow: hidden;
+    background: #000;
+    transition: all .3s;
+    &-svg {
+      width: 32px;
+      fill: #fff;
+    }
+    &-info {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      color: #fff;
+      &-name {
+        margin-left: 12px;
+        font-size: 14px;
+      }
+      &-dot {
+        padding: 0 10px;
+      }
+      &-desc {
+        font-size: 14px;
+      }
+      &.hide {
+        display: none;
+      }
+    }
+  }
+  .ant-menu-item {
+    margin-top: 0;
+  }
+  .ant-layout-sider-dark {
+    background-color: #282828;
+  }
+  .header-index {
+    background-color: #000;
+    padding: 0;
+    &-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all .3s,padding 0s;
+      color: #fff;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.025);
+      }
+    }
+  }
+  &-content {
+    margin: 14px;
+    &-main {
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      transition: .3s;
+    }
+  }
+}
