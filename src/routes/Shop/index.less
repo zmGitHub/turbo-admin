@@ -1,0 +1,171 @@
+@import '../../styles/colors';
+@import '../../styles/util';
+
+.x-shop {
+  position: relative;
+  display: flex;
+  flex: 1;
+  z-index: 5;
+  &-sider {
+    position: relative;
+    width: 300px;
+    background-color: @x-sub-primary-color!important;
+    &-scroll {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      -webkit-overflow-scrolling: touch;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      z-index: 5;
+      background-color: @x-sub-primary-color!important;
+
+      .scroll-bar();
+    }
+    &-templates {
+      position: absolute;
+      left: -175px;
+      top: 0;
+      bottom: 0;
+      transform: translateX(0) translateZ(0);
+      transition: transform 0.15s cubic-bezier(.9, 0, .3, .7);
+      background-color: @x-sub-primary-color!important;
+      z-index: 4;
+      border-left: 1px solid #121516;
+      border-right: 1px solid #121516;
+      &-content {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        height: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+        padding: 10px;
+        .item {
+          border-radius: 2px;
+          background-color: @x-gray-color;
+          padding: 10px;
+          margin-bottom: 10px;
+          cursor: pointer;
+          &-header {
+            color: @x-font-color;
+            &-title {
+              font-size: 16px;
+            }
+            &-desc {
+              font-size: 12px;
+              color: #949494;
+            }
+          }
+          &-content {
+            background-color: #ffffff;
+            margin-top: 10px;
+            border: 1px solid transparent;
+            overflow: hidden;
+          }
+        }
+        .scroll-bar();
+      }
+      &.active {
+        transform: translateX(375px) translateZ(0);
+      }
+    }
+  }
+  &-content {
+    position: relative;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: @x-primary-color;
+    &-mobile {
+      position: absolute;
+      width: 375px;
+      height: 90%;
+      background-color: @x-sub-primary-color;
+      box-shadow: 0 0 15px rgba(0,0,0,0.07);
+      transform: translateX(0) translateZ(0);
+      transition: transform 0.2s ease;
+      z-index: 6;
+      .container {
+        position: relative;
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        .scroll-bar();
+        &.active {
+          .drag-component {
+            opacity: 0.5;
+          }
+        }
+      }
+      // 如果只打开模板列表
+      &.active-template {
+        transform: translateX(187px) translateZ(0);
+      }
+      // 同时打开模板列表和设置页面
+      &.active-all {
+        transform: translateX(37px) translateZ(0);
+      }
+      // 如果只打开设置页面
+      &.active-setting {
+        transform: translateX(-150px) translateZ(0);
+        .drag {
+          background-color: #000000;
+          &-component {
+            opacity: 0.5;
+          }
+          &.active {
+            .drag-component {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+  // 参数配置
+  &-setting {
+    position: absolute;
+    right: -300px;
+    top: 0;
+    bottom: 0;
+    transform: translateX(0) translateZ(0);
+    transition: transform 0.15s cubic-bezier(.9, 0, .3, .7);
+    background-color: @x-sub-primary-color!important;
+    z-index: 5;
+    &-scroll {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      -webkit-overflow-scrolling: touch;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      &-collapse {
+        background-color: @x-sub-primary-color;
+        .module-content {
+          .content-data {
+            &:last-child {
+              border-bottom: none;
+            }
+          }
+
+        }
+        .ant-collapse-content-box {
+          padding-top: 16px !important;
+          padding-bottom: 16px;
+        }
+      }
+      .scroll-bar();
+    }
+    &.active {
+      transform: translateX(-300px);
+    }
+  }
+}

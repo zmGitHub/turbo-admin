@@ -16,8 +16,6 @@ const { SubMenu } = Menu
 const LayoutIndexBase = ({ location }) => {
   const urls = replace('/', '', location.pathname)
   const menus = split('/', urls)
-  console.log(urls);
-  console.log(menus)
   menus.push(urls)
   const [ on, toggle ] = useToggle(false)
   return (
