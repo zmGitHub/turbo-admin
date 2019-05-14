@@ -9,15 +9,16 @@ import {
 import { Refuse } from './refuse'
 
 export enum DesignType {
-  HOME = 1,
-  ACTIVITY = 2,
-  PREFECTURE = 3,
-  OTHER = 4,
+  HOME = '1',
+  ACTIVITY = '2',
+  PREFECTURE = '3',
+  OTHER = '4',
 }
 
 export enum DesignStatus {
-  INIT = 0,
-  PUBLISH = 1,
+  INIT = '0',
+  TIMING = '1', // 待发布
+  PUBLISH = '2', // 已发布
 }
 
 @Entity('component')
@@ -56,6 +57,11 @@ export class Design {
 
   @UpdateDateColumn()
   updateAt: Date
+
+  @Column({
+    default: 1,
+  })
+  shopId: number
 
   @OneToMany(type => Refuse, refuse => refuse.designId)
   refuses: Refuse[]

@@ -1,5 +1,5 @@
 const config = {
-  403: {
+  401: {
     img: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
     title: '401',
     desc: '抱歉，你无权访问该页面',

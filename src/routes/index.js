@@ -5,7 +5,7 @@ import { Router, Route, Switch } from 'dva/router'
 import Layout from './Layout'
 import LayoutBase from './Layout/base'
 import LayoutDesign from './Layout/design'
-import Exception from './Exception/404'
+import Exception404 from './Exception/404'
 
 const RouterConfig = ({ history }) => (
   <LocaleProvider locale={zhCN}>
@@ -14,7 +14,7 @@ const RouterConfig = ({ history }) => (
         <Route exact path="/" component={Layout} />
         <Route path="/design" component={LayoutDesign} />
         <Route path="/dashboard" component={LayoutBase} />
-        <Route component={Exception} />
+        <Route component={Exception404} />
       </Switch>
     </Router>
   </LocaleProvider>

@@ -19,7 +19,7 @@ class LayoutIndex extends PureComponent {
     let children = <Loader />
     if (user && user.id) {
       const { o2oShopId } = user.extra
-      const indexPath = user.type === 1 ? '/dashboard/index' : `/design/shop?id=${o2oShopId}`
+      const indexPath = user.type === 1 ? '/dashboard/index' : `/design/o2o?id=${o2oShopId}`
       console.log('***********');
       console.log(indexPath)
       children = (

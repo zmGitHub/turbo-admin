@@ -51,3 +51,14 @@ export async function setDefaultDesignData(id) {
 export async function getDesignDataById(params) {
   return request.get(`/api/design/${params.id}`)
 }
+
+
+// 根据 id 获取装修数据
+export async function getShopHistory(params) {
+  return request.get('/api/design/history', { params })
+}
+
+// 获取发布中的模板 PS: 强制只有一个
+export async function getTiming() {
+  return request.get('/api/design/timing')
+}

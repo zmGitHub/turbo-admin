@@ -4,7 +4,7 @@ import { Switch, Route } from 'dva/router'
 import Header from '@/components/Headers'
 import Design from '../Design'
 import Shop from '../Shop'
-import Exception401 from '../Exception/401'
+import Exception404 from '../Exception/404'
 
 import './design.less'
 
@@ -16,9 +16,9 @@ const LayoutDesignBase = ({ location }) => (
       <Header location={location} />
       <Layout className="x-layout-content-main">
         <Switch>
-          <Route path="/design/shop" component={Shop} />
-          <Route path="/design/edit" component={Design} />
-          <Route component={Exception401} />
+          <Route exact path="/design/shop" component={Shop} />
+          <Route exact path="/design/edit" component={Design} />
+          <Route component={Exception404} />
         </Switch>
       </Layout>
     </Content>

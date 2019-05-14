@@ -7,6 +7,17 @@ import config from './utils'
 
 const app:Koa = new Koa()
 
+app.use(async (ctx, next) => {
+  try {
+    await next()
+  } catch (err) {
+    console.log('系统错误')
+    console.log(err)
+    err.status = err.statusCode || err.status || 500
+    throw err
+  }
+})
+
 // 静态文件
 app.use(koaStatic(config.resolve('dist')))
 // 请求数据解析

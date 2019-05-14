@@ -2,7 +2,7 @@ import React, { createElement, PureComponent } from 'react';
 import classNames from 'classnames';
 import { Button } from 'antd';
 import config from './typeConfig'
-import styles from './index.less'
+import './index.less'
 
 class Exception extends PureComponent {
   static defaultProps = {
