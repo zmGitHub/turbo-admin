@@ -1,6 +1,6 @@
 import React from 'react'
 import SiderPanel from './sider'
-import MobilePabel from './content'
+import MobilePanel from './content'
 import SettingPanel from './setting'
 
 import './index.less'
@@ -9,7 +9,7 @@ import './index.less'
 const Design = ({ location }) => (
   <div className="x-design">
     <SiderPanel />
-    <MobilePabel location={location} />
+    <MobilePanel location={location} />
     <SettingPanel />
   </div>
 )

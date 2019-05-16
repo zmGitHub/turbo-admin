@@ -37,8 +37,6 @@ const typeMaps = {
 }))
 class Dashboard extends PureComponent {
 
-  itemId = ''
-
   static defaultProps = {
     loading: false,
     dashboard: {
@@ -55,7 +53,7 @@ class Dashboard extends PureComponent {
       item: {},
       pageNo: 1,
       type: tab,
-      itemId: '',
+      publish: false,
       create: false
     }
   }
@@ -148,26 +146,26 @@ class Dashboard extends PureComponent {
 
   // 发布模板
   publish = ({ currentTarget }) => {
-    const { id } = currentTarget.dataset
-    this.setState({ itemId: id })
+    const { id, type } = currentTarget.dataset
+    this.setState({ publish: true, item: { id, type } })
   }
 
   onPublishChange = (params) => {
     const { dispatch } = this.props
-    const { itemId } = this.state
+    const { item } = this.state
     if (params) {
       dispatch({
         type: 'dashboard/publishTemplate',
-        payload: { id: itemId, ...params },
+        payload: { ...item, ...params },
         callback: () => {
           message.success('发布成功')
-          this.setState({ itemId: '' }, () => {
+          this.setState({ publish: false, item: {} }, () => {
             this.queryTemplate()
           })
         }
       })
     } else {
-      this.setState({ itemId: '' })
+      this.setState({ publish: false, item: {} })
     }
   }
 
@@ -222,23 +220,22 @@ class Dashboard extends PureComponent {
     return (
       <div className="x-dashboard-content-body-list">
         {
-          data.map(({ id, name, isDefault, isPublish, url, isTiming, timingTime }, index) => (
+          data.map(({ id, name, type, isDefault, poster, isTiming, timingTime }, index) => (
             <div key={id} className={classnames('x-dashboard-content-body-list-item', { active: isDefault })}>
-              <img src={url || templateImg} alt="官方模板" />
+              <img src={poster || templateImg} alt="官方模板" />
               { isDefault ? (<div className="triangle"><Icon type="check-circle" /></div>) : null }
               <div className="template-modal">
+                <Button data-id={id} data-type={type} onClick={this.publish}>发布模板</Button>
                 <Link
                   to={{
-                    pathname: '/design',
+                    pathname: '/design/edit',
                     search: `?id=${id}`,
                   }}
                 >
                   <Button>编辑模板</Button>
                 </Link>
-                <Button data-id={id} onClick={this.publish}>发布模板</Button>
-                <Button data-index={index} onClick={this.editTemplate}>修改模板</Button>
+                <Button data-index={index} onClick={this.editTemplate}>修改信息</Button>
                 { isTiming ? <Button data-id={id} onClick={this.canclePublish}>取消定时</Button> : null }
-                {isPublish && !isDefault && !isTiming ? <Button data-id={id} onClick={this.setDefault}>设为默认</Button> : null }
                 { !isDefault ? <Button data-id={id} onClick={this.deleteTemlate}>删除模板</Button> : null }
               </div>
               <div className="template-footer">{id}-{name}</div>
@@ -269,7 +266,7 @@ class Dashboard extends PureComponent {
 
   render() {
     const { loading, dashboard: { data, total }, dispatch } = this.props
-    const { type, pageNo, create, item, itemId } = this.state
+    const { type, pageNo, create, item, publish } = this.state
     return (
       <div className="x-dashboard">
         <div className="x-dashboard-content">
@@ -290,7 +287,7 @@ class Dashboard extends PureComponent {
           </Card>
         </div>
         <CreateTemplatesModal type={type} item={item} dispatch={dispatch} visible={create} onChange={this.onTemplateEdit} />
-        <PublishTemplateModal visible={!!itemId} onChange={this.onPublishChange} />
+        <PublishTemplateModal item={item} visible={publish} onChange={this.onPublishChange} />
       </div>
     )
   }

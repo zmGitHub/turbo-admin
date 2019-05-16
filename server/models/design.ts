@@ -17,8 +17,9 @@ export enum DesignType {
 
 export enum DesignStatus {
   INIT = '0',
-  TIMING = '1', // 待发布
-  PUBLISH = '2', // 已发布
+  TIMER = '1', // 定时发布
+  TIMING = '2', // 待发布
+  PUBLISH = '3', // 已发布
 }
 
 @Entity('component')
@@ -46,11 +47,14 @@ export class Design {
   })
   status: DesignStatus
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   poster: string
 
   @Column({ type: 'datetime', nullable: true })
   timer: string
+
+  @Column({ type: 'datetime', nullable: true })
+  reservation: string
 
   @CreateDateColumn()
   createAt: Date
@@ -63,6 +67,6 @@ export class Design {
   })
   shopId: number
 
-  @OneToMany(type => Refuse, refuse => refuse.designId)
+  @OneToMany(type => Refuse, refuse => refuse.design)
   refuses: Refuse[]
 }

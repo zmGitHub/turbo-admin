@@ -226,13 +226,13 @@ class Mobile extends PureComponent {
         useCORS: true,
         allowTaint: true
       }).then((canvas) => {
-        const url = canvas.toDataURL('image/jpeg', 0.5)
+        const poster = canvas.toDataURL('image/jpeg', 0.5)
         firstChild.style.overflowY='auto'
         dispatch({
           type: 'design/update',
           payload: {
             id,
-            url,
+            poster,
             data
           },
           callback: (res) => {

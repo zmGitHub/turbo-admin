@@ -7,7 +7,6 @@ import LazyTemplate from './template'
 
 const { Countdown } = Statistic;
 const { Sider } = Layout;
-const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30;
 
 @connect(({ design, loading }) => ({
   current: design.timing,
@@ -18,6 +17,8 @@ class SiderLeft extends PureComponent {
   static defaultProps = {
     active: false
   }
+
+  shopId = ''
 
   constructor(props) {
     super(props)
@@ -30,6 +31,7 @@ class SiderLeft extends PureComponent {
     const { dispatch } = this.props
     const query = getPageQuery()
     if (query && query.id) {
+      this.shopId = query.id
       dispatch({
         type: 'design/getDesignHistory',
         payload: { shopId: query.id }
@@ -51,10 +53,26 @@ class SiderLeft extends PureComponent {
     this.setState({ extend: '' })
   }
 
+
+  rejectData = () => {
+    const { dispatch, current } = this.props
+    dispatch({
+      type: 'design/reject',
+      payload: { shopId: this.shopId, designId: current.id },
+      callback: (res) => {
+        if (res.code === -1) {
+          message.info(res.msg)
+        } else {
+          message.success('拒绝成功')
+        }
+      }
+    })
+  }
+
   render() {
     const { extend } = this.state
     const { current, list, loading } = this.props
-    console.log(current)
+    const deadline = new Date(current.reservation)
     const designStyle = classnames('x-shop-sider-templates', { active: extend })
     return (
       <Fragment>
@@ -88,7 +106,7 @@ class SiderLeft extends PureComponent {
                   <span>将应用此模板</span>
                 </div>
                 <div className="template-header-action">
-                  <Button type="primary">拒绝</Button>
+                  <Button onClick={this.rejectData} type="primary">拒绝</Button>
                 </div>
               </div>
               <div className="template-content">

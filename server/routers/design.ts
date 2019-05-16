@@ -16,7 +16,13 @@ router.get('/home/o2o', auth, design.getO2o)
 router.get('/paging', auth, design.queryDesign)
 // 添加装修数据
 router.post('/add', auth, design.addDesign)
+// 修改装修数据
+router.put('/update', auth, design.update)
+// 发布装修数据
+router.post('/publish', auth, design.publish)
 // 获取历史数据
 router.get('/history', auth, design.getHistory)
+// 商家拒绝应用模板
+router.post('/reject', auth, design.reject)
 
 export default router

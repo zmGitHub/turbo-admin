@@ -5,7 +5,7 @@ const LazyItem = ({ item }) => {
   const { component, content, style } = item
   const template = TemplateMaps[component] || { component: TemplateMaps.error }
   return React.createElement(template.component || 'div', {
-    style,
+    componentStyle: style,
     data: content.data,
   })
 }
@@ -14,7 +14,9 @@ const LazyTemplate = ({ templates }) => (
   <div className="container">
     {
       templates.map((item, index) => (
-        <LazyItem key={`template_view_${index}`} item={item} />
+        <div key={`template_view_${index}`} className="drag">
+          <LazyItem item={item} />
+        </div>
       ))
     }
   </div>

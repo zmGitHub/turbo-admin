@@ -21,7 +21,7 @@ const Header = ({ location: { pathname } }) => (
         <span className="desc">装修</span>
       </div>
     </div>
-    <div className={classnames(`${prefixCls}-right`, { hide: pathname !== '/design' })}>
+    <div className={classnames(`${prefixCls}-right`, { hide: pathname !== '/design/edit' })}>
       <Link to="/">
         <Button ghost>返回</Button>
       </Link>

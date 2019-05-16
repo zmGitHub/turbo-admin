@@ -18,7 +18,7 @@ export async function updateDesginBasic(params) {
 
 // 更新装修数据
 export async function updateDesginData(params) {
-  return request.post('/api/hisense/applet/design/save', params)
+  return request.put('/api/design/update', params)
 }
 
 // 查询装修数据
@@ -28,7 +28,7 @@ export async function queryDesignData(params) {
 
 // 立即发布/定时发布
 export async function publishDesignData(params) {
-  return request.post('/api/hisense/applet/design/publish', params)
+  return request.post('/api/design/publish', params)
 }
 
 // 取消发布
@@ -49,7 +49,12 @@ export async function setDefaultDesignData(id) {
 
 // 根据 id 获取装修数据
 export async function getDesignDataById(params) {
-  return request.get(`/api/design/${params.id}`)
+  return request.get(`/api/design/find/${params.id}`)
+}
+
+// 根据店铺 id 获取对应店铺下的装修数据
+export async function getPublishDataByShopId(params) {
+  return request.get('/api/design/home/o2o', { params })
 }
 
 
@@ -61,4 +66,10 @@ export async function getShopHistory(params) {
 // 获取发布中的模板 PS: 强制只有一个
 export async function getTiming() {
   return request.get('/api/design/timing')
+}
+
+
+// 商家拒绝
+export async function rejectDesignData(params) {
+  return request.post('/api/design/reject', params)
 }

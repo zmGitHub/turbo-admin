@@ -47,8 +47,8 @@ class Mobile extends PureComponent {
     window.ee.on('ADD_COMPONENT_DATA', this.addComponent)
     window.ee.on('SAVE_COMPONENT_DATA', this.save)
     dispatch({
-      type: 'design/getDataById',
-      payload: { id: this.params.id },
+      type: 'design/getPublishByShopId',
+      payload: { shopId: this.params.id },
       callback: (components) => {
         this.setState({ components })
       }

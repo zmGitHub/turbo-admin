@@ -1,4 +1,4 @@
-import { map, sort } from 'ramda'
+import { map, includes } from 'ramda'
 import moment from 'moment'
 import { queryDesignData, publishDesignData, setDefaultDesignData, cancelPublish, deleteDesignData } from '@/services/design'
 
@@ -44,18 +44,22 @@ export default {
       const res = yield call(queryDesignData, payload)
       const { total } = res
       const { tab } = payload
-      const sortItems = sort((pre, next) => pre > next, res.data)
-      const items = map(({ id, name, isPublish, data, isTiming, timingTime, type, updatedAt, url }) => ({
-        id,
-        name,
-        isDefault: isPublish === 1,
-        isPublish: data !== "[]",
-        isTiming: isTiming && moment(timingTime).isAfter(),
-        timingTime: timingTime ? moment(timingTime).valueOf() : false,
-        updatedAt: moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
-        type,
-        url
-      }), sortItems)
+      const items = map((item) => {
+        const { id, name, status, canPublish, type, timer, reservation, updatedAt, poster } = item
+        const isTiming = includes(status, ['1', '2']) && (reservation ? moment(reservation).isAfter() : moment(timer).isAfter())
+        return {
+          id,
+          name,
+          status,
+          isDefault: status === '3',
+          canPublish,
+          isTiming,
+          timingTime: reservation ? moment(reservation).valueOf() : moment(timer).valueOf(),
+          updatedAt: moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
+          type,
+          poster
+        }
+      }, res.data)
       yield put({ type: 'initTemplates', payload: { tab, total, data: items  }})
     },
   },
