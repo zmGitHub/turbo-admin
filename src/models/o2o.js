@@ -23,10 +23,12 @@ export default {
           } catch (error) {
             res.data = []
           }
-          callback(res)
         }
         yield put({ type: 'initTiming', payload: res })
+      } else {
+        yield put({ type: 'initTiming', payload: { data: [] } })
       }
+      callback(res)
     },
     // 获取商家历史模板
     *getDesignHistory({ payload }, { call, put }) {

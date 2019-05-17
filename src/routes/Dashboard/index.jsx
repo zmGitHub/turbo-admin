@@ -220,12 +220,12 @@ class Dashboard extends PureComponent {
     return (
       <div className="x-dashboard-content-body-list">
         {
-          data.map(({ id, name, type, isDefault, poster, isTiming, timingTime }, index) => (
+          data.map(({ id, name, type, isDefault, poster, isTiming, timingTime, canPublish }, index) => (
             <div key={id} className={classnames('x-dashboard-content-body-list-item', { active: isDefault })}>
               <img src={poster || templateImg} alt="官方模板" />
               { isDefault ? (<div className="triangle"><Icon type="check-circle" /></div>) : null }
               <div className="template-modal">
-                <Button data-id={id} data-type={type} onClick={this.publish}>发布模板</Button>
+                { canPublish ? (<Button data-id={id} data-type={type} onClick={this.publish}>发布模板</Button>) : null }
                 <Link
                   to={{
                     pathname: '/design/edit',

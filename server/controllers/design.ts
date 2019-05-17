@@ -1,6 +1,6 @@
 import { Context } from 'koa'
 import { CronJob } from 'cron'
-import { is, head, last, find, propEq, map, isEmpty } from 'ramda'
+import { is, head, last, find, propEq, map } from 'ramda'
 import { DesignStatus, DesignType } from '../models/design'
 import {
   get, add, update, query,
@@ -28,7 +28,7 @@ export default class Design {
   public static async getTiming(ctx:Context) {
     const res = await getTiming()
     ctx.status = 200
-    ctx.body = res
+    ctx.body = res || { msg: '暂无最新模板' }
   }
   // 获取分类
   public static async queryDesign(ctx:Context) {
@@ -39,7 +39,7 @@ export default class Design {
       const data = map(
         ({
           data, ...rest
-        }) => ({ canPublish: !isEmpty(data), ...rest }),
+        }) => ({ canPublish: !!data, ...rest }),
         head(res))
       const total = last(res)
       entities = { data, total }

@@ -17,11 +17,27 @@
       height: 100%;
       background-color: @x-sub-primary-color!important;
       &-header {
-        padding: 10px;
-        border-bottom: 1px solid #121516;
-        color: #DDDDDD;
-        .anticon {
-          margin-right: 10px;
+        .item {
+          display: flex;
+          align-items: center;
+          border-bottom: 1px solid #121516;
+          color: #DDDDDD;
+
+          cursor: pointer;
+          &-left {
+            display: flex;
+            flex: 1;
+            padding: 10px;
+            align-items: center;
+            .anticon {
+              margin-right: 10px;
+            }
+          }
+          &-right {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+          }
         }
       }
       &-content {

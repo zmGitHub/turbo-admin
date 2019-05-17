@@ -3,7 +3,7 @@ import { connect } from 'dva'
 import { message } from 'antd'
 import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import scrollIntoView from 'scroll-into-view-if-needed'
-import { is, remove, add, dec, findIndex, propEq, insert } from 'ramda'
+import { is, remove, add, dec } from 'ramda'
 import classnames from 'classnames'
 import { getPageQuery } from '@/utils'
 import SortableItem from './sortableItem'
@@ -52,7 +52,6 @@ class Mobile extends PureComponent {
     this.scrollContentRef = document.getElementById('js-scroll-content')
     this.params = getPageQuery(location.pathname)
     window.ee.on('OPEN_SIDER_PANEL', this.openSiderPanel)
-    window.ee.on('ADD_COMPONENT_DATA', this.addComponent)
     window.ee.on('SAVE_O2O_COMPONENT_DATA', this.save)
     dispatch({
       type: 'o2o/getPublishByShopId',
@@ -65,37 +64,9 @@ class Mobile extends PureComponent {
 
   componentWillUnmount() {
     window.ee.off('OPEN_SIDER_PANEL')
-    window.ee.off('ADD_COMPONENT_DATA')
     window.ee.off('SAVE_O2O_COMPONENT_DATA')
   }
 
-  addComponent = (component) => {
-    const { componentId, components } = this.state
-    const { dispatch } = this.props
-    const { key, content, style } = component
-    let componentArr = []
-    let index = 0
-    if (!componentId) {
-      componentArr = components.concat(component)
-    } else {
-      index = findIndex(propEq('key', componentId))(components)
-      componentArr = insert(add(index, 1), component, components)
-    }
-    this.setState({ componentId: key, components: componentArr, siderCollapse: true }, () => {
-      const el = document.getElementById(`component_${key}`)
-      this.scrollElement(el)
-      window.ee.emit('GET_COMPONENT_DATA', {
-        id: key,
-        name: content.component,
-        data: content.data,
-        componentStyle: style
-      })
-      dispatch({
-        type: 'o2o/add',
-        payload: { component, index }
-      })
-    })
-  }
 
   // 删除选中的元素
   onDelete = (event) => {

@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva'
-import { Layout, Icon, message, Spin, Empty, Statistic, Button } from 'antd'
+import { Layout, Icon, message, Spin, Empty, Statistic, Button, Badge } from 'antd'
 import classnames from 'classnames'
 import { getPageQuery } from '@/utils'
 import LazyTemplate from './template'
@@ -40,6 +40,7 @@ class SiderLeft extends PureComponent {
         type: 'o2o/getTiming',
         callback: (res) => {
           if (res && res.id) {
+            window.ee.emit('OPEN_SIDER_PANEL')
             this.setState({ extend: true })
           }
         }
@@ -47,7 +48,15 @@ class SiderLeft extends PureComponent {
     } else {
       message.error('商家不存在');
     }
+    window.ee.on('RESET_LAYOUT_STATUS', this.resetSiderStatus)
+    window.ee.on('RESET_SIDER_STATUS', this.resetSiderStatus)
   }
+
+  componentWillUnmount() {
+    window.ee.off('RESET_LAYOUT_STATUS')
+    window.ee.off('RESET_SIDER_STATUS')
+  }
+
 
   resetSiderStatus = () => {
     this.setState({ extend: '' })
@@ -69,6 +78,35 @@ class SiderLeft extends PureComponent {
     })
   }
 
+  viewAction = () => {
+    const { current } = this.props
+    const { extend } = this.state
+    if (current.data.length) {
+      this.setState({ extend: !extend })
+      if (!extend) {
+        window.ee.emit('OPEN_SIDER_PANEL')
+      }
+    } else {
+      this.getNewTemplate()
+    }
+  }
+
+  getNewTemplate = () => {
+    const { dispatch } = this.props
+    dispatch({
+      type: 'o2o/getTiming',
+      callback: (res) => {
+        if (res && res.id) {
+          window.ee.emit('OPEN_SIDER_PANEL')
+          this.setState({ extend: true })
+        } else {
+          this.setState({ extend: false })
+          message.info('当前无最新模板')
+        }
+      }
+    })
+  }
+
   render() {
     const { extend } = this.state
     const { current, list, loading } = this.props
@@ -80,8 +118,25 @@ class SiderLeft extends PureComponent {
           <div className="x-shop-sider-scroll">
             <Spin tip="加载中..." spinning={loading}>
               <div className="x-shop-sider-scroll-header">
-                <Icon type="ordered-list" />
-                <span>历史模板</span>
+                <div className="item">
+                  <div className="item-left">
+                    <Icon type="notification" />
+                    <span>最新模板</span>
+                  </div>
+                  <div className="item-right" onClick={this.viewAction}>
+                    {current.data.length && !extend ? (<Badge dot><span>查看</span></Badge>) : null}
+                    {!current.data.length ? <Icon type="reload" /> : null }
+                  </div>
+                </div>
+                <div className="item">
+                  <div className="item-left">
+                    <Icon type="bars" />
+                    <span>历史模板</span>
+                  </div>
+                  <div className="item-right">
+                    <span className="count">{list.length}</span>
+                  </div>
+                </div>
               </div>
               <div className="x-shop-sider-scroll-content">
                 {
@@ -102,7 +157,7 @@ class SiderLeft extends PureComponent {
               <div className="template-header">
                 <div className="template-header-timer">
                   <span>还有:</span>
-                  <Countdown value={deadline} format="D 天 H 时 m 分 s 秒" />
+                  <Countdown onFinish={this.getNewTemplate} value={deadline} format="D 天 H 时 m 分 s 秒" />
                   <span>将应用此模板</span>
                 </div>
                 <div className="template-header-action">
