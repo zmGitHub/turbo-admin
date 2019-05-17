@@ -19,7 +19,7 @@ app.use(async (ctx, next) => {
 })
 
 // 静态文件
-app.use(koaStatic(config.resolve('dist')))
+app.use(koaStatic('./dist'))
 // 请求数据解析
 app.use(bodyParser({
   enableTypes: ['json', 'form', 'text'],

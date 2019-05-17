@@ -4,7 +4,6 @@ const Koa = require("koa");
 const bodyParser = require("koa-bodyparser");
 const koaStatic = require("koa-static");
 const routers_1 = require("./routers");
-const utils_1 = require("./utils");
 const app = new Koa();
 app.use(async (ctx, next) => {
     try {
@@ -18,7 +17,7 @@ app.use(async (ctx, next) => {
     }
 });
 // 静态文件
-app.use(koaStatic(utils_1.default.resolve('dist')));
+app.use(koaStatic('./dist'));
 // 请求数据解析
 app.use(bodyParser({
     enableTypes: ['json', 'form', 'text'],

@@ -1,12 +1,23 @@
+node -v
+ifconfig
+hostname
+df -lh
+pwd
+npm i
+
+
 FROM terminus/herd:1.0.2-beta.13
 
-COPY public /hisense-frontend-web/public
-COPY lib /hisense-frontend-web/lib
-COPY node_modules /hisense-frontend-web/node_modules
-COPY Pampasfile-*.js /hisense-frontend-web/
-COPY invoke-filter.js /hisense-frontend-web/
-COPY package.json /hisense-frontend-web/
+COPY package.json /turbo/
+COPY package-lock.json /turbo/
+COPY config.js /turbo/
+COPY node_modules /turbo/node_modules
+COPY servers /turbo/servers
+COPY dist /turbo/dist
 
-WORKDIR /hisense-frontend-web
 
-EXPOSE 8181
+WORKDIR /turbo
+
+EXPOSE 3001
+
+CMD NODE_ENV=development node ./servers/index.js
