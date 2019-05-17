@@ -40,7 +40,6 @@ const LayoutIndexBase = ({ location }) => {
             <Menu.Item key="index">
               <Link to="/dashboard/index">店铺模板</Link>
             </Menu.Item>
-            <Menu.Item key="template">option2</Menu.Item>
           </SubMenu>
           <Menu.Item key="dashboard/auth">
             <Link to="/dashboard/auth">
@@ -48,13 +47,8 @@ const LayoutIndexBase = ({ location }) => {
               <span>组件权限</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="shop">
-            <Icon type="shop" />
-            <span>商城管理</span>
-          </Menu.Item>
           <SubMenu key="setting" title={<span><Icon type="tool" /><span>其他设置</span></span>}>
             <Menu.Item key="poster">分享海报</Menu.Item>
-            <Menu.Item key="template">option2</Menu.Item>
           </SubMenu>
         </Menu>
       </Sider>

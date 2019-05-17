@@ -22,6 +22,7 @@ app.model(require('./models/app').default)
 app.model(require('./models/dashboard').default)
 app.model(require('./models/component').default)
 app.model(require('./models/design').default)
+app.model(require('./models/o2o').default)
 
 // 定义好 EventEmitter
 window.ee = new EventEmitter()

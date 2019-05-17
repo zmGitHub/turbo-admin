@@ -1,52 +1,13 @@
 import { concat, is, remove, add, insert } from 'ramda'
 import _find from 'lodash/find'
-import { createDesignData, updateDesginBasic, updateDesginData, getDesignDataById, getShopHistory, getTiming, getPublishDataByShopId, rejectDesignData } from '@/services/design'
+import { createDesignData, updateDesginData, getDesignDataById } from '@/services/design'
 
 export default {
   namespace: 'design',
   state: {
-    timing: { data: [] },
     list: [],
-    o2o: {
-      id: '',
-      list: []
-    },
-    histories: []
   },
   effects: {
-    // 获取发布中的数据
-    *getTiming({ callback }, { call, put }) {
-      const res = yield call(getTiming)
-      if (res && res.id) {
-        if (res.data && res.data.length > 0) {
-          try {
-            res.data = JSON.parse(res.data)
-          } catch (error) {
-            res.data = []
-          }
-          callback(res)
-        }
-        yield put({ type: 'initTiming', payload: res })
-      }
-    },
-    // 获取商家历史模板
-    *getDesignHistory({ payload }, { call, put }) {
-      const list = yield call(getShopHistory, payload)
-      if (is(Array, list) && list.length) {
-        yield put({ type: 'getShopHistory', payload: list })
-      }
-    },
-    // 通过 shopId 获取数据
-    *getPublishByShopId({ payload, callback }, { call, put }) {
-      const res = yield call(getPublishDataByShopId, payload)
-      if (res && res.data && res.data.length > 0) {
-        const list = JSON.parse(res.data)
-        if (is(Array, list)) {
-          callback(list)
-          yield put({ type: 'o2o', payload: { id: res.id, list } })
-        }
-      }
-    },
     // 通过 id 获取数据
     *getDataById({ payload, callback }, { call, put }) {
       const res = yield call(getDesignDataById, payload)
@@ -58,13 +19,7 @@ export default {
         }
       }
     },
-    // 商家拒绝
-    *reject({ payload, callback }, { call }) {
-      const res = yield call(rejectDesignData, payload)
-      if(callback) {
-        callback(res)
-      }
-    },
+
     // 保存页面数据
     *create({ payload, callback }, { call }) {
       const res = yield call(createDesignData, payload)
@@ -72,13 +27,7 @@ export default {
         callback(res)
       }
     },
-    // 更新页面数据
-    *edit({ payload, callback }, { call }) {
-      const res = yield call(updateDesginBasic, payload)
-      if(callback) {
-        callback(res)
-      }
-    },
+
     // 更新页面数据
     *update({ payload, callback }, { call }) {
       const res = yield call(updateDesginData, payload)
@@ -112,32 +61,11 @@ export default {
     },
   },
   reducers: {
-    getShopHistory(state, action) {
-      const { payload } = action
-      return {
-        ...state,
-        histories: payload
-      }
-    },
-    initTiming(state, action) {
-      const { payload } = action
-      return {
-        ...state,
-        timing: payload
-      }
-    },
     initial(state, action) {
       const { payload } = action
       return {
         ...state,
         list: payload
-      }
-    },
-    o2o(state, action) {
-      const { payload } = action
-      return {
-        ...state,
-        o2o: payload
       }
     },
     addComponent(state, { payload }) {

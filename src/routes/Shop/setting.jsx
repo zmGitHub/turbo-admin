@@ -4,7 +4,6 @@ import { Layout, Collapse } from 'antd'
 import { connect } from 'dva'
 import classnames from 'classnames'
 import ContentMaps from '@/design/content'
-import EditorMaps from '@/design/editor'
 
 const { Sider } = Layout
 const { Panel } = Collapse
@@ -12,9 +11,9 @@ const { Panel } = Collapse
 const DynamicComponent = ({ onChange, config, maps }) => {
   const { component } = config
   const LoadComponent = maps[component] || maps.error
-  const Lazycomponent = lazy(() => LoadComponent)
+  const LazyComponent = lazy(() => LoadComponent)
   return (
-    <Lazycomponent config={config} onChange={onChange} />
+    <LazyComponent config={config} onChange={onChange} />
   )
 }
 
@@ -26,7 +25,6 @@ class Setting extends PureComponent {
       id: '',
       name: '',
       data: null,
-      componentStyle: []
     }
   }
 
@@ -46,7 +44,6 @@ class Setting extends PureComponent {
       id: '',
       name: '',
       data: null,
-      componentStyle: []
     })
   }
 
@@ -59,23 +56,14 @@ class Setting extends PureComponent {
     const { dispatch } = this.props
     window.ee.emit('COMPONENT_CONFIG_UPDATE', { type: 'content', ...payload })
     dispatch({
-      type: 'design/updateContent',
+      type: 'o2o/updateContent',
       payload
     })
   }
 
-  // 更新组件样式
-  updateComponentStyle = (payload) => {
-    const { dispatch } = this.props
-    window.ee.emit('COMPONENT_CONFIG_UPDATE', { type: 'style', ...payload })
-    dispatch({
-      type: 'design/updateStyle',
-      payload
-    })
-  }
 
   render() {
-    const { id, name, data, componentStyle } = this.state
+    const { id, name, data } = this.state
     const settingStyle = classnames('x-shop-setting', { active: !!id })
     return (
       <Sider width="300" className={settingStyle}>
@@ -98,26 +86,6 @@ class Setting extends PureComponent {
                 </Suspense>
               </div>
             </Panel>
-            {
-              componentStyle.length && componentStyle.map((styleConfig) => (
-                <Panel header={styleConfig.name} key={styleConfig.key}>
-                  <div className="module-content">
-                    <Suspense fallback={<div>Loading...</div>}>
-                      {
-                        styleConfig.items.length && styleConfig.items.map((item) => (
-                          <DynamicComponent
-                            key={`${id}_${item.key}`}
-                            maps={EditorMaps}
-                            config={{ id, styleId: styleConfig.key, ...item }}
-                            onChange={this.updateComponentStyle}
-                          />
-                        ))
-                      }
-                    </Suspense>
-                  </div>
-                </Panel>
-              ))
-            }
           </Collapse>
         </div>
       </Sider>

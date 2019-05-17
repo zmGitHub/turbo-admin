@@ -3,8 +3,7 @@ import { connect } from 'dva'
 import { message } from 'antd'
 import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import scrollIntoView from 'scroll-into-view-if-needed'
-import html2canvas from 'html2canvas'
-import { is, remove, add, dec, findIndex, propEq, insert, map } from 'ramda'
+import { is, remove, add, dec, findIndex, propEq, insert } from 'ramda'
 import classnames from 'classnames'
 import { getPageQuery } from '@/utils'
 import SortableItem from './sortableItem'
@@ -19,12 +18,15 @@ const SortableList = SortableContainer(({ children }) => (
   </div>
 ));
 
-@connect(({ design, loading }) => ({
-  list: design.list,
-  submitting: loading.effects['design/create']
+@connect(({ app, o2o }) => ({
+  list: o2o.list,
+  o2o: o2o.info,
+  auth: app.componentAuth
 }))
 class Mobile extends PureComponent {
   scrollContentRef = null
+
+  o2oId = ''
 
   params = null
 
@@ -39,15 +41,21 @@ class Mobile extends PureComponent {
     this.dragEleRef = React.createRef()
   }
 
+  componentWillMount() {
+    // 获取装修组件权限
+    const { dispatch } = this.props;
+    dispatch({ type: 'app/getComponentAuth' })
+  }
+
   componentDidMount() {
     const { location, dispatch } = this.props;
     this.scrollContentRef = document.getElementById('js-scroll-content')
     this.params = getPageQuery(location.pathname)
     window.ee.on('OPEN_SIDER_PANEL', this.openSiderPanel)
     window.ee.on('ADD_COMPONENT_DATA', this.addComponent)
-    window.ee.on('SAVE_COMPONENT_DATA', this.save)
+    window.ee.on('SAVE_O2O_COMPONENT_DATA', this.save)
     dispatch({
-      type: 'design/getPublishByShopId',
+      type: 'o2o/getPublishByShopId',
       payload: { shopId: this.params.id },
       callback: (components) => {
         this.setState({ components })
@@ -58,7 +66,7 @@ class Mobile extends PureComponent {
   componentWillUnmount() {
     window.ee.off('OPEN_SIDER_PANEL')
     window.ee.off('ADD_COMPONENT_DATA')
-    window.ee.off('SAVE_COMPONENT_DATA')
+    window.ee.off('SAVE_O2O_COMPONENT_DATA')
   }
 
   addComponent = (component) => {
@@ -83,7 +91,7 @@ class Mobile extends PureComponent {
         componentStyle: style
       })
       dispatch({
-        type: 'design/add',
+        type: 'o2o/add',
         payload: { component, index }
       })
     })
@@ -95,13 +103,13 @@ class Mobile extends PureComponent {
     const { currentTarget } = event
     const { components } = this.state
     const index = +currentTarget.dataset.index
-    const componentLenth = components.length - 1
+    const componentLength = components.length - 1
     // TODO: 这里逻辑有待优化
     if (is(Number, index)) {
       let componentId = ''
-      if (index < componentLenth) {
+      if (index < componentLength) {
         componentId = components[index + 1].key
-      } else if (index === componentLenth && componentLenth > 0) {
+      } else if (index === componentLength && componentLength > 0) {
         componentId = components[index - 1].key
       }
       this.setState({
@@ -110,7 +118,7 @@ class Mobile extends PureComponent {
       }, () => {
         const { dispatch } = this.props
         dispatch({
-          type: 'design/delete',
+          type: 'o2o/delete',
           payload: { index },
           callback: (res) => {
             if (res && res.key) {
@@ -140,12 +148,16 @@ class Mobile extends PureComponent {
   getElSetting = (event, data) => {
     event.stopPropagation()
     const { currentTarget } = event
-    const { id } = data
-    window.ee.emit('RESET_SIDER_STATUS', data)
-    window.ee.emit('GET_COMPONENT_DATA', data)
-    this.setState({ componentId: id, settingCollapse: true, siderCollapse: false }, () => {
-      this.scrollElement(currentTarget)
-    })
+    const { id, auth } = data
+    if (auth) {
+      window.ee.emit('RESET_SIDER_STATUS', data)
+      window.ee.emit('GET_COMPONENT_DATA', data)
+      this.setState({ componentId: id, settingCollapse: true, siderCollapse: false }, () => {
+        this.scrollElement(currentTarget)
+      })
+    } else {
+      message.info('未开放该组件的编辑权限')
+    }
   }
 
   reset = (event) => {
@@ -181,7 +193,7 @@ class Mobile extends PureComponent {
       }), () => {
         const { dispatch } = this.props
         dispatch({
-          type: 'design/sort',
+          type: 'o2o/sort',
           payload: { arrayMove, oldIndex, newIndex }
         })
       })
@@ -194,61 +206,47 @@ class Mobile extends PureComponent {
     }), () => {
       const { dispatch } = this.props
       dispatch({
-        type: 'design/sort',
+        type: 'o2o/sort',
         payload: { arrayMove, oldIndex, newIndex }
       })
     })
   }
 
   save = () => {
-    const { dispatch, list } = this.props
+    const { dispatch, list, o2o } = this.props
     const { id } = this.params
     const data = JSON.stringify(list)
-    message.loading('数据处理中...').then(() => {
-      const { firstChild, clientHeight } = this.scrollContentRef
-      firstChild.style.overflowY='hidden'
-      map((el) => {
-        // eslint-disable-next-line no-param-reassign
-        el.style.backgroundColor = '#ffffff'
-        // eslint-disable-next-line no-param-reassign
-        el.style.opacity = 1
-        if (el.offsetTop > clientHeight) {
-          el.setAttribute('data-html2canvas-ignore', true)
-        } else {
-          el.removeAttribute('data-html2canvas-ignore')
-        }
-      }, firstChild.childNodes)
-
-      html2canvas(this.scrollContentRef, {
-        height: 667,
-        foreignObjectRendering: true,
-        backgroundColor: '#fff',
-        useCORS: true,
-        allowTaint: true
-      }).then((canvas) => {
-        const url = canvas.toDataURL('image/jpeg', 0.5)
-        firstChild.style.overflowY='auto'
+    if (data !== o2o.data) {
+      message.loading('数据处理中...').then(() => {
         dispatch({
-          type: 'design/update',
+          type: 'o2o/shopUpdate',
           payload: {
-            id,
-            url,
-            data
+            id: o2o.id,
+            data,
+            name: o2o.name,
+            o2oId: id,
+            shopId: o2o.shopId
           },
-          callback: (res) => {
-            if (res) {
+          callback: (result) => {
+            if (result) {
               message.success('更新成功')
+              dispatch({
+                type: 'o2o/updateInfo',
+                payload: result
+              })
             } else {
               message.error('更新失败')
             }
           }
         })
       })
-    })
-
+    } else {
+      message.warn('数据没有修改')
+    }
   }
 
   render() {
+    const { auth } = this.props
     const { componentId, components, siderCollapse, settingCollapse } = this.state
     const contentStyle = classnames('x-shop-content-mobile', {
       'active-template': siderCollapse && !settingCollapse,
@@ -271,6 +269,7 @@ class Mobile extends PureComponent {
                 index={index}
                 indexing={index}
                 item={item}
+                auth={auth.list}
                 onClick={this.getElSetting}
                 onDelete={this.onDelete}
                 onSort={this.onSort}

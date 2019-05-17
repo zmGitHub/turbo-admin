@@ -10,15 +10,15 @@ export async function publishDesign(params) {
   return request.post('/api/hisense/applet/design/create', params)
 }
 
-// update
-// 更新基本信息 name
-export async function updateDesginBasic(params) {
-  return request.post('/api/hisense/applet/design/update', params)
-}
 
 // 更新装修数据
 export async function updateDesginData(params) {
   return request.put('/api/design/update', params)
+}
+
+// 更新商家装修数据
+export async function updateO2oData(params) {
+  return request.put('/api/design/home/o2o', params)
 }
 
 // 查询装修数据

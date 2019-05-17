@@ -88,7 +88,6 @@ export const publishForce = async (id: number) => {
   return { resetRes, updateRes }
 }
 
-
 // 发布模板
 export const publish = async (params: UpdateParams) => {
   const designRpo:Repository<Design> = getRepository(Design)
@@ -105,7 +104,7 @@ export const publish = async (params: UpdateParams) => {
   return { resetRes, updateRes }
 }
 
-export const update = async (params: AddParams) => {
+export const update = async (params: UpdateParams) => {
   const designRpo:Repository<Design> = getRepository(Design)
   return await designRpo.createQueryBuilder('designUpdate')
   .update(Design)

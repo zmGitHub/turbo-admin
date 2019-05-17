@@ -9,3 +9,13 @@ export async function getCSRFToken() {
 export async function getUserInfo() {
   return request.get('/api/hisense/user')
 }
+
+// 获取装修组件的权限列表
+export async function getComponentAuth() {
+  return request.get('/api/design/auth')
+}
+
+// 添加装修组件的权限列表
+export async function updateComponentAuth(params) {
+  return request.post('/api/design/auth', params)
+}

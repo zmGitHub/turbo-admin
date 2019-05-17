@@ -1,13 +1,24 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Button } from 'antd'
 import { Link } from 'dva/router'
-import classnames from 'classnames'
 
 import './index.less'
 
 const prefixCls = 'x-header'
 
-const submitEvent = () => window.ee.emit('SAVE_COMPONENT_DATA')
+const submitAdminEvent = () => window.ee.emit('SAVE_COMPONENT_DATA')
+const submitO2oEvent = () => window.ee.emit('SAVE_O2O_COMPONENT_DATA')
+
+const ActionAdmin = () => (
+  <Fragment>
+    <Link to="/">
+      <Button ghost>返回</Button>
+    </Link>
+    <Button onClick={submitAdminEvent} type="primary">保存</Button>
+  </Fragment>
+)
+
+const ActionO2o = () => (<Button onClick={submitO2oEvent} type="primary">保存</Button>)
 
 const Header = ({ location: { pathname } }) => (
   <div className={prefixCls}>
@@ -21,11 +32,9 @@ const Header = ({ location: { pathname } }) => (
         <span className="desc">装修</span>
       </div>
     </div>
-    <div className={classnames(`${prefixCls}-right`, { hide: pathname !== '/design/edit' })}>
-      <Link to="/">
-        <Button ghost>返回</Button>
-      </Link>
-      <Button onClick={submitEvent} type="primary">保存</Button>
+    <div className={`${prefixCls}-right`}>
+      { pathname === '/design/edit' ? <ActionAdmin /> : null }
+      { pathname === '/design/shop' ? <ActionO2o /> : null }
     </div>
   </div>
 )

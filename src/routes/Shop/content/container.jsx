@@ -24,9 +24,10 @@ class Container extends PureComponent {
   }
 
   handleClick = (event) => {
-    const { id, content, onClick } = this.props
+    const { id, content, onClick, auth } = this.props
     const component = {
       id,
+      auth,
       name: content.component,
       ...this.state
     }

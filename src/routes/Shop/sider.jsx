@@ -8,10 +8,10 @@ import LazyTemplate from './template'
 const { Countdown } = Statistic;
 const { Sider } = Layout;
 
-@connect(({ design, loading }) => ({
-  current: design.timing,
-  list: design.histories,
-  loading: loading.effects['design/getDesignHistory']
+@connect(({ o2o, loading }) => ({
+  current: o2o.timing,
+  list: o2o.histories,
+  loading: loading.effects['o2o/getDesignHistory']
 }))
 class SiderLeft extends PureComponent {
   static defaultProps = {
@@ -33,11 +33,11 @@ class SiderLeft extends PureComponent {
     if (query && query.id) {
       this.shopId = query.id
       dispatch({
-        type: 'design/getDesignHistory',
+        type: 'o2o/getDesignHistory',
         payload: { shopId: query.id }
       })
       dispatch({
-        type: 'design/getTiming',
+        type: 'o2o/getTiming',
         callback: (res) => {
           if (res && res.id) {
             this.setState({ extend: true })
@@ -57,7 +57,7 @@ class SiderLeft extends PureComponent {
   rejectData = () => {
     const { dispatch, current } = this.props
     dispatch({
-      type: 'design/reject',
+      type: 'o2o/reject',
       payload: { shopId: this.shopId, designId: current.id },
       callback: (res) => {
         if (res.code === -1) {

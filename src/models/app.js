@@ -1,10 +1,14 @@
 import Cookies from 'js-cookie'
-import { getCSRFToken, getUserInfo } from '@/services/app'
+import { getCSRFToken, getUserInfo, getComponentAuth, updateComponentAuth } from '@/services/app'
 
 export default {
   namespace: 'app',
   state: {
-    user: null
+    user: null,
+    componentAuth: {
+      id: '',
+      list: []
+    }
   },
   effects: {
     *initCSRFToken(_, { call }) {
@@ -20,6 +24,26 @@ export default {
         yield put({ type: 'initUser', payload })
       }
     },
+    // 获取装修组件权限列表
+    *getComponentAuth({ callback }, { call, put }) {
+      const payload = yield call(getComponentAuth)
+      if (payload && payload.id) {
+        const { id, data = '' } = payload
+        const list = data.split(',')
+        if (callback) {
+          callback(list)
+        }
+        yield put({ type: 'initComponentAuth', payload: { id, list } })
+      }
+    },
+    // 添加装修组件权限
+    *updateComponentAuth({ payload, callback }, { call }) {
+      const res = yield call(updateComponentAuth, payload)
+      if (callback) {
+        callback(res)
+      }
+    }
+
   },
   reducers: {
     initUser(state, action) {
@@ -28,13 +52,18 @@ export default {
         ...state,
         user: payload
       }
+    },
+    initComponentAuth(state, action) {
+      const { payload } = action
+      return {
+        ...state,
+        componentAuth: payload
+      }
     }
   },
   subscriptions: {
-    setpu({ dispatch, history }) {
-      console.log('88888')
+    setup({ dispatch, history }) {
       history.listen(() => {
-        console.log('初始化系统数据....')
         dispatch({ type: 'initCSRFToken' })
         dispatch({ type: 'initUserInfo' })
       })

@@ -136,6 +136,35 @@ export default class Design {
 
   }
 
+  // 商家更新装修数据
+  public static async updateO2o(ctx: Context) {
+    const { body: { id, data, name, o2oId, shopId } } = ctx.request
+    // 如果 o2oId 和 shopId 一样则直接修改
+    try {
+      ctx.status = 200
+      if (+o2oId === +shopId) {
+        await update({ id, data })
+        ctx.body = { id, data, name, shopId }
+      } else {
+        const res = await add({
+          name,
+          data,
+          shopId: o2oId,
+          type: DesignType.HOME,
+          status: DesignStatus.PUBLISH,
+        })
+        if (res && res.id) {
+          ctx.body = { ...res }
+        } else {
+          ctx.body = null
+        }
+      }
+    } catch (error) {
+      ctx.status = 500
+      ctx.body = { msg: '数据更新失败', error: error.message }
+    }
+  }
+
   // 更新装修数据
   public static async update(ctx: Context) {
     const { body } = ctx.request
@@ -157,8 +186,8 @@ export default class Design {
       if (res && is(Array, res) && res.length) {
         const design = find(propEq('shopId', +shopId), res) || last(res)
         if (design && design.id) {
-          const { id, data } = design
-          body = { id, data }
+          const { id, name, data, shopId } = design
+          body = { id, name, data, shopId }
         }
       }
       ctx.status = 200
