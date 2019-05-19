@@ -1,6 +1,6 @@
-import { map, includes } from 'ramda'
+import { map } from 'ramda'
 import moment from 'moment'
-import { queryDesignData, publishDesignData, setDefaultDesignData, cancelPublish, deleteDesignData } from '@/services/design'
+import { queryDesignData, publishAdmin, publishO2o, setDefaultDesignData, cancelPublish, deleteDesignData } from '@/services/design'
 
 export default {
   namespace: 'dashboard',
@@ -17,13 +17,21 @@ export default {
         callback(res)
       }
     },
-    // 发布(立即/定时)
-    *publishTemplate({ payload ,callback }, { call }) {
-      const res = yield call(publishDesignData, payload)
+    // admin发布(立即/定时)
+    *publishAdmin({ payload ,callback }, { call }) {
+      const res = yield call(publishAdmin, payload)
       if (callback) {
         callback(res)
       }
     },
+    // o2o 发布
+    *publishO2o({ payload ,callback }, { call }) {
+      const res = yield call(publishO2o, payload)
+      if (callback) {
+        callback(res)
+      }
+    },
+
     // 取消发布
     *canclePublish({ payload ,callback }, { call }) {
       const res = yield call(cancelPublish, payload)
@@ -45,8 +53,8 @@ export default {
       const { total } = res
       const { tab } = payload
       const items = map((item) => {
-        const { id, name, status, canPublish, type, timer, reservation, updatedAt, poster } = item
-        const isTiming = includes(status, ['1', '2']) && (reservation ? moment(reservation).isAfter() : moment(timer).isAfter())
+        const { id, name, status, canPublish, type, timer, updatedAt, poster } = item
+        const isTiming = status === '2' && moment(timer).isAfter()
         return {
           id,
           name,
@@ -54,7 +62,7 @@ export default {
           isDefault: status === '3',
           canPublish,
           isTiming,
-          timingTime: reservation ? moment(reservation).valueOf() : moment(timer).valueOf(),
+          timingTime: isTiming ? moment(timer).valueOf() : '',
           updatedAt: moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
           type,
           poster

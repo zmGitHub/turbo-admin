@@ -5,12 +5,6 @@ export async function createDesignData(params) {
   return request.post('/api/design/add', params)
 }
 
-// 发布装修
-export async function publishDesign(params) {
-  return request.post('/api/hisense/applet/design/create', params)
-}
-
-
 // 更新装修数据
 export async function updateDesginData(params) {
   return request.put('/api/design/update', params)
@@ -26,9 +20,14 @@ export async function queryDesignData(params) {
   return request.get('/api/design/paging', { params })
 }
 
-// 立即发布/定时发布
-export async function publishDesignData(params) {
-  return request.post('/api/design/publish', params)
+// admin立即发布/定时发布
+export async function publishAdmin(params) {
+  return request.post('/api/design/publish/admin', params)
+}
+
+// admin立即发布/定时发布
+export async function publishO2o(params) {
+  return request.post('/api/design/publish/o2o', params)
 }
 
 // 取消发布

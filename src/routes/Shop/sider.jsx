@@ -110,7 +110,7 @@ class SiderLeft extends PureComponent {
   render() {
     const { extend } = this.state
     const { current, list, loading } = this.props
-    const deadline = new Date(current.reservation)
+    const deadline = new Date(current.timer)
     const designStyle = classnames('x-shop-sider-templates', { active: extend })
     return (
       <Fragment>

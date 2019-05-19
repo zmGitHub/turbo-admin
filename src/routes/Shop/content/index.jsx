@@ -41,12 +41,6 @@ class Mobile extends PureComponent {
     this.dragEleRef = React.createRef()
   }
 
-  componentWillMount() {
-    // 获取装修组件权限
-    const { dispatch } = this.props;
-    dispatch({ type: 'app/getComponentAuth' })
-  }
-
   componentDidMount() {
     const { location, dispatch } = this.props;
     this.scrollContentRef = document.getElementById('js-scroll-content')

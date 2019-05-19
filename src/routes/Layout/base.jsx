@@ -6,7 +6,7 @@ import classnames from 'classnames'
 import { replace , split} from 'ramda'
 import { useToggle } from '@/stores/hook'
 import Dashboard from '../Dashboard'
-import CMPAuth from '../CMPAuth'
+import O2o from '../O2o'
 
 import './base.less'
 
@@ -40,13 +40,10 @@ const LayoutIndexBase = ({ location }) => {
             <Menu.Item key="index">
               <Link to="/dashboard/index">店铺模板</Link>
             </Menu.Item>
+            <Menu.Item key="o2o">
+              <Link to="/dashboard/o2o">商家模板</Link>
+            </Menu.Item>
           </SubMenu>
-          <Menu.Item key="dashboard/auth">
-            <Link to="/dashboard/auth">
-              <Icon type="cluster" />
-              <span>组件权限</span>
-            </Link>
-          </Menu.Item>
           <SubMenu key="setting" title={<span><Icon type="tool" /><span>其他设置</span></span>}>
             <Menu.Item key="poster">分享海报</Menu.Item>
           </SubMenu>
@@ -65,7 +62,7 @@ const LayoutIndexBase = ({ location }) => {
           <div className="base-layout-content-main">
             <Switch>
               <Route path="/dashboard/index" component={Dashboard} />
-              <Route path="/dashboard/auth" component={CMPAuth} />
+              <Route path="/dashboard/o2o" component={O2o} />
             </Switch>
           </div>
         </Content>

@@ -28,6 +28,7 @@ class Container extends PureComponent {
     const component = {
       id,
       name: content.component,
+      auth: content.auth,
       ...this.state
     }
     onClick(event, component)

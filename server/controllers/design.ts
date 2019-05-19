@@ -4,9 +4,9 @@ import { is, head, last, find, propEq, map } from 'ramda'
 import { DesignStatus, DesignType } from '../models/design'
 import {
   get, add, update, query,
-  getPublish, getTiming, getHome,
-  getShopHistory, getShopPublish, publishHome, publishForce,
-  publish, timing, UpdateParams,
+  getPublish, getO2oTiming, getO2oHome,
+  getO2oHistory, getO2oPublish, publishO2o,
+  publishAdmin, timing,
 } from '../services/design'
 
 import { addRefuse, getRefuse } from '../services/refuse'
@@ -26,7 +26,7 @@ export default class Design {
   }
   // 获取发布中的数据
   public static async getTiming(ctx:Context) {
-    const res = await getTiming()
+    const res = await getO2oTiming()
     ctx.status = 200
     ctx.body = res || { msg: '暂无最新模板' }
   }
@@ -57,83 +57,76 @@ export default class Design {
   // 根据商家 id 查询正在使用的店铺模板
   public static async getHome(ctx: Context) {
     const { id } = ctx.params
-    const res = await getHome(id)
+    const res = await getO2oHome(id)
     ctx.status = 200
     ctx.body = res
   }
 
-  // 发布装修数据
-  public static async publish(ctx: Context) {
-    const { body } = ctx.request
-    const { id, publishType, type, timer, reservation } = body
+  // 首页装修模板发布
+  public static async publishAdmin(ctx: Context) {
     try {
-      // 首页发布 特殊处理 需要通知商家
-      if (type === '1') {
-        if (publishType !== 'force') {
-          const params: UpdateParams = { reservation, status: DesignStatus.TIMING }
-          if (timer) {
-            params.timer = timer
-            params.status = DesignStatus.TIMER
-            const res = await timing(id, params)
-            // 数据保存成功后 开始定时任务
-            console.log(res)
-            if (res) {
-              // 先开始定时任务
-              const timeToTimer = new Date(timer)
-              const timeToTimerJob = new CronJob(timeToTimer, () => {
-                // 开始商家拒绝
-                console.log(`开始定时任务: id: ${id}-type: ${type}`)
-                timing(id, { status: DesignStatus.TIMING })
-              })
-              timeToTimerJob.start()
-              // 最后开始拒绝任务
-              const timeToReservation = new Date(reservation)
-              const reservationJob = new CronJob(timeToReservation, () => {
-                // 开始发布
-                console.log(`1 首页开始发布: ${id}-${type}`)
-                publishHome(id)
-              })
-              reservationJob.start()
-            }
-          } else {
-            const res = await timing(id, params)
-            if (res) {
-              const timer = new Date(reservation)
-              const reservationJob = new CronJob(timer, () => {
-                // 立即发布 + 商家预留时间 TODO: 需要用其他的发布方法
-                console.log(`2 开始发布: ${id}-${type}`)
-                publishHome(id)
-              })
-              reservationJob.start()
-            }
-          }
-        } else {
-          await publishForce(id)
-        }
-      } else {
-        if (publishType === 'timing') {
-          const res = await timing(id, { timer, status: DesignStatus.TIMING })
-          if (res) {
-            const timeToPublish = new Date(timer)
-            const publishJob = new CronJob(timeToPublish, () => {
-              // 定时发布
-              console.log(`3 开始发布: ${id}-${type}`)
-              publish({ id, type })
-            })
-            publishJob.start()
-          }
-        } else {
-          await publish({ id, type })
-        }
-      }
+      const { body } = ctx.request
+      const { id, type, timer } = body
       ctx.status = 200
-      ctx.body = { code: 1 }
+      // 立即发布
+      if (!timer) {
+        const res = await publishAdmin({ id, type })
+        ctx.body = res
+      } else {
+        // 定时发布
+        const res = await timing(id, { timer, status: DesignStatus.TIMING })
+        if (res) {
+          const timeToTimer = new Date(timer)
+          const reservationJob = new CronJob(timeToTimer, () => {
+            // 立即发布 + 商家预留时间 TODO: 需要用其他的发布方法
+            console.log(`2 开始发布: ${id}-${type}`)
+            publishAdmin({ id, type })
+          })
+          reservationJob.start()
+        }
+        ctx.body = res
+      }
     } catch (error) {
-      console.log(error)
       ctx.status = 500
-      ctx.body = { msg: error }
+      ctx.body = { msg: '发布失败', error: error.message }
     }
+  }
 
+  // 商家首页装修模板发布
+  public static async publishO2o(ctx: Context) {
+    try {
+      const { body } = ctx.request
+      const { id, timer } = body
+      ctx.status = 200
+      // 立即发布
+      const res = await timing(id, { timer, status: DesignStatus.TIMING })
+      if (res) {
+        const timeToTimer = new Date(timer)
+        const reservationJob = new CronJob(timeToTimer, () => {
+          // 立即发布 + 商家预留时间
+          console.log(`2 o2o开始发布: ${id}`)
+          publishO2o(id)
+        })
+        reservationJob.start()
+      }
+      ctx.body = res
+    } catch (error) {
+      ctx.status = 500
+      ctx.body = { msg: '发布失败', error: error.message }
+    }
+  }
+
+  // 更新装修数据
+  public static async update(ctx: Context) {
+    const { body } = ctx.request
+    const res = await update(body)
+    if (res && res.raw && res.raw.affectedRows) {
+      ctx.status = 200
+      ctx.body = res
+    } else {
+      ctx.status = 500
+      ctx.body = { msg: '更新失败' }
+    }
   }
 
   // 商家更新装修数据
@@ -165,24 +158,12 @@ export default class Design {
     }
   }
 
-  // 更新装修数据
-  public static async update(ctx: Context) {
-    const { body } = ctx.request
-    const res = await update(body)
-    if (res && res.raw && res.raw.affectedRows) {
-      ctx.status = 200
-      ctx.body = res
-    } else {
-      ctx.status = 500
-      ctx.body = { msg: '更新失败' }
-    }
-  }
   // 获取首页模板
   public static async getO2o(ctx: Context) {
     const { shopId } = ctx.query
     try {
       let body = null
-      const res = await getHome(shopId)
+      const res = await getO2oHome(shopId)
       if (res && is(Array, res) && res.length) {
         const design = find(propEq('shopId', +shopId), res) || last(res)
         if (design && design.id) {
@@ -200,7 +181,7 @@ export default class Design {
   // 获取商家历史模板数据
   public static async getHistory(ctx: Context) {
     const { shopId } = ctx.query
-    const res = await getShopHistory(shopId)
+    const res = await getO2oHistory(shopId)
     ctx.status = 200
     ctx.body = res
   }
@@ -219,11 +200,11 @@ export default class Design {
         code: -1,
       }
     } else {
-      const current = await getShopPublish(body.shopId)
+      const current = await getO2oPublish(body.shopId)
       // 当前商家是否有发布的模板
       if (!current) {
         // 如果商家没有发布的模板 则获取当前生效的模板 给当前这个商家
-        const design = await getPublish(DesignType.HOME)
+        const design = await getPublish({ type: DesignType.HOME, shopId: -1 })
         if (design && design.id) {
           const { name, data, type, status } = design
           await add({ name, data, type, status, shopId: body.shopId })

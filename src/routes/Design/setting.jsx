@@ -1,10 +1,11 @@
 // 右侧设置
 import React, { Suspense, lazy, PureComponent } from 'react'
-import { Layout, Collapse } from 'antd'
+import { Layout, Collapse, Switch } from 'antd'
 import { connect } from 'dva'
 import classnames from 'classnames'
 import ContentMaps from '@/design/content'
 import EditorMaps from '@/design/editor'
+import { getPageQuery } from '@/utils'
 
 const { Sider } = Layout
 const { Panel } = Collapse
@@ -12,9 +13,9 @@ const { Panel } = Collapse
 const DynamicComponent = ({ onChange, config, maps }) => {
   const { component } = config
   const LoadComponent = maps[component] || maps.error
-  const Lazycomponent = lazy(() => LoadComponent)
+  const LazyComponent = lazy(() => LoadComponent)
   return (
-    <Lazycomponent config={config} onChange={onChange} />
+    <LazyComponent config={config} onChange={onChange} />
   )
 }
 
@@ -22,10 +23,14 @@ const DynamicComponent = ({ onChange, config, maps }) => {
 class Setting extends PureComponent {
   constructor(props) {
     super(props)
+    const { location } = props
+    const { o2o }  = getPageQuery(location.search)
     this.state = {
       id: '',
       name: '',
       data: null,
+      auth: false,
+      o2o: !!o2o,
       componentStyle: []
     }
   }
@@ -74,8 +79,22 @@ class Setting extends PureComponent {
     })
   }
 
+  // 更新组件权限
+  onAuthChange = (checked) => {
+    const { id } = this.state
+    this.setState({
+      auth: checked
+    }, () => {
+      const { dispatch } = this.props
+      dispatch({
+        type: 'design/updateAuth',
+        payload: { id, checked },
+      })
+    })
+  }
+
   render() {
-    const { id, name, data, componentStyle } = this.state
+    const { id, name, data, o2o, auth, componentStyle } = this.state
     const settingStyle = classnames('x-design-setting', { active: !!id })
     return (
       <Sider width="300" className={settingStyle}>
@@ -83,6 +102,15 @@ class Setting extends PureComponent {
           <Collapse className="x-design-setting-scroll-collapse" bordered={false} defaultActiveKey={['content']}>
             <Panel header="内容" key="content">
               <div className="module-content">
+                { o2o ? (
+                  <div className="content-data">
+                    <div className="content-data-title">
+                      <span className="auth-text">内容操作是否权限下放</span>
+                      <Switch checked={auth} checkedChildren="是" unCheckedChildren="否" onChange={this.onAuthChange} />
+                    </div>
+                  </div>
+                ) : null }
+
                 <Suspense fallback={<div>Loading...</div>}>
                   {
                     name && <DynamicComponent

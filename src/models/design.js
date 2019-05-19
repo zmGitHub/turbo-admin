@@ -54,6 +54,11 @@ export default {
       const { payload } = action
       yield put({ type: 'updateComponentContent', payload })
     },
+    // 更新组件权限
+    *updateAuth(action, { put }) {
+      const { payload } = action
+      yield put({ type: 'updateComponentAuth', payload })
+    },
     // 组件排序
     *sort(action, { put }) {
       const { payload } = action
@@ -127,6 +132,20 @@ export default {
       // 定位到组件
       if (item && item.key) {
         item.content.data[key] = value
+      }
+      return {
+        ...state,
+        list
+      }
+    },
+    updateComponentAuth(state, action) {
+      const { payload } = action
+      const { list } = state
+      const { id, checked } = payload
+      const item = _find(list, listItem => listItem.key === id)
+      // 定位到组件
+      if (item && item.key) {
+        item.content.auth = checked
       }
       return {
         ...state,

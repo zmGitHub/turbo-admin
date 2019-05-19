@@ -21,8 +21,10 @@ router.get('/paging', auth, design.queryDesign)
 router.post('/add', auth, design.addDesign)
 // 修改装修数据
 router.put('/update', auth, design.update)
-// 发布装修数据
-router.post('/publish', auth, design.publish)
+// admin 发布装修数据
+router.post('/publish/admin', auth, design.publishAdmin)
+// o2o 发布装修数据
+router.post('/publish/o2o', auth, design.publishO2o)
 // 获取历史数据
 router.get('/history', auth, design.getHistory)
 // 商家拒绝应用模板

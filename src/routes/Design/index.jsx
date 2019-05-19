@@ -10,7 +10,7 @@ const Design = ({ location }) => (
   <div className="x-design">
     <SiderPanel />
     <MobilePanel location={location} />
-    <SettingPanel />
+    <SettingPanel location={location} />
   </div>
 )
 

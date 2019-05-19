@@ -13,16 +13,6 @@ import './index.less'
 
 const { confirm } = Modal
 
-const templateType = [{
-  key: 'home',
-  tab: '首页模板',
-}, {
-  key: 'activity',
-  tab: '活动模板',
-}, {
-  key: 'personal',
-  tab: '专区模板',
-}];
 
 const typeMaps = {
   'home': '1',
@@ -104,7 +94,7 @@ class Dashboard extends PureComponent {
     const { type, pageNo } = this.state
     dispatch({
       type: 'dashboard/getTemplates',
-      payload: { tab: type, type: typeMaps[type], pageNo, pageSize: 8 }
+      payload: { tab: type, type: typeMaps[type], pageNo, pageSize: 8, shopId: -1 }
     })
   }
 
@@ -155,7 +145,7 @@ class Dashboard extends PureComponent {
     const { item } = this.state
     if (params) {
       dispatch({
-        type: 'dashboard/publishAdmin',
+        type: 'dashboard/publishO2o',
         payload: { ...item, ...params },
         callback: () => {
           message.success('发布成功')
@@ -167,29 +157,6 @@ class Dashboard extends PureComponent {
     } else {
       this.setState({ publish: false, item: {} })
     }
-  }
-
-  // 设置模板为默认
-  setDefault = ({ currentTarget }) => {
-    const { id } = currentTarget.dataset
-    const { dispatch } = this.props
-    confirm({
-      title: '确认设置该模板为默认吗?',
-      content: '设置后小程序对应页面默认展示该模板',
-      okText: '确认',
-      okType: 'okType',
-      cancelText: '取消',
-      onOk: () => {
-        dispatch({
-          type: 'dashboard/setDefaultTemplate',
-          payload: id,
-          callback: () => {
-            message.success('设置成功')
-            this.queryTemplate()
-          }
-        })
-      }
-    })
   }
 
   // 删除模板
@@ -218,10 +185,10 @@ class Dashboard extends PureComponent {
   renderItem = () => {
     const { dashboard: { data } } = this.props
     return (
-      <div className="x-dashboard-content-body-list">
+      <div className="x-o2o-content-body-list">
         {
           data.map(({ id, name, type, isDefault, poster, isTiming, timingTime, canPublish }, index) => (
-            <div key={id} className={classnames('x-dashboard-content-body-list-item', { active: isDefault })}>
+            <div key={id} className={classnames('x-o2o-content-body-list-item', { active: isDefault })}>
               <img src={poster || templateImg} alt="官方模板" />
               { isDefault ? (<div className="triangle"><Icon type="check-circle" /></div>) : null }
               <div className="template-modal">
@@ -229,7 +196,7 @@ class Dashboard extends PureComponent {
                 <Link
                   to={{
                     pathname: '/design/edit',
-                    search: `?id=${id}`,
+                    search: `?id=${id}&o2o=edit`,
                   }}
                 >
                   <Button>编辑模板</Button>
@@ -255,7 +222,7 @@ class Dashboard extends PureComponent {
   }
 
   renderEmpty = () => (
-    <div className="x-dashboard-content-body-empty">
+    <div className="x-o2o-content-body-empty">
       <Empty
         description={<span>当前分类下还没有模板</span>}
       >
@@ -268,19 +235,16 @@ class Dashboard extends PureComponent {
     const { loading, dashboard: { data, total }, dispatch } = this.props
     const { type, pageNo, create, item, publish } = this.state
     return (
-      <div className="x-dashboard">
-        <div className="x-dashboard-content">
+      <div className="x-o2o">
+        <div className="x-o2o-content">
           <Card
-            className="x-dashboard-content-body"
-            tabList={templateType}
-            activeTabKey={type}
-            onTabChange={this.onTabChange}
-            bordered={false}
+            className="x-o2o-content-body"
+            title="商家首页模板"
             extra={<a className="add-template" href="#" onClick={this.addTemplates}><Icon type="plus" />添加模板</a>}
           >
             <Spin spinning={loading}>
               { data.length > 0 ? this.renderItem() : this.renderEmpty() }
-              <div className="x-dashboard-content-body-pager">
+              <div className="x-o2o-content-body-pager">
                 <Pagination defaultPageSize={8} onChange={this.onPageChange} current={pageNo} total={total} />
               </div>
             </Spin>
