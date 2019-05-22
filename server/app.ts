@@ -5,6 +5,7 @@ import * as historyApiFallback from './middleware/api-fallback'
 import routers from './routers'
 import config from './utils'
 
+const path = require('path')
 const app:Koa = new Koa()
 
 app.use(async (ctx, next) => {
@@ -19,7 +20,7 @@ app.use(async (ctx, next) => {
 })
 
 // 静态文件
-app.use(koaStatic(__dirname, './dist'))
+app.use(koaStatic(path(__dirname, './dist')))
 // 请求数据解析
 app.use(bodyParser({
   enableTypes: ['json', 'form', 'text'],
