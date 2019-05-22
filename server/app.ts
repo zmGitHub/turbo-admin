@@ -1,7 +1,9 @@
 import * as Koa from 'koa'
 import * as bodyParser from 'koa-bodyparser'
 import * as koaStatic from 'koa-static'
+import * as historyApiFallback from './middleware/api-fallback'
 import routers from './routers'
+import config from './utils'
 
 const app:Koa = new Koa()
 
@@ -17,7 +19,7 @@ app.use(async (ctx, next) => {
 })
 
 // 静态文件
-app.use(koaStatic('./dist'))
+app.use(koaStatic(__dirname, './dist'))
 // 请求数据解析
 app.use(bodyParser({
   enableTypes: ['json', 'form', 'text'],

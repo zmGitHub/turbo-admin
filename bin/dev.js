@@ -23,7 +23,7 @@ const proxyTarget = 'http://design.hisense.com'
 const options = {
   targets: {
     // (.*) 任何类型
-    '/api/(.*)': {
+    '/wechat/(.*)': {
       target: proxyTarget,
       changeOrigin: true
     }
