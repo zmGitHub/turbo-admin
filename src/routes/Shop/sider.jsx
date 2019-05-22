@@ -96,6 +96,7 @@ class SiderLeft extends PureComponent {
     dispatch({
       type: 'o2o/getTiming',
       callback: (res) => {
+        this.setState({ extend: res && res.id })
         if (res && res.id) {
           window.ee.emit('OPEN_SIDER_PANEL')
           this.setState({ extend: true })

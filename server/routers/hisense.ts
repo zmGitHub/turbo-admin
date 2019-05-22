@@ -18,4 +18,36 @@ router.get('/user', freshCookie, async (ctx: Context) => {
   ctx.body = res
 })
 
+// 通用装修数据
+router.post('/service-data', freshCookie, async (ctx: Context) => {
+  const { body } = ctx.request
+  const res = await request.post(`/design/component/service-data?path=${body.path}`, body)
+  ctx.status = 200
+  ctx.body = res
+})
+
+// 图片通用接口
+router.get('/images/category', freshCookie, async (ctx: Context) => {
+  const params = ctx.query
+  const res = await request.get('/api/design/resourceCategory/list', { params })
+  ctx.status = 200
+  ctx.body = res
+})
+
+// 图片分类接口
+router.get('/images/list', freshCookie, async (ctx: Context) => {
+  const params = ctx.query
+  const res = await request.get('/api/design/image/list', { params })
+  ctx.status = 200
+  ctx.body = res
+})
+
+// 前台分类
+router.get('/category/children', freshCookie, async (ctx: Context) => {
+  const params = ctx.query
+  const res = await request.get('/api/frontCategories/childrenTree', { params })
+  ctx.status = 200
+  ctx.body = res
+})
+
 export default router

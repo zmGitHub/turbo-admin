@@ -1,7 +1,6 @@
 import React, { Fragment, PureComponent } from 'react'
 import { Switch, Icon, Button, Collapse, Slider, Progress} from 'antd'
-import { concat, update, remove, last, prop, pluck, reduce, map} from 'ramda'
-// import { useToggle, useSetState } from '@/stores/hook'
+import { concat, update, remove, last, pluck, reduce } from 'ramda'
 import ImagePicker from '@/components/ImagePicker'
 import Linker from '@/components/Linker'
 import defaultImg from '@/static/images/x.png'
@@ -43,9 +42,7 @@ class MultImageDesign extends PureComponent {
   }
 
   // 求和前置函数
-  sumPre = (num1, num2) => {
-    return num1 + num2;
-  }
+  sumPre = (num1, num2) =>  num1 + num2
   // 除法前置函数
 
   divisionPre = (num) => {
@@ -111,7 +108,6 @@ class MultImageDesign extends PureComponent {
     } else {
       this.setState({ imagePickerVisible: false})
     }
-
   }
 
   // 修改跳转

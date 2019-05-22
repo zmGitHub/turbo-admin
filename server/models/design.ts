@@ -12,7 +12,8 @@ export enum DesignType {
   HOME = '1',
   ACTIVITY = '2',
   PREFECTURE = '3',
-  OTHER = '4',
+  CATEGORY = '4',
+  OTHER = '5',
 }
 
 export enum DesignStatus {

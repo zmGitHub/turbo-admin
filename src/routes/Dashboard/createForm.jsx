@@ -14,6 +14,7 @@ const TYPE_MAPS = {
   home: 1,
   activity: 2,
   personal: 3,
+  category: 4,
 }
 
 @Form.create()
@@ -106,6 +107,7 @@ class PageForm extends PureComponent {
                 <Option value={1}>首页模板</Option>
                 <Option value={2}>活动模板</Option>
                 <Option value={3}>专区模板</Option>
+                <Option value={4}>分类模板</Option>
               </Select>
             )}
           </Form.Item>

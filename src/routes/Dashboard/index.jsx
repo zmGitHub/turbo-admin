@@ -22,12 +22,16 @@ const templateType = [{
 }, {
   key: 'personal',
   tab: '专区模板',
+}, {
+  key: 'category',
+  tab: '分类模板',
 }];
 
 const typeMaps = {
   'home': '1',
   'activity': '2',
-  'personal': '3'
+  'personal': '3',
+  'category': '4'
 }
 
 
@@ -228,7 +232,7 @@ class Dashboard extends PureComponent {
                 { canPublish ? (<Button data-id={id} data-type={type} onClick={this.publish}>发布模板</Button>) : null }
                 <Link
                   to={{
-                    pathname: '/design/edit',
+                    pathname: type !== '4' ? '/design/edit' : '/dashboard/category',
                     search: `?id=${id}`,
                   }}
                 >

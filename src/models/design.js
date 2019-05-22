@@ -1,4 +1,4 @@
-import { concat, is, remove, add, insert } from 'ramda'
+import { concat, is, remove, add, insert , tryCatch} from 'ramda'
 import _find from 'lodash/find'
 import { createDesignData, updateDesginData, getDesignDataById } from '@/services/design'
 
@@ -11,15 +11,19 @@ export default {
     // 通过 id 获取数据
     *getDataById({ payload, callback }, { call, put }) {
       const res = yield call(getDesignDataById, payload)
-      if (res && res.data && res.data.length > 0) {
-        const list = JSON.parse(res.data)
-        if (is(Array, list)) {
+      if (res && res.id) {
+        let list = []
+        try {
+          list = JSON.parse(res.data)
+        } catch (error) {
+          list = []
+        }
+        yield put({ type: 'initial', payload: list })
+        if (callback) {
           callback(list)
-          yield put({ type: 'initial', payload: list })
         }
       }
     },
-
     // 保存页面数据
     *create({ payload, callback }, { call }) {
       const res = yield call(createDesignData, payload)

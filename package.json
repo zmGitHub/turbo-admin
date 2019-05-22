@@ -18,6 +18,7 @@
     "serve": "ts-node src/server.ts",
     "dev": "cross-env NODE_ENV=development node bin/dev",
     "build-server": "tsc",
+    "build-ncc": "ncc build server/index.ts -o apps",
     "build-web": "cross-env NODE_ENV=production webpack --config build/webpack.config.prod.js --progress --hide-modules"
   },
   "dependencies": {

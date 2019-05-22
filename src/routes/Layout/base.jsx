@@ -7,6 +7,7 @@ import { replace , split} from 'ramda'
 import { useToggle } from '@/stores/hook'
 import Dashboard from '../Dashboard'
 import O2o from '../O2o'
+import CategoryEdit from '../Category'
 
 import './base.less'
 
@@ -63,6 +64,7 @@ const LayoutIndexBase = ({ location }) => {
             <Switch>
               <Route path="/dashboard/index" component={Dashboard} />
               <Route path="/dashboard/o2o" component={O2o} />
+              <Route path="/dashboard/category" component={CategoryEdit} />
             </Switch>
           </div>
         </Content>
