@@ -20,7 +20,12 @@ class ArticleCard extends PureComponent {
     const xArticleCardContentStyle = classnames('x-article-card-content', {
       hide: display.length === 0,
     })
-    const imgSrc = `${( content.mainImage || defaultImg )}${ inlineStyle ? inlineFormat: blockFormat }`
+    let imgSrc = content.mainImage
+    if (imgSrc) {
+      imgSrc = `${imgSrc}${ inlineStyle ? inlineFormat: blockFormat }`
+    } else {
+      imgSrc = defaultImg
+    }
     // x-article-card inline
     // x-article-card-content
     return (

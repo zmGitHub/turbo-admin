@@ -10,7 +10,7 @@ const goodsArr = [
     id: 'test',
     title: '产品标题',
     desc: '产品描述',
-    src: defaultImg,
+    src: '',
     price: 8888
   }
 ]
@@ -27,7 +27,7 @@ class GoodsSlider extends PureComponent {
           goodsItems.map(({ id, title, desc, src, price }) => (
             <div key={id} className="x-goods-slider-item">
               <div className="header">
-                <img className="img" src={`${src}${IMAGE_FORAMT}`} alt="商品图片" />
+                <img className="img" src={`${src ? `${src}${IMAGE_FORAMT}` : defaultImg }`} alt="商品图片" />
               </div>
               <div className="content">
                 <div className={classnames('title', { hide: !includes('title', display) })}>{title}</div>

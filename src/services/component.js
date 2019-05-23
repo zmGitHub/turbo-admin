@@ -32,5 +32,5 @@ export async function getServiceData(params) {
 
 // 获取整点秒杀
 export async function getSeckillData(params) {
-  return request.get('/api/hisense/seckill-promotion/shows/current', { params })
+  return request.get('/api/hisense/promotion/seckill/shows', { params })
 }

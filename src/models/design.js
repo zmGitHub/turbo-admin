@@ -1,4 +1,4 @@
-import { concat, is, remove, add, insert , tryCatch} from 'ramda'
+import { concat, remove, add, insert } from 'ramda'
 import _find from 'lodash/find'
 import { createDesignData, updateDesginData, getDesignDataById } from '@/services/design'
 
@@ -14,7 +14,7 @@ export default {
       if (res && res.id) {
         let list = []
         try {
-          list = JSON.parse(res.data)
+          list = JSON.parse(res.data) || []
         } catch (error) {
           list = []
         }

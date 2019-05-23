@@ -22,6 +22,17 @@ const defaultList = [{
 }]
 
 class MessageList extends PureComponent {
+
+  initImg = (mainImage, inlineStyle) => {
+    let imgSrc = mainImage
+    if (imgSrc) {
+      imgSrc = `${imgSrc}${ inlineStyle ? inlineFormat: blockFormat }`
+    } else {
+      imgSrc = defaultImg
+    }
+    return imgSrc
+  }
+
   render() {
     const { componentStyle, data: { inlineStyle, display, types, list } } = this.props
     const xArticleCardStyle = classnames('x-message-card', {
@@ -32,6 +43,8 @@ class MessageList extends PureComponent {
     })
 
     const messageList = list.length > 0 ? list : defaultList
+
+
 
     return (
       <div className="x-message" style={getStyles(componentStyle, ['margin'])}>
@@ -46,7 +59,7 @@ class MessageList extends PureComponent {
           {
             messageList.map((content, index) => (
               <div key={`${content.id}_message_${index}`} className={xArticleCardStyle}>
-                <img className="x-message-card-img" src={`${( content.mainImage || defaultImg )}${ inlineStyle ? inlineFormat: blockFormat }`} alt="文章" />
+                <img className="x-message-card-img" src={this.initImg(content.mainImage, inlineStyle)} alt="文章" />
                 <div className={xArticleCardContentStyle}>
                   <div className={classnames('tag', { hide: !includes('type', display) })} style={getStyles(componentStyle, ['typeFont'])}>{content.tag}</div>
                   <div className={classnames('name', { hide: !includes('name', display) })} style={getStyles(componentStyle, ['titleFont'])}>{content.name}</div>

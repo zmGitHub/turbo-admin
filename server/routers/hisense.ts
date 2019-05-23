@@ -50,4 +50,27 @@ router.get('/category/children', freshCookie, async (ctx: Context) => {
   ctx.body = res
 })
 
+router.get('/article/:id', freshCookie, async (ctx: Context) => {
+  const { id } = ctx.params
+  const res = await request.get(`/api/hisense/article/${id}`)
+  ctx.status = 200
+  ctx.body = res
+})
+
+router.get('/article/menu/listMenuInfo', freshCookie, async (ctx: Context) => {
+  const { menuIds } = ctx.query
+  const res = await request.get('/api/hisense/article/menu/listMenuInfo', { params: { menuIds } })
+  ctx.status = 200
+  ctx.body = res
+})
+
+router.get('/promotion/seckill/shows', freshCookie, async (ctx: Context) => {
+  const { times, channel } = ctx.query
+  const res = await request.get('/api/hisense/seckill-promotion/shows/current', {
+    params: { times, channel },
+  })
+  ctx.status = 200
+  ctx.body = res
+})
+
 export default router
