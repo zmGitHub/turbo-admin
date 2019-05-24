@@ -4,15 +4,16 @@ import design from '../controllers/design'
 import setting from '../controllers/setting'
 
 const router:Router = new Router()
-
+// 根据类型获取发布的数据
+router.get('/publish', design.getPublishData)
 // 根据装修 id 获取数据
-router.get('/find/:id', auth, design.getById)
+router.get('/find/:id', design.getById)
 // 获取发布中的数据
 router.get('/timing', auth, design.getTiming)
 // 获取首页模板
-router.get('/home', auth, design.getHome)
+router.get('/home', design.getHome)
 // 获取商家首页模板
-router.get('/home/o2o', auth, design.getO2o)
+router.get('/home/o2o', design.getO2o)
 // 商家更新数据
 router.put('/home/o2o', auth, design.updateO2o)
 // 获取装修数据列表

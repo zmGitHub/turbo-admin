@@ -11,10 +11,10 @@ const MAPS = {
   '/pages/goods': '跳转商品',
   '/pages/index': '跳转首页',
   '/pages/design': '跳转装修页',
-  '/pages/filter': '商品列表',
-  '/pages/article': '文章详情',
-  '/pages/my/point-mall': '积分商城',
-  '/pages/my/coupon/my-coupon': '优惠券中心',
+  '/pages/goods/filter': '商品列表',
+  '/pages/article/article': '文章详情',
+  '/pages/promotion/point-mall': '积分商城',
+  '/pages/promotion/my-coupon': '优惠券中心',
   'coupons': '领取优惠券',
 }
 

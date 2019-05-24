@@ -5,6 +5,5 @@ import axios from 'axios'
 export default async (ctx:Context, next: () => void) => {
   const cookie:String = ctx.cookies.get('msid')
   axios.defaults.headers['Cookie'] = `msid=${cookie}; `
-  console.log('数据刷新')
   await next()
 }

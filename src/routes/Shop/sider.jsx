@@ -106,6 +106,8 @@ class SiderLeft extends PureComponent {
         }
       }
     })
+    window.ee.emit('FRESH_DESIGN_DATA')
+
   }
 
   render() {

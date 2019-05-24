@@ -42,11 +42,24 @@ class Mobile extends PureComponent {
   }
 
   componentDidMount() {
-    const { location, dispatch } = this.props;
+    const { location } = this.props;
     this.scrollContentRef = document.getElementById('js-scroll-content')
     this.params = getPageQuery(location.pathname)
     window.ee.on('OPEN_SIDER_PANEL', this.openSiderPanel)
     window.ee.on('SAVE_O2O_COMPONENT_DATA', this.save)
+    window.ee.on('FRESH_DESIGN_DATA', this.getNewData)
+    this.getNewData()
+  }
+
+  componentWillUnmount() {
+    window.ee.off('OPEN_SIDER_PANEL')
+    window.ee.off('SAVE_O2O_COMPONENT_DATA')
+    window.ee.off('FRESH_DESIGN_DATA')
+  }
+
+  getNewData = () => {
+    const { dispatch } = this.props;
+    console.log('获取新模板')
     dispatch({
       type: 'o2o/getPublishByShopId',
       payload: { shopId: this.params.id },
@@ -55,12 +68,6 @@ class Mobile extends PureComponent {
       }
     })
   }
-
-  componentWillUnmount() {
-    window.ee.off('OPEN_SIDER_PANEL')
-    window.ee.off('SAVE_O2O_COMPONENT_DATA')
-  }
-
 
   // 删除选中的元素
   onDelete = (event) => {

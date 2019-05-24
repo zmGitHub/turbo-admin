@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Icon, Tooltip } from 'antd'
 import { SortableElement, SortableHandle } from 'react-sortable-hoc'
 import classnames from 'classnames'
@@ -21,8 +21,12 @@ const SortableItem = SortableElement(({ indexing, index, active, item, onClick, 
           data,
         })}
       </Container>
-      <DragHandle />
-      { content.auth ? '' : <div className="drag-lock"><Icon type="lock" /></div> }
+      { content.auth ? <DragHandle /> : null }
+      { content.auth ? '' : (
+        <Fragment>
+          <div className="drag-lock"><Icon type="lock" /></div>
+        </Fragment>
+      ) }
       <div data-html2canvas-ignore="true" className={classnames('drag-tool', { hide: !active })}>
         <Tooltip title="删除">
           <div data-index={indexing} onClick={onDelete} className="drag-tool-item"><Icon type="delete" />{index}</div>

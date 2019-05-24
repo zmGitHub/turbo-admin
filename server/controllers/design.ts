@@ -24,6 +24,20 @@ export default class Design {
       ctx.body = ''
     }
   }
+
+  // 获取发布了的模板
+  public static async getPublishData(ctx:Context) {
+    const { type } = ctx.query
+    const res = await getPublish({ type, shopId: 1 })
+    let body = null
+    if (res && res.id) {
+      const { id, name, data } = res
+      body = { id, name, data }
+    }
+    ctx.status = 200
+    ctx.body = body || { msg: '暂无最新模板' }
+  }
+
   // 获取发布中的数据
   public static async getTiming(ctx:Context) {
     const res = await getO2oTiming()
@@ -51,13 +65,6 @@ export default class Design {
   public static async addDesign(ctx:Context) {
     const { body } = ctx.request
     const res = await add(body)
-    ctx.status = 200
-    ctx.body = res
-  }
-  // 根据商家 id 查询正在使用的店铺模板
-  public static async getHome(ctx: Context) {
-    const { id } = ctx.params
-    const res = await getO2oHome(id)
     ctx.status = 200
     ctx.body = res
   }
@@ -156,6 +163,18 @@ export default class Design {
       ctx.status = 500
       ctx.body = { msg: '数据更新失败', error: error.message }
     }
+  }
+
+  // 根据商家 id 查询正在使用的店铺模板
+  public static async getHome(ctx: Context) {
+    const res = await getPublish({ type: DesignType.HOME, shopId: 1 })
+    let body = null
+    if (res && res.id) {
+      const { id, name, data } = res
+      body = { id, name, data }
+    }
+    ctx.status = 200
+    ctx.body = body || { msg: '暂无最新模板' }
   }
 
   // 获取首页模板
