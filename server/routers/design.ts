@@ -22,6 +22,8 @@ router.get('/paging', auth, design.queryDesign)
 router.post('/add', auth, design.addDesign)
 // 修改装修数据
 router.put('/update', auth, design.update)
+// 删除
+router.delete('/delete/:id', auth, design.delete)
 // admin 发布装修数据
 router.post('/publish/admin', auth, design.publishAdmin)
 // o2o 发布装修数据

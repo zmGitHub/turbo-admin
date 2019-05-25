@@ -88,7 +88,6 @@ class GoodsSliderDesign extends PureComponent {
 
   render() {
     const { ids, display, moreImg, url, showImagePicker } = this.state
-    console.log(moreImg);
     return (
       <Fragment>
         <div className="content-data">

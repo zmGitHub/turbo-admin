@@ -1,6 +1,6 @@
 import { map } from 'ramda'
 import moment from 'moment'
-import { queryDesignData, publishAdmin, publishO2o, setDefaultDesignData, cancelPublish, deleteDesignData } from '@/services/design'
+import { queryDesignData, publishAdmin, publishO2o, cancelPublish, deleteDesignData } from '@/services/design'
 
 export default {
   namespace: 'dashboard',
@@ -35,13 +35,6 @@ export default {
     // 取消发布
     *canclePublish({ payload ,callback }, { call }) {
       const res = yield call(cancelPublish, payload)
-      if (callback) {
-        callback(res)
-      }
-    },
-    // 设置默认
-    *setDefaultTemplate({ payload ,callback }, { call }) {
-      const res = yield call(setDefaultDesignData, payload)
       if (callback) {
         callback(res)
       }

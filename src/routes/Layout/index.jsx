@@ -14,14 +14,11 @@ import LayoutBase from './base'
 }))
 class LayoutIndex extends PureComponent {
   render() {
-    console.log(this.props);
     const { app: { user } } = this.props
     let children = <Loader />
     if (user && user.id) {
       const { o2oShopId } = user.extra
       const indexPath = user.type === 1 ? '/dashboard/index' : `/design/shop?id=${o2oShopId}`
-      console.log('***********');
-      console.log(indexPath)
       children = (
         <Switch>
           <Redirect from="/" to={indexPath} />

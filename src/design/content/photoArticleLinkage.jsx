@@ -68,7 +68,6 @@ class PhotoArticleLinkageDesign extends PureComponent {
                 key: 'items',
                 value: list
               })
-              console.log(this.state)
             })
           } else {
             this.setState({ searchingItem: false })

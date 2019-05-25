@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { Button } from 'antd'
 import { Link } from 'dva/router'
+import { getPageQuery } from '@/utils'
 
 import './index.less'
 
@@ -9,18 +10,21 @@ const prefixCls = 'x-header'
 const submitAdminEvent = () => window.ee.emit('SAVE_COMPONENT_DATA')
 const submitO2oEvent = () => window.ee.emit('SAVE_O2O_COMPONENT_DATA')
 
-const ActionAdmin = () => (
-  <Fragment>
-    <Link to="/">
-      <Button ghost>返回</Button>
-    </Link>
-    <Button onClick={submitAdminEvent} type="primary">保存</Button>
-  </Fragment>
-)
+const ActionAdmin = ({ params }) => {
+  const { o2o } = getPageQuery(params)
+  return (
+    <Fragment>
+      <Link to={o2o ? '/dashboard/o2o' : '/dashboard/index'}>
+        <Button ghost>返回</Button>
+      </Link>
+      <Button onClick={submitAdminEvent} type="primary">保存</Button>
+    </Fragment>
+  )
+}
 
 const ActionO2o = () => (<Button onClick={submitO2oEvent} type="primary">保存</Button>)
 
-const Header = ({ location: { pathname } }) => (
+const Header = ({ location: { pathname, search } }) => (
   <div className={prefixCls}>
     <div className={`${prefixCls}-left`}>
       <svg className={`${prefixCls}-left-logo`} viewBox="0 0 36 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -33,7 +37,7 @@ const Header = ({ location: { pathname } }) => (
       </div>
     </div>
     <div className={`${prefixCls}-right`}>
-      { pathname === '/design/edit' ? <ActionAdmin /> : null }
+      { pathname === '/design/edit' ? <ActionAdmin params={search} /> : null }
       { pathname === '/design/shop' ? <ActionO2o /> : null }
     </div>
   </div>

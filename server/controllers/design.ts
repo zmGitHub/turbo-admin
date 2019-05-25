@@ -6,10 +6,12 @@ import {
   get, add, update, query,
   getPublish, getO2oTiming, getO2oHome,
   getO2oHistory, getO2oPublish, publishO2o,
-  publishAdmin, timing,
+  publishAdmin, timing, remove,
 } from '../services/design'
 
 import { addRefuse, getRefuse } from '../services/refuse'
+
+import request from '../services/request'
 
 export default class Design {
   // 获取单个装修
@@ -103,7 +105,7 @@ export default class Design {
   public static async publishO2o(ctx: Context) {
     try {
       const { body } = ctx.request
-      const { id, timer } = body
+      const { id, timer, hours } = body
       ctx.status = 200
       // 立即发布
       const res = await timing(id, { timer, status: DesignStatus.TIMING })
@@ -115,6 +117,15 @@ export default class Design {
           publishO2o(id)
         })
         reservationJob.start()
+        // 定时开始后 发布通知
+        request.post(`/api/hisense/o2o/template/send-sms?hours=${hours}`).then((res) => {
+          console.log('开始通知商家')
+          console.log(res)
+        }).catch((error) => {
+          console.log('通知失败...')
+          console.log(error)
+        })
+        ctx.body = res
       }
       ctx.body = res
     } catch (error) {
@@ -136,6 +147,13 @@ export default class Design {
     }
   }
 
+  // 删除
+  public static async delete(ctx: Context) {
+    const { id } = ctx.params
+    const res = await remove(id)
+    ctx.status = 200
+    ctx.body = res
+  }
   // 商家更新装修数据
   public static async updateO2o(ctx: Context) {
     const { body: { id, data, name, o2oId, shopId } } = ctx.request

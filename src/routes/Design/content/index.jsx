@@ -255,7 +255,6 @@ class Mobile extends PureComponent {
       'active-all': siderCollapse && settingCollapse,
       'active-setting': !siderCollapse && settingCollapse
     })
-    console.warn('mobile render')
     return (
       <div onClick={this.reset} className="x-design-content">
         <div ref={this.dragEleRef} id="js-scroll-content" className={contentStyle}>

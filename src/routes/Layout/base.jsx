@@ -36,17 +36,14 @@ const LayoutIndexBase = ({ location }) => {
             <span className="logo-info-desc">装修</span>
           </div>
         </Link>
-        <Menu theme="dark" mode="inline" defaultOpenKeys={[urls]} defaultSelectedKeys={menus}>
+        <Menu theme="dark" mode="inline" defaultOpenKeys={['dashboard/index']} defaultSelectedKeys={menus}>
           <SubMenu key="dashboard/index" inlineCollapsed title={<span><Icon type="deployment-unit" /><span>模板管理</span></span>}>
             <Menu.Item key="index">
               <Link to="/dashboard/index">商城模板</Link>
             </Menu.Item>
-            <Menu.Item key="o2o">
+            <Menu.Item key="dashboard/o2o">
               <Link to="/dashboard/o2o">店铺模板</Link>
             </Menu.Item>
-          </SubMenu>
-          <SubMenu key="setting" title={<span><Icon type="tool" /><span>其他设置</span></span>}>
-            <Menu.Item key="poster">分享海报</Menu.Item>
           </SubMenu>
         </Menu>
       </Sider>

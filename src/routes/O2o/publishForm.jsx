@@ -44,7 +44,8 @@ class PageForm extends PureComponent {
         const { publishType, timer } = fieldsValue
         const params = {
           publishType,
-          timer: moment().add(timer, 'm').format(FORMAT_DATE)
+          hours: timer,
+          timer: moment().add(timer, 'h').format(FORMAT_DATE)
         }
         onChange(params)
       }

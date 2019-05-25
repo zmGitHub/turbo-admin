@@ -5,7 +5,7 @@ import freshCookie from '../middleware/freshCookie'
 
 const router: Router = new Router()
 
-router.get('/csrf', async (ctx: Context) => {
+router.get('/csrf', freshCookie, async (ctx: Context) => {
   const result = await request.get('/api/get-csrf')
   ctx.status = 200
   ctx.body = result

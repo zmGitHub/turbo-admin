@@ -37,12 +37,7 @@ export async function cancelPublish(id) {
 
 // 删除模板
 export async function deleteDesignData(id) {
-  return request.delete(`/api/hisense/applet/design/delete/${id}`)
-}
-
-// 设置默认模板
-export async function setDefaultDesignData(id) {
-  return request.post(`/api/hisense/applet/design/default/${id}`)
+  return request.delete(`/api/design/delete/${id}`)
 }
 
 

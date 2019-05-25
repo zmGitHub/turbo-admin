@@ -62,8 +62,6 @@ class PageForm extends PureComponent {
   render() {
     const { visible } = this.state
     const { form: { getFieldDecorator }, type, item } = this.props
-    console.log(type);
-    console.log(item);
     return (
       <Modal
         destroyOnClose

@@ -72,6 +72,11 @@ export const publishAdmin = async (params: UpdateParams) => {
   return { resetRes, updateRes }
 }
 
+export const remove = async (id: number) => {
+  const designRpo:Repository<Design> = getRepository(Design)
+  return await designRpo.delete(id)
+}
+
 export const update = async (params: UpdateParams) => {
   const designRpo:Repository<Design> = getRepository(Design)
   return await designRpo.createQueryBuilder('designUpdate')

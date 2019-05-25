@@ -59,7 +59,6 @@ class Mobile extends PureComponent {
 
   getNewData = () => {
     const { dispatch } = this.props;
-    console.log('获取新模板')
     dispatch({
       type: 'o2o/getPublishByShopId',
       payload: { shopId: this.params.id },
