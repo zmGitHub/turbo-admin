@@ -5,5 +5,6 @@ import axios from 'axios'
 export default async (ctx:Context, next: () => void) => {
   const cookie:String = ctx.cookies.get('msid')
   axios.defaults.headers['Cookie'] = `msid=${cookie}; `
+  axios.defaults.headers['x-csrf-token'] = ctx.request.headers['x-xsrf-token']
   await next()
 }
