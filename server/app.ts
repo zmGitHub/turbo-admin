@@ -3,7 +3,6 @@ import * as bodyParser from 'koa-bodyparser'
 import * as koaStatic from 'koa-static'
 import * as historyApiFallback from './middleware/api-fallback'
 import routers from './routers'
-import config from './utils'
 
 const path = require('path')
 const app:Koa = new Koa()
@@ -18,7 +17,7 @@ app.use(async (ctx, next) => {
     throw err
   }
 })
-
+app.use(historyApiFallback({ whiteList: ['/wechat'] }))
 // 静态文件
 app.use(koaStatic(path.join(__dirname, './dist')))
 // 请求数据解析

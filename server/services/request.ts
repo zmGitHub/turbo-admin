@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: 'http://m.test.shop.hisense.com',
+  baseURL: 'http://m.hisense.com',
   // xsrfCookieName: 'x-csrf-token',
   timeout: 5000,
 })
