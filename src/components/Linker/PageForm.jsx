@@ -39,11 +39,13 @@ class PageForm extends PureComponent {
               placeholder="请选择页面"
             >
               <Option value="/pages/index">首页</Option>
-              <Option value="/pages/design">装修页</Option>
-              <Option value="/pages/filter">商品列表</Option>
-              <Option value="/pages/article">文章详情</Option>
-              <Option value="/pages/my/point-mall">积分商城</Option>
-              <Option value="/pages/my/coupon/my-coupon">优惠券中心</Option>
+              <Option value="/pages/o2o/map">附近专卖店</Option>
+              <Option value="/pages/goods">跳转商品</Option>
+              <Option value="/pages/design">跳转装修页</Option>
+              <Option value="/pages/goods/filter">商品列表</Option>
+              <Option value="/pages/article/article">文章详情</Option>
+              <Option value="/pages/promotion/point-mall">积分商城</Option>
+              <Option value="/pages/promotion/my-coupon">优惠券中心</Option>
             </Select>
           )}
         </Form.Item>

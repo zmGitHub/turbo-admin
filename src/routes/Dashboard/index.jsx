@@ -229,7 +229,7 @@ class Dashboard extends PureComponent {
               <img src={poster || templateImg} alt="官方模板" />
               { isDefault ? (<div className="triangle"><Icon type="check-circle" /></div>) : null }
               <div className="template-modal">
-                { canPublish ? (<Button data-id={id} data-type={type} onClick={this.publish}>发布模板</Button>) : null }
+                { canPublish && !isDefault ? (<Button data-id={id} data-type={type} onClick={this.publish}>发布模板</Button>) : null }
                 <Link
                   to={{
                     pathname: type !== '4' ? '/design/edit' : '/dashboard/category',
