@@ -5,15 +5,23 @@ import freshCookie from '../middleware/freshCookie'
 
 const router: Router = new Router()
 
-router.get('/csrf', freshCookie, async (ctx: Context) => {
+router.get('/csrf', async (ctx: Context) => {
   const result = await request.get('/api/get-csrf')
   ctx.status = 200
   ctx.body = result
 })
 
+// 获取当前的用户是否登录
+router.get('/hasLogin', freshCookie, async (ctx: Context) => {
+  const res = await request.get('/api/user/hasLogin')
+  ctx.status = 200
+  ctx.body = res
+})
+
 // 获取当前的用户信息
-router.get('/user', freshCookie, async (ctx: Context) => {
-  const res = await request.get('/api/user/current')
+router.get('/user/:id', freshCookie, async (ctx: Context) => {
+  const { id } = ctx.params
+  const res = await request.get(`/api/hisense/user/${id}`)
   ctx.status = 200
   ctx.body = res
 })

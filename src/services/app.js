@@ -5,9 +5,19 @@ export async function getCSRFToken() {
   return request.get('/api/hisense/csrf')
 }
 
-// 获取用户信息
-export async function getUserInfo() {
-  return request.get('/api/hisense/user')
+// 是否登录
+export async function hasLogin() {
+  let user = {}
+  const loginStatus = await request.get('/api/hisense/hasLogin')
+  if (loginStatus && loginStatus.isLogin) {
+    const { id } = loginStatus.result
+    const userInfo = await request.get(`/api/hisense/user/${id}`)
+    if (userInfo && userInfo.id) {
+      const { extra, roles } = userInfo
+      user = { id, shopId: extra.o2oShopId, roles }
+    }
+  }
+  return user
 }
 
 // 添加装修组件的权限列表

@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie'
-import { getCSRFToken, getUserInfo, updateComponentAuth } from '@/services/app'
+import { getCSRFToken, hasLogin, updateComponentAuth } from '@/services/app'
+import {message} from 'antd';
 
 export default {
   namespace: 'app',
@@ -19,9 +20,11 @@ export default {
     },
     // 获取图片分类
     *initUserInfo(_, { call, put }) {
-      const payload = yield call(getUserInfo)
+      const payload = yield call(hasLogin)
       if (payload && payload.id) {
         yield put({ type: 'initUser', payload })
+      } else {
+        message.warn('用户登录过期, 请返回重新登录!')
       }
     },
     // 添加装修组件权限
