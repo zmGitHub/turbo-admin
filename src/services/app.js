@@ -1,5 +1,10 @@
 import request from '@/utils/request'
 
+// 检测用户登录状况
+export async function getUserLoginStatus() {
+  return request.get('/api/hisense/hasLogin')
+}
+
 // 获取 csrftoken
 export async function getCSRFToken() {
   return request.get('/api/hisense/csrf')
@@ -14,7 +19,7 @@ export async function hasLogin() {
     const userInfo = await request.get(`/api/hisense/user/${id}`)
     if (userInfo && userInfo.id) {
       const { extra, roles } = userInfo
-      user = { id, shopId: extra.o2oShopId, roles }
+      user = { id, shopId: extra.o2oShopId, roles, csrf: loginStatus['_csrf'] }
     }
   }
   return user

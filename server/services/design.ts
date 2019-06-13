@@ -1,4 +1,4 @@
-import { getRepository, Repository, In, Not } from 'typeorm'
+import { getRepository, Repository, In } from 'typeorm'
 import { head, map, concat } from 'ramda'
 import { Design, DesignStatus, DesignType } from '../models/design'
 

@@ -16,30 +16,54 @@ import Exception500 from '../Exception/500'
   loading: loading.effects['app/initUserInfo']
 }))
 class LayoutIndex extends PureComponent {
-  render() {
-    const { app: { user } } = this.props
-    let children = <Loader />
-    if (user && user.id) {
-      const { shopId, roles } = user
-      let indexPath = '/401'
-      if (includes('OPERATOR', roles) || includes('ADMIN', roles)) {
-        indexPath = '/dashboard/index'
-      } else if (shopId) {
-        indexPath = `/design/shop?id=${shopId}`
-      } else {
-        indexPath = '/401'
-      }
-      children = (
-        <Switch>
-          <Redirect from="/" to={indexPath} />
-          <Route path="/design" component={LayoutDesign} />
-          <Route path="/dashboard" component={LayoutBase} />
-          <Route path="/401" component={Exception401} />
-        </Switch>
-      )
-    } else {
-      children = <Exception500 desc="无法获取当前用户信息" />
+  timer = null
+
+
+  componentDidMount() {
+    const { dispatch } = this.props
+    dispatch({ type: 'app/initUserInfo' })
+    if (!this.timer) {
+      setInterval(() => {
+        console.log('定时器 2');
+        dispatch({ type: 'app/checkLogin' })
+      }, 60000)
     }
+  }
+
+  componentWillUnmount() {
+    if (this.timer) {
+      console.log('清空定时器')
+      clearInterval(this.timer)
+    }
+  }
+
+  render() {
+    const { loading, app: { user } } = this.props
+    let children = <Loader />
+    if (!loading) {
+      if (user && user.id) {
+        const { shopId, roles } = user
+        let indexPath = '/401'
+        if (includes('OPERATOR', roles) || includes('ADMIN', roles)) {
+          indexPath = '/dashboard/index'
+        } else if (shopId) {
+          indexPath = `/design/shop?id=${shopId}`
+        } else {
+          indexPath = '/401'
+        }
+        children = (
+          <Switch>
+            <Redirect from="/" to={indexPath} />
+            <Route path="/design" component={LayoutDesign} />
+            <Route path="/dashboard" component={LayoutBase} />
+            <Route path="/401" component={Exception401} />
+          </Switch>
+        )
+      } else {
+        children = <Exception500 desc="无法获取当前用户信息" />
+      }
+    }
+
     return (
       <Layout className="x-layout-loading">
         {children}

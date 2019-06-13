@@ -1,0 +1,170 @@
+@import '../../styles/colors.less';
+@import '../../styles/util.less';
+
+.x-poster-list {
+  background-color: #535353;
+  &-content {
+    .ant-card {
+      background-color: #535353;
+      &-head {
+        background-color: #535353;
+        border-bottom-color: #414141;
+        .ant-tabs {
+          &-ink-bar {
+            background-color: #ff835a;
+          }
+          &-tab {
+            color: #dddddd;
+            &-active {
+              color: #ff835a;
+            }
+          }
+        }
+      }
+      &-body {
+        min-height: 400px;
+      }
+    }
+    &-body {
+      &-list {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        max-height: 600px;
+        overflow-y: auto;
+        .scroll-bar();
+        &-item {
+          position: relative;
+          min-width: 180px;
+          margin: 8px;
+          background-color: #ffffff;
+          cursor: pointer;
+          img {
+            width: 180px;
+            min-height: 320px;
+          }
+          .template-modal {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.75);
+            transition: display 0.3s ease;
+            z-index: 3;
+            .ant-btn {
+              width: 100px;
+              border-radius: 40px;
+              background-color: transparent;
+              color: #ffffff;
+              border-color: #ffffff;
+              margin-bottom: 10px;
+              &:hover {
+                color: #ffa582;
+                border-color: #ffa582;
+              }
+            }
+            &.active {
+              border: 1px solid #FF835A;
+            }
+          }
+          .template-footer {
+            display: flex;
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 38px;
+            background-color: #333333;
+            color: #dddddd;
+            z-index: 2;
+          }
+          .template-timer {
+            position: absolute;
+            left: 0;
+            bottom: 38px;
+            width: 100%;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, .75);
+            z-index: 2;
+            span {
+              &:first-child {
+                color: #ffffff;
+                font-size: 12px;
+                margin-right: 5px;
+              }
+              &:last-child {
+                color: #FF835A;
+                font-size: 13px;
+                font-weight: bold;
+              }
+            }
+            .ant-statistic-content {
+              display: flex;
+              align-items: center;
+            }
+          }
+          &.active {
+            .triangle {
+              position: absolute;
+              width: 50px;
+              height: 50px;
+              top: 0;
+              left: 0;
+              background-image: linear-gradient(to right bottom, #FF835A 50%, transparent 50%);
+              z-index: 3;
+              .anticon {
+                font-size: 16px;
+                color: #ffffff;
+                padding-top: 6px;
+                padding-left: 6px;
+              }
+            }
+          }
+          &:hover {
+            .template-modal {
+              display: flex;
+            }
+          }
+        }
+      }
+      .ant-card-head {
+        position: relative;
+        border-bottom: none;
+
+        .ant-card-extra {
+          position: absolute;
+          right: 24px;
+          top: 0;
+          z-index: 9;
+          .add-template {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            font-size: 13px;
+            color: #dddddd;
+          }
+        }
+        .ant-tabs-bar {
+          border-bottom: 1px solid #333333;
+        }
+      }
+
+      &-pager {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-top: 10px;
+      }
+    }
+  }
+}

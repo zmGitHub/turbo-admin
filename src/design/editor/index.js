@@ -4,5 +4,6 @@ export default {
   radioGroup: import('./common/radioGroup'),
   color: import('./common/color'),
   fontWeight: import('./common/fontWeight'),
-  error: import('./error')
+  switcher: import('./common/switch'),
+  error: import('./error'),
 }

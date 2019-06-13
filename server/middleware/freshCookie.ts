@@ -7,7 +7,11 @@ export default async (ctx:Context, next: () => void) => {
   const csrf:String = ctx.cookies.get('x-csrf-token')
   console.log('csrf', csrf)
   console.log('cookie', cookie)
-  axios.defaults.headers['Cookie'] = `msid=${cookie}; `
-  axios.defaults.headers['x-csrf-token'] = csrf
+  if (cookie) {
+    axios.defaults.headers['Cookie'] = `msid=${cookie}; `
+  }
+  if (csrf) {
+    axios.defaults.headers['x-csrf-token'] = csrf
+  }
   await next()
 }

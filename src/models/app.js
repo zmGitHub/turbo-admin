@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import { getCSRFToken, hasLogin, updateComponentAuth } from '@/services/app'
+import { getUserLoginStatus, getCSRFToken, hasLogin, updateComponentAuth } from '@/services/app'
 import {message} from 'antd';
 
 export default {
@@ -12,6 +12,12 @@ export default {
     }
   },
   effects: {
+    *checkLogin(_, { call }) {
+      const res = yield call(getUserLoginStatus)
+      if(res && res.isLogin) {
+        Cookies.set('x-csrf-token', res['_csrf'])
+      }
+    },
     *initCSRFToken(_, { call }) {
       const res = yield call(getCSRFToken)
       if(res) {
@@ -21,7 +27,9 @@ export default {
     // 获取图片分类
     *initUserInfo(_, { call, put }) {
       const payload = yield call(hasLogin)
+      console.log(payload)
       if (payload && payload.id) {
+        Cookies.set('x-csrf-token', payload.csrf)
         yield put({ type: 'initUser', payload })
       } else {
         message.warn('用户登录过期, 请返回重新登录!')
@@ -43,14 +51,6 @@ export default {
         ...state,
         user: payload
       }
-    }
-  },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      history.listen(() => {
-        dispatch({ type: 'initCSRFToken' })
-        dispatch({ type: 'initUserInfo' })
-      })
     }
   }
 }

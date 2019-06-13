@@ -7,7 +7,7 @@ import '../index.less'
 
 const { TextArea } = Input;
 
-const Ranger = ({ title, value, onChange }) => {
+const Ranger = ({ title, value, onChange, placeholder }) => {
   const [ state, setState ] = useSetState({ value })
   const onPropsChange = (res) => {
     const inputValue = _trim(res.target.value)
@@ -24,6 +24,7 @@ const Ranger = ({ title, value, onChange }) => {
 
         <TextArea
           autosize
+          placeholder={placeholder}
           value={state.value}
           onChange={onPropsChange}
         />

@@ -9,7 +9,11 @@ const instance = axios.create({
 // 错误处理拦截器
 instance.interceptors.response.use(
   (response) => {
-    const { data } = response
+    const { data, headers } = response
+    const cookies = headers['set-cookie'] || headers['Set-Cookie']
+    if (cookies) {
+      data.cookie = cookies
+    }
     return data
   },
   (error) => {

@@ -1,4 +1,5 @@
 import { parse } from 'qs'
+import { startsWith, replace } from 'lodash'
 import defaultImg from '@/static/images/x.png'
 /**
  *
@@ -23,7 +24,21 @@ export const getStyles = (styles = [], types = []) => {
   return inlineStyles
 }
 
-
+export const formatImgHttps = (url, formatStr = '') => {
+  // TODO: 返回默认图片
+  if (!url) return ''
+  let imgUrl = url
+  const format = formatStr ? `?${formatStr}` : ''
+  if (startsWith(url, '//')) {
+    imgUrl = `https:${url}${format}`
+  } else if (startsWith(url, 'http:')) {
+    const urlHttps = replace(url, 'http:', 'https:')
+    imgUrl = `${urlHttps}${format}`
+  } else {
+    imgUrl = `${url}${format}`
+  }
+  return imgUrl
+}
 
  export const uniqueId = (len, radix) => {
   const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');

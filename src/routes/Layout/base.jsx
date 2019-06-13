@@ -8,6 +8,8 @@ import { useToggle } from '@/stores/hook'
 import Dashboard from '../Dashboard'
 import O2o from '../O2o'
 import CategoryEdit from '../Category'
+import PosterList from '../Posters'
+import PosterEdit from '../Posters/edit'
 
 import './base.less'
 
@@ -36,13 +38,21 @@ const LayoutIndexBase = ({ location }) => {
             <span className="logo-info-desc">装修</span>
           </div>
         </Link>
-        <Menu theme="dark" mode="inline" defaultOpenKeys={['dashboard/index']} defaultSelectedKeys={menus}>
+        <Menu theme="dark" mode="inline" defaultOpenKeys={['dashboard/index', 'dashboard/posters']} defaultSelectedKeys={menus}>
           <SubMenu key="dashboard/index" inlineCollapsed title={<span><Icon type="deployment-unit" /><span>模板管理</span></span>}>
             <Menu.Item key="index">
               <Link to="/dashboard/index">商城模板</Link>
             </Menu.Item>
             <Menu.Item key="dashboard/o2o">
               <Link to="/dashboard/o2o">店铺模板</Link>
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu key="dashboard/posters" inlineCollapsed title={<span><Icon type="pie-chart" /><span>海报管理</span></span>}>
+            <Menu.Item key="dashboard/posters/list">
+              <Link to="/dashboard/posters/list">商城海报</Link>
+            </Menu.Item>
+            <Menu.Item key="dashboard/posters/o2o">
+              <Link to="/dashboard/posters/o2o">店铺海报</Link>
             </Menu.Item>
           </SubMenu>
         </Menu>
@@ -62,6 +72,9 @@ const LayoutIndexBase = ({ location }) => {
               <Route path="/dashboard/index" component={Dashboard} />
               <Route path="/dashboard/o2o" component={O2o} />
               <Route path="/dashboard/category" component={CategoryEdit} />
+              <Route path="/dashboard/posters/edit" component={PosterEdit} />
+              <Route path="/dashboard/posters/list" component={PosterList} />
+              <Route path="/dashboard/posters/o2o" component={PosterList} />
             </Switch>
           </div>
         </Content>

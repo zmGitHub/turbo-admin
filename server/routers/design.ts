@@ -1,7 +1,6 @@
 import * as Router from 'koa-router'
 import auth from '../middleware/auth'
 import design from '../controllers/design'
-import setting from '../controllers/setting'
 
 const router:Router = new Router()
 // 根据类型获取发布的数据
@@ -32,9 +31,5 @@ router.post('/publish/o2o', auth, design.publishO2o)
 router.get('/history', auth, design.getHistory)
 // 商家拒绝应用模板
 router.post('/reject', auth, design.reject)
-// 获取组件权限
-router.get('/auth', auth, setting.getComponentAuth)
-// 添加组件权限
-router.post('/auth', auth, setting.updateComponentAuth)
 
 export default router

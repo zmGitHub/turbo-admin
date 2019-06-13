@@ -20,6 +20,7 @@ const app = dva({
 // 注册 model TODO: 后续按需加载
 app.model(require('./models/app').default)
 app.model(require('./models/dashboard').default)
+app.model(require('./models/poster').default)
 app.model(require('./models/component').default)
 app.model(require('./models/design').default)
 app.model(require('./models/o2o').default)
