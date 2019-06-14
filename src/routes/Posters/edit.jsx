@@ -12,7 +12,7 @@ const PosterEdit = ({ location }) => {
       <div className="x-poster-content">
         <Card>
           <Mobile location={location} />
-          <Setting />
+          <Setting location={location} />
         </Card>
       </div>
     </div>

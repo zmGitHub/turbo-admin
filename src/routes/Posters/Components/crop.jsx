@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { is, update, find, propEq, concat } from 'ramda'
+import { is, find, propEq, concat } from 'ramda'
 import interact from 'interactjs'
 
 class Crop extends PureComponent {
@@ -71,54 +71,25 @@ class Crop extends PureComponent {
     }
   }
 
-  handleResizeMove = (e) => {
-    const {
-      index,
-      coordinate,
-      coordinate: { x, y },
-      coordinates,
-      onResize,
-      onChange,
-    } = this.props
-    const { width, height } = e.rect
-    const { left, top } = e.deltaRect
-
-    const nextCoordinate = {
-      ...coordinate, x: x + left, y: y + top, width, height,
-    }
-    const nextCoordinates = update(index, nextCoordinate)(coordinates)
-    if (is(Function, onResize)) {
-      onResize(nextCoordinate, index, nextCoordinates)
-    }
-    if (is(Function, onChange)) {
-      onChange(nextCoordinate, index, nextCoordinates)
-    }
-  }
-
   handleDragMove = (e) => {
-    const {
-      onChange,
-    } = this.props
     const { dx, dy } = e
-    const { id, x, y } = this.state
-    const nextCoordinate = { id, x: x + dx, y: y + dy }
+    const { x, y } = this.state
     this.setState({
       x: x + dx,
       y: y + dy
     })
-
-    if (is(Function, onChange)) {
-      onChange(nextCoordinate)
-    }
   }
 
   getElement = () => {
-    const { data } = this.props
-    const { componentStyle, content } = this.state
+    const { data, onChange } = this.props
+    const { id, x, y, componentStyle, content } = this.state
     const component = { ...data }
-    component.content.data = content
+    component.content.data = { ...content, position: { x, y } }
     component.style = componentStyle
     window.ee.emit('GET_POSTER_DATA', data)
+    if (is(Function, onChange)) {
+      onChange({ id, x, y })
+    }
   }
 
 

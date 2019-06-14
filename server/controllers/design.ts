@@ -20,8 +20,8 @@ export default class Design {
     const res = await get(id)
     ctx.status = 200
     if (res && res.id) {
-      const { id, data } = res
-      ctx.body = { id, data }
+      const { id, name, data } = res
+      ctx.body = { id, name, data }
     } else {
       ctx.body = ''
     }

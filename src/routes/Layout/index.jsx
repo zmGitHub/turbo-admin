@@ -21,6 +21,7 @@ class LayoutIndex extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props
+    console.log('fuck.....')
     dispatch({ type: 'app/initUserInfo' })
     if (!this.timer) {
       setInterval(() => {

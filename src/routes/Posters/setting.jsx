@@ -1,9 +1,9 @@
 import React, { PureComponent, lazy, Suspense } from 'react'
 import { connect } from 'dva'
 import { last } from 'ramda'
-import { Button, Tooltip, Icon } from 'antd'
+import { Button, Tooltip, Icon, message, Popover, Radio } from 'antd'
 import ImagePicker from '@/components/ImagePicker'
-import { uniqueId, formatImgHttps } from '@/utils'
+import { uniqueId, formatImgHttps, getPageQuery } from '@/utils'
 import EditorMaps from '@/design/editor'
 import ContentMaps from './Content'
 import TemplateMaps from './Design'
@@ -22,6 +22,7 @@ class Setting extends PureComponent {
 
   state = {
     data: {
+      elVisible: false,
       content: {},
       style: []
     },
@@ -34,6 +35,11 @@ class Setting extends PureComponent {
     window.ee.on('GET_POSTER_DATA', this.setPosterData)
   }
 
+  handleVisibleChange = () => {
+    const { elVisible } = this.state
+    this.setState({ elVisible: !elVisible })
+  }
+
   setPosterData = (component) => {
     const { data } = this.state
     if (component && data.key !== component.key) {
@@ -42,7 +48,19 @@ class Setting extends PureComponent {
     }
   }
 
+  onTypeChange = ({ target }) => {
+    const type = target.value
+    const key = uniqueId(7,9)
+    console.log(type)
+    const { config } = TemplateMaps[type]
+    const data = config()
+    // 添加组件到列表 可以覆盖默认配置
+    const component = { key, ...data }
+    window.ee.emit('ADD_POSTER_DATA', component)
+  }
+
   updateComponentData = ({ key, value }) => {
+    console.log('更新 content');
     const { data } = this.state
     const { dispatch } = this.props
     const payload = {
@@ -62,6 +80,7 @@ class Setting extends PureComponent {
   }
 
   updateComponentStyle = ({ key, value }) => {
+    console.log('更新 style');
     const { data } = this.state
     const { dispatch } = this.props
     const payload = {
@@ -105,17 +124,25 @@ class Setting extends PureComponent {
     this.setState({ imagePickerVisible: true })
   }
 
-  addElement = () => {
-    const key = uniqueId(7,9)
-    const { config } = TemplateMaps['text']
-    const data = config()
-    // 添加组件到列表 可以覆盖默认配置
-    const component = { key, ...data }
-    window.ee.emit('ADD_POSTER_DATA', component)
+  onSave = () => {
+    const { dispatch, location } = this.props
+    const { id } = getPageQuery(location.search)
+    dispatch({
+      type: 'poster/submit',
+      payload: { id },
+      callback: (res) => {
+        if (res.code === 200) {
+          message.success(res.msg)
+        } else {
+          message.warning(res.msg)
+        }
+      }
+    })
   }
 
   render() {
-    const { imagePickerVisible, data: { content, style } } = this.state
+    const { elVisible, imagePickerVisible, data: { content, style } } = this.state
+    console.log('setting render');
     return (
       <div className="editor-right">
         <div className="editor-right-action">
@@ -132,7 +159,21 @@ class Setting extends PureComponent {
           <div className="editor-right-action-header">
             <div className="editor-right-action-header-left">海报元素</div>
             <div className="editor-right-action-header-right">
-              <Button onClick={this.addElement} type="primary" shape="circle" icon="plus" />
+              <Popover
+                content={
+                  <Radio.Group onChange={this.onTypeChange}>
+                    <Radio value="text">文字</Radio>
+                    <Radio value="image">图片</Radio>
+                  </Radio.Group>
+                }
+                placement="left"
+                title="组件类别"
+                trigger="click"
+                visible={elVisible}
+                onVisibleChange={this.handleVisibleChange}
+              >
+                <Button type="primary" shape="circle" icon="plus" />
+              </Popover>
             </div>
           </div>
           <div className="editor-right-action-content">
@@ -163,7 +204,7 @@ class Setting extends PureComponent {
         </div>
         <div className="editor-right-footer">
           <Button type="link">返回</Button>
-          <Button type="primary">保存</Button>
+          <Button onClick={this.onSave} type="primary">保存</Button>
         </div>
         <ImagePicker visible={imagePickerVisible} onChange={this.onImageChange} />
       </div>

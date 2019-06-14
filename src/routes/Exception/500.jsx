@@ -1,10 +1,10 @@
 import React from 'react';
 import Exception from '@/components/Exception';
 
-const Exception401 = () => (
+const Exception401 = ({ desc }) => (
   <Exception
     type="500"
-    desc="抱歉，你无权访问此页面"
+    desc={desc}
     actions={<a href="https://www.hisense.com/">返回</a>}
     backText="返回"
   />

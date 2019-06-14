@@ -1,6 +1,20 @@
-import { propEq, find, concat, remove, map, includes } from 'ramda'
+import { propEq, prepend, multiply, find, concat, remove, map, forEach, includes } from 'ramda'
 import moment from 'moment'
 import { getPoster, queryPoster, createPoster, updatePoster, removePoster } from '@/services/poster'
+
+const getSettingData = (list) => map(({ key, content, style }) => {
+  const { data: { position = { x: 0, y: 0 }, ...rest } } = content
+  const item = { key, ...rest, top: position.y, left: position.x }
+  forEach((styleItem) => {
+    const parseValue = parseInt(styleItem.value, 10)
+    if (Number.isNaN(parseValue)) {
+      item[styleItem.key] = styleItem.value
+    } else {
+      item[styleItem.key] = multiply(parseValue, 2)
+    }
+  }, style)
+  return item
+}, list)
 
 export default {
   namespace: 'poster',
@@ -107,13 +121,49 @@ export default {
       }, res.data)
       yield put({ type: 'initData', payload: { tab, total, data: items  }})
     },
+    // 保存数据
+    *submit({ payload, callback }, { call, select }) {
+      const { id, poster } = payload
+      const formData = yield select((state) => {
+        const { list, url } = state.poster
+        return { list, url }
+      })
+      if (!formData.url) {
+        callback({ code: 500, msg: '请设置背景海报' })
+        return
+      }
+      if (formData.list.length === 0) {
+        callback({ code: 500, msg: '请至少添加一个海报元素' })
+        return
+      }
+      const items = getSettingData(formData.list)
+      const backgroundItem = {
+        key: 'background',
+        type: 'image',
+        top: 0,
+        left: 0,
+        url: formData.url,
+        width: 750,
+        height: 1334
+      }
+      const params = {
+        id,
+        poster,
+        data: JSON.stringify(formData.list),
+        setting: JSON.stringify(prepend(backgroundItem, items))
+      }
+      const result = yield call(updatePoster, params)
+      if (result) {
+        callback({ ...result, code: 200, msg: '保存成功' })
+      }
+    }
   },
   reducers: {
     initItems(state, action) {
       const { payload: { list, url } } = action
       return {
         ...state,
-        items: list,
+        list,
         url
       }
     },
@@ -133,22 +183,6 @@ export default {
       return {
         ...state,
         list: components
-      }
-    },
-    deleteComponent(state, { payload, callback }) {
-      const { list } = state
-      const { index } = payload
-      const componentLenth = list.length
-      let component = null
-      if (index < componentLenth) {
-        component = list[index + 1]
-      } else if (index === componentLenth && componentLenth > 0) {
-        component = list[index - 1]
-      }
-      callback(component)
-      return {
-        ...state,
-        list: remove(index, 1, list)
       }
     },
     updateComponentBackground(state, action) {
@@ -185,6 +219,8 @@ export default {
       // 定位到组件
       if (item && item.key) {
         item.content.data[key] = value
+      } else {
+        console.log('无法定位组件')
       }
       return {
         ...state,
