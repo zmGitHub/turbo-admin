@@ -139,12 +139,14 @@ class Poster extends PureComponent {
   }
 
   onPublishChange = (params) => {
-    const { dispatch } = this.props
+    const { dispatch, location } = this.props
     const { item } = this.state
     if (params) {
+      const { pathname } = location
+      const shopId = pathname === '/dashboard/posters/o2o' ? -1 : 1
       dispatch({
-        type: 'dashboard/publishAdmin',
-        payload: { ...item, ...params },
+        type: 'poster/publish',
+        payload: { ...item, ...params, shopId },
         callback: () => {
           message.success('发布成功')
           this.setState({ publish: false, item: {} }, () => {
@@ -169,7 +171,7 @@ class Poster extends PureComponent {
       cancelText: '取消',
       onOk: () => {
         dispatch({
-          type: 'dashboard/removeTemplate',
+          type: 'poster/remove',
           payload: id,
           callback: () => {
             message.success('删除海报成功!')

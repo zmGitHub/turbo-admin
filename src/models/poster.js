@@ -1,6 +1,6 @@
 import { propEq, prepend, multiply, find, concat, remove, map, forEach, includes } from 'ramda'
 import moment from 'moment'
-import { getPoster, queryPoster, createPoster, updatePoster, removePoster } from '@/services/poster'
+import { getPoster, queryPoster, createPoster, updatePoster, removePoster, publishPoster } from '@/services/poster'
 
 const getSettingData = (list) => map(({ key, content, style }) => {
   const { data: { position = { x: 0, y: 0 }, ...rest } } = content
@@ -92,7 +92,7 @@ export default {
     },
     // admin发布(立即/定时)
     *publish({ payload ,callback }, { call }) {
-      const res = yield call(createPoster, payload)
+      const res = yield call(publishPoster, payload)
       if (callback) {
         callback(res)
       }
@@ -105,12 +105,12 @@ export default {
       const { tab } = payload
       const items = map((item) => {
         const { id, name, status, canPublish, type, timer, updatedAt, poster } = item
-        const isTiming = status === '2' && moment(timer).isAfter()
+        const isTiming = status === '1' && moment(timer).isAfter()
         return {
           id,
           name,
           status,
-          isDefault: status === '3',
+          isDefault: status === '2',
           canPublish,
           isTiming,
           timingTime: isTiming ? moment(timer).valueOf() : '',
@@ -156,7 +156,7 @@ export default {
       if (result) {
         callback({ ...result, code: 200, msg: '保存成功' })
       }
-    }
+    },
   },
   reducers: {
     initItems(state, action) {

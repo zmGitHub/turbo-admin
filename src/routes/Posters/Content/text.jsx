@@ -53,7 +53,6 @@ const TextDesign = ({ config, onChange }) => {
           <Select style={{ width: '100%' }} defaultValue={enums} onChange={onEnumsChange}>
             <Option value="">无</Option>
             <Option value="name">用户名称</Option>
-            <Option value="avatar">用户头像</Option>
             <Option value="price">商品价格</Option>
             <Option value="item">商品名称</Option>
             <Option value="tel">商家号码</Option>

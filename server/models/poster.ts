@@ -16,7 +16,7 @@ export enum PosterType {
 export enum PosterStatus {
   INIT = '0',
   TIMER = '1', // 定时发布
-  TIMING = '2', // 已发布
+  PUBLISH = '2', // 已发布
 }
 
 @Entity('poster')

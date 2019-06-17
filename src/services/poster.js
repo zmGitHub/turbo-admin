@@ -16,9 +16,14 @@ export async function updatePoster(params) {
   return request.put('/api/poster/update', params)
 }
 
+// 发布海报
+export async function publishPoster(params) {
+  return request.post('/api/poster/publish', params)
+}
+
 // 删除海报
 export async function removePoster(id) {
-  return request.delete(`/api/poster/remove/${id}`)
+  return request.delete(`/api/poster/delete/${id}`)
 }
 
 // 获取海报列表

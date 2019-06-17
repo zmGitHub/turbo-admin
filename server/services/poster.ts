@@ -31,6 +31,21 @@ export interface QueryParams {
   shopId?: number
 }
 
+export interface GetParams {
+  type: PosterType,
+  shopId: number
+}
+
+// 获取发布的模板
+export const getPublish = async (params: GetParams) => {
+  const posterRpo:Repository<Poster> = getRepository(Poster)
+  return await posterRpo.findOne({
+    type: params.type,
+    status: PosterStatus.PUBLISH,
+    shopId: params.shopId,
+  })
+}
+
 // 根据 id 获取数据
 export const get = async (id) => {
   const posterRpo:Repository<Poster> = getRepository(Poster)
@@ -43,6 +58,20 @@ export const add = async (params: AddParams) => {
   const posterRpo:Repository<Poster> = getRepository(Poster)
   const poster: Poster = posterRpo.create(params)
   return await posterRpo.save(poster)
+}
+
+// 重置掉发布状态
+export const resetPublish = async (type: PosterType, shopId: number) => {
+  const posterRpo:Repository<Poster> = getRepository(Poster)
+  // 先取消掉发布的模板
+  const resetRes = await posterRpo.update(
+    {
+      type,
+      shopId,
+      status: PosterStatus.PUBLISH,
+    },
+    { status: PosterStatus.INIT })
+  return resetRes
 }
 
 // 更新
@@ -67,4 +96,10 @@ export const query = async (params: QueryParams) => {
   .take(pageSize)
   .getManyAndCount()
   return list
+}
+
+// 删除
+export const remove = async (id: number) => {
+  const posterRpo:Repository<Poster> = getRepository(Poster)
+  return await posterRpo.delete(id)
 }
