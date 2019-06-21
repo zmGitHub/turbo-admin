@@ -56,7 +56,7 @@ const TextDesign = ({ config, onChange }) => {
             <Option value="price">商品价格</Option>
             <Option value="item">商品名称</Option>
             <Option value="tel">商家号码</Option>
-            <Option value="code">商家编码</Option>
+            <Option value="outerId">商家编码</Option>
             <Option value="address">商家地址</Option>
           </Select>
         </div>
