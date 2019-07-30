@@ -46,7 +46,7 @@ class PageForm extends PureComponent {
         if (!item.id) {
           onChange({ ...values, shopId: -1 })
         } else {
-          onChange({ id: item.id, name: values.name, shopId: -1 })
+          onChange({ id: item.id, name: values.name, path: values.path, shopId: -1 })
         }
       }
     });
@@ -90,7 +90,7 @@ class PageForm extends PureComponent {
           </Form.Item>
           <Form.Item hasFeedback {...formItemLayout} label="模板类型">
             {getFieldDecorator('type', {
-              initialValue: item.type || TYPE_MAPS[type],
+              initialValue: +item.type || TYPE_MAPS[type],
               rules: [
                 {
                   required: true,
@@ -105,6 +105,19 @@ class PageForm extends PureComponent {
               >
                 <Option value={1}>首页模板</Option>
               </Select>
+            )}
+          </Form.Item>
+          <Form.Item hasFeedback {...formItemLayout} label="模板路径">
+            {getFieldDecorator('path', {
+              initialValue: item && item.path,
+              rules: [
+                {
+                  required: true,
+                  message: '请输入模板路径'
+                }
+              ]
+            })(
+              <Input maxLength={100} placeholder="请输入模板路径" />
             )}
           </Form.Item>
         </Form>

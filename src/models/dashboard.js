@@ -46,11 +46,12 @@ export default {
       const { total } = res
       const { tab } = payload
       const items = map((item) => {
-        const { id, name, status, canPublish, type, timer, updatedAt, poster } = item
+        const { id, name, path, status, canPublish, type, timer, updatedAt, poster } = item
         const isTiming = status === '2' && moment(timer).isAfter()
         return {
           id,
           name,
+          path,
           status,
           isDefault: status === '3',
           canPublish,

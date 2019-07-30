@@ -15,7 +15,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
-    "serve": "ts-node src/server.ts",
+    "server": "ts-node src/server.ts",
     "dev": "cross-env NODE_ENV=development node bin/dev",
     "build-server": "tsc",
     "build-ncc": "ncc build server/index.ts -o apps",

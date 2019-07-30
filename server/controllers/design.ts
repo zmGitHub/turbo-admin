@@ -66,9 +66,14 @@ export default class Design {
   // 添加模板
   public static async addDesign(ctx:Context) {
     const { body } = ctx.request
-    const res = await add(body)
-    ctx.status = 200
-    ctx.body = res
+    try {
+      const res = await add(body)
+      ctx.status = 200
+      ctx.body = res
+    } catch (error) {
+      ctx.status = 500
+      ctx.body = { msg: `模板路径: ${body.path}已存在` }
+    }
   }
 
   // 首页装修模板发布
@@ -137,14 +142,20 @@ export default class Design {
   // 更新装修数据
   public static async update(ctx: Context) {
     const { body } = ctx.request
-    const res = await update(body)
-    if (res && res.raw && res.raw.affectedRows) {
-      ctx.status = 200
-      ctx.body = res
-    } else {
+    try {
+      const res = await update(body)
+      if (res && res.raw && res.raw.affectedRows) {
+        ctx.status = 200
+        ctx.body = res
+      } else {
+        ctx.status = 500
+        ctx.body = { msg: '更新失败' }
+      }
+    } catch (error) {
       ctx.status = 500
-      ctx.body = { msg: '更新失败' }
+      ctx.body = { msg: `模板路径: ${body.path}已存在` }
     }
+
   }
 
   // 删除
@@ -156,7 +167,7 @@ export default class Design {
   }
   // 商家更新装修数据
   public static async updateO2o(ctx: Context) {
-    const { body: { id, data, name, o2oId, shopId } } = ctx.request
+    const { body: { id, data, name, path, o2oId, shopId } } = ctx.request
     // 如果 o2oId 和 shopId 一样则直接修改
     try {
       ctx.status = 200
@@ -167,6 +178,7 @@ export default class Design {
         const res = await add({
           name,
           data,
+          path,
           shopId: o2oId,
           type: DesignType.HOME,
           status: DesignStatus.PUBLISH,
@@ -243,8 +255,8 @@ export default class Design {
         // 如果商家没有发布的模板 则获取当前生效的模板 给当前这个商家
         const design = await getPublish({ type: DesignType.HOME, shopId: -1 })
         if (design && design.id) {
-          const { name, data, type, status } = design
-          await add({ name, data, type, status, shopId: body.shopId })
+          const { name, path, data, type, status } = design
+          await add({ name, path, data, type, status, shopId: body.shopId })
         }
       }
       // 如果有的话 添加数据到拒绝表 防止最新版本的覆盖

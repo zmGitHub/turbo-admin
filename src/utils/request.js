@@ -14,7 +14,7 @@ instance.interceptors.response.use((response) => {
 }, (error) => {
   let info = { code: -1, message: '系统错误' };
   if (error.response) {
-    const {  status } = error.response;
+    const { status, data } = error.response;
     // 如果用户未授权这个时候回自动跳转
     switch (status) {
       case 401:
@@ -24,7 +24,7 @@ instance.interceptors.response.use((response) => {
         info = { code: 404, message: 'API 不存在' };
         break;
       case 500:
-        info = { code: 500, message: '服务器错误' };
+        info = { code: 500, message: data.msg || '服务器错误' };
         break;
       default:
         break;

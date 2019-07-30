@@ -3,6 +3,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  PrimaryColumn,
   Column,
   OneToMany,
 } from 'typeorm'
@@ -33,6 +34,13 @@ export class Design {
 
   @Column({ type: 'text', nullable: true })
   data: string
+
+  @Column({
+    type: 'varchar',
+    nullable: true,
+    unique: true,
+  })
+  path: string
 
   @Column({
     type: 'enum',

@@ -6,7 +6,7 @@ export async function createDesignData(params) {
 }
 
 // 更新装修数据
-export async function updateDesginData(params) {
+export async function updateDesignData(params) {
   return request.put('/api/design/update', params)
 }
 
