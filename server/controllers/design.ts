@@ -3,7 +3,7 @@ import { CronJob } from 'cron'
 import { is, head, last, find, propEq, map } from 'ramda'
 import { DesignStatus, DesignType } from '../models/design'
 import {
-  get, add, update, query,
+  get, add, update, query, getOneByPath,
   getPublish, getO2oTiming, getO2oHome,
   getO2oHistory, getO2oPublish, publishO2o,
   publishAdmin, timing, remove,
@@ -14,6 +14,18 @@ import { addRefuse, getRefuse } from '../services/refuse'
 import request from '../services/request'
 
 export default class Design {
+  // 根据 path 获取装修数据
+  public static async getByPath(ctx:Context) {
+    const { path } = ctx.query
+    const res = await getOneByPath(path)
+    ctx.status = 200
+    if (res && res.id) {
+      const { id, name, data } = res
+      ctx.body = { id, name, data }
+    } else {
+      ctx.body = ''
+    }
+  }
   // 获取单个装修
   public static async getById(ctx:Context) {
     const { id } = ctx.params

@@ -7,6 +7,8 @@ const router:Router = new Router()
 router.get('/publish', design.getPublishData)
 // 根据装修 id 获取数据
 router.get('/find/:id', design.getById)
+// 根据 path 获取装修数据
+router.get('/path', design.getByPath)
 // 获取发布中的数据
 router.get('/timing', auth, design.getTiming)
 // 获取首页模板

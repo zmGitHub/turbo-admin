@@ -40,6 +40,12 @@ export interface GetParams {
   shopId: number
 }
 
+export const getOneByPath = async (path:string) => {
+  const designRpo:Repository<Design> = getRepository(Design)
+  const design: Design = await designRpo.findOne({ path })
+  return design
+}
+
 export const get = async (id) => {
   const designRpo:Repository<Design> = getRepository(Design)
   const design: Design = await designRpo.findOne(id)
