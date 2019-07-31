@@ -17,6 +17,7 @@ import NavigationBar from './NavigationBar/template.config'
 import Gift from './Gift/template.config'
 import Seckill from './Seckill/template.config'
 import Error from './error'
+import PointShop from './pointShop/template.config'
 
 // 同时导出所有的模板
 export default {
@@ -37,5 +38,6 @@ export default {
   navigationBar: NavigationBar,
   gift: Gift,
   seckill: Seckill,
-  error: Error
+  error: Error,
+  pointShop: PointShop
 }

@@ -96,7 +96,7 @@ const DATA = [
       {
         key: 'pointShop',
         name: '积分商城',
-        components: [{ id: 'text_1', name: 'text' }],
+        components: [{ id: 'pointShop_1', name: 'pointShop' }],
         icon: 'pointShop'
       },
     ]

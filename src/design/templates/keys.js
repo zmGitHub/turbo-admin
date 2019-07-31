@@ -16,4 +16,5 @@ export default [
   { key: 'seckill', title: '整点秒杀' },
   { key: 'goodsCard', title: '商品卡片' },
   { key: 'goodsSlider', title: '侧滑商品' },
+  { key: 'pointShop', title: '积分商城' },
 ]
