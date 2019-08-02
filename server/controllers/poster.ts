@@ -10,7 +10,7 @@ import { PosterStatus } from '../models/poster'
 export default class Poster {
 
   // 添加模板
-  public static async getPoser(ctx:Context) {
+  public static async getPoser(ctx: Context) {
     const { id } = ctx.params
     const res = await get(id)
     ctx.status = 200
@@ -23,7 +23,7 @@ export default class Poster {
   }
 
   public static async getPosterList(ctx: Context) {
-    const params:QueryParams  = ctx.query
+    const params: QueryParams = ctx.query
     const res = await query(params)
     let entities = { data: [], total: 0 }
     if (is(Array, res)) {
@@ -40,7 +40,7 @@ export default class Poster {
   }
 
   // 修改模板信息
-  public static async updatePoster(ctx:Context) {
+  public static async updatePoster(ctx: Context) {
     const { body } = ctx.request
     const res = await update(body)
     if (res && res.raw && res.raw.affectedRows) {
@@ -52,9 +52,9 @@ export default class Poster {
     }
   }
   // 添加模板
-  public static async addPoster(ctx:Context) {
+  public static async addPoster(ctx: Context) {
     const { body } = ctx.request
-    const res:AddParams = await add(body)
+    const res: AddParams = await add(body)
     ctx.status = 200
     ctx.body = res
   }
@@ -119,8 +119,8 @@ export default class Poster {
     let data = null
     ctx.status = 200
     if (res && res.id) {
-      const { id, name, setting } = res
-      data = { id, name, setting }
+      const { id, name, cover, setting } = res
+      data = { id, name, cover, setting }
     }
     ctx.body = data
   }
