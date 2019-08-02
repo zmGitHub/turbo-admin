@@ -69,8 +69,8 @@ class Poster extends PureComponent {
     const { index } = currentTarget.dataset
     const { poster: { data } } = this.props
     if (data[index]) {
-      const { id, name, type } = data[index]
-      this.setState({ create: true, item: { id, name, type } })
+      const { id, name, type, cover } = data[index]
+      this.setState({ create: true, item: { id, name, type, cover } })
     } else {
       message.warning('海报不存在')
     }

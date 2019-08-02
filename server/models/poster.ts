@@ -27,6 +27,9 @@ export class Poster {
   @Column()
   name: string
 
+  @Column()
+  cover: string
+
   @Column({ type: 'text', nullable: true })
   setting: string
 

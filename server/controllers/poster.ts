@@ -106,8 +106,8 @@ export default class Poster {
     let data = null
     ctx.status = 200
     if (res && res.id) {
-      const { id, name, setting } = res
-      data = { id, name, setting }
+      const { id, name, cover, setting } = res
+      data = { id, name, cover, setting }
     }
     ctx.body = data
   }
