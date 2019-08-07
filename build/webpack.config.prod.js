@@ -16,7 +16,8 @@ const config = merge(baseConfig, {
     filename: '[name].[chunkhash:9].js',
     // 异步模块文件名
     chunkFilename: '[name].[chunkhash:9].js',
-    globalObject: 'this'
+    globalObject: 'this',
+    publicPath: '/wechat/'
   },
   plugins: [
     // 分离css文件
