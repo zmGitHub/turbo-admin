@@ -18,7 +18,7 @@ const config = merge(baseConfig, {
   },
   output: {
     filename: '[name].js',
-    chunkFilename: '[name].js',
+    chunkFilename: '[name].js'
   },
   plugins: [
     new Webpack.DefinePlugin({
