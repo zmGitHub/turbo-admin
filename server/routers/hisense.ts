@@ -85,4 +85,13 @@ router.get('/promotion/seckill/shows', freshCookie, async (ctx: Context) => {
   ctx.body = res
 })
 
+router.get('/promotion/freemix/shows', freshCookie, async (ctx: Context) => {
+  const { promotionId, channel } = ctx.query
+  const res = await request.get('/api/hisense/freemix-promotion/promotion', {
+    params: { promotionId, channel },
+  })
+  ctx.status = 200
+  ctx.body = res
+})
+
 export default router

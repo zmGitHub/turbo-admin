@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import { queryImageCategory, queryImageList, getServiceData, getCategory, getArticleById, getMenuInfoById, getSeckillData } from '@/services/component'
+import { queryImageCategory, queryImageList, getServiceData, getCategory, getArticleById, getMenuInfoById, getSeckillData, getFreemixData } from '@/services/component'
 
 export default {
   namespace: 'component',
@@ -59,6 +59,13 @@ export default {
         callback(res)
       }
     },
+    // 获取套购数据
+    *getFreemix({ payload, callback }, { call }) {
+      const res = yield call(getFreemixData, payload)
+      if (callback) {
+        callback(res)
+      }
+    }
   },
   reducers: {
     initImageCategory(state, action) {
