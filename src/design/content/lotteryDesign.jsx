@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { InputNumber, Spin, Icon } from 'antd'
+import { Input, Spin, Icon } from 'antd'
 import { last } from 'ramda'
 import { useToggle, useSetState } from '@/stores/hook'
 import ImagePicker from '@/components/ImagePicker'
@@ -11,7 +11,8 @@ import './index.less'
 const formatImg = '?x-oss-process=image/resize,m_mfit,w_375/sharpen,100'
 
 const LotteryDesign = ({ config, onChange }) => {
-  const { id, data: { src, backgroundColor, url } } = config
+  const { id, data } = config
+  const { src, backgroundColor, url } = data
   const [ on, toggle ] = useToggle(false)
   const imgSrc = src ? `${src}${formatImg}` : defaultImg
   const [ state, setState ] = useSetState({ src: imgSrc, backgroundColor, url, loading: false })
@@ -29,7 +30,8 @@ const LotteryDesign = ({ config, onChange }) => {
     onChange({ id, key: 'backgroundColor', value })
   }
 
-  const onIdChange = (value) => {
+  const onIdChange = (e) => {
+    const { value } = e.target;
     onChange({ id, key: 'id', value })
   }
 
@@ -44,7 +46,7 @@ const LotteryDesign = ({ config, onChange }) => {
       <div className="content-data">
         <h4 className="content-data-title">大转盘ID</h4>
         <div className="content-data-imager">
-          <InputNumber value={id} min={0} onChange={onIdChange} />
+          <Input type="number" defaultValue={data.id} onChange={onIdChange} />
         </div>
       </div>
       <div className="content-data">
