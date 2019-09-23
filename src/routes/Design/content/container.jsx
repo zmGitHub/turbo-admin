@@ -29,6 +29,7 @@ class Container extends PureComponent {
       id,
       name: content.component,
       auth: content.auth,
+      channel: content.channel,
       ...this.state
     }
     onClick(event, component)

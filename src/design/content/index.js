@@ -18,5 +18,6 @@ export default {
   seckillDesign: import('./seckill'),
   pointShopDesign: import('./pointShop'),
   error: import('./error'),
-  freemixDesign: import('./freemix')
+  freemixDesign: import('./freemix'),
+  lotteryDesign: import('./lotteryDesign'),
 }

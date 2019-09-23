@@ -106,9 +106,16 @@ class Setting extends PureComponent {
     })
   }
 
-  // 频道改变
-  onChannelChange = (values) => {
-    console.log(values)
+  // 平台列表改变
+  onChannelChange = (channel) => {
+    const { id } = this.state
+    const { dispatch } = this.props
+    this.setState({ channel }, () => {
+      dispatch({
+        type: 'design/updateChannel',
+        payload: { id, channel },
+      })
+    })
   }
 
 
@@ -122,7 +129,7 @@ class Setting extends PureComponent {
             <Panel header="平台列表" key="channels">
               <div className="module-content">
                 <div className="content-data">
-                  <Group options={channelOptions} defaultValue={channel} onChange={this.onChannelChange} />
+                  <Group options={channelOptions} value={channel} onChange={this.onChannelChange} />
                 </div>
               </div>
             </Panel>
