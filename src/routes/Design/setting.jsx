@@ -100,6 +100,16 @@ class Setting extends PureComponent {
       <Sider width="300" className={settingStyle}>
         <div className="x-design-setting-scroll">
           <Collapse className="x-design-setting-scroll-collapse" bordered={false} defaultActiveKey={['content']}>
+            <Panel header="平台列表" key="channels">
+              <div className="module-content">
+                <div className="content-data">
+                  <div className="content-data-title">
+                    <span className="auth-text">内容操作是否权限下放</span>
+                    <Switch checked={auth} checkedChildren="是" unCheckedChildren="否" onChange={this.onAuthChange} />
+                  </div>
+                </div>
+              </div>
+            </Panel>
             <Panel header="内容" key="content">
               <div className="module-content">
                 { o2o ? (

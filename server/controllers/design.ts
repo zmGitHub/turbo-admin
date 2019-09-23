@@ -26,6 +26,18 @@ export default class Design {
       ctx.body = ''
     }
   }
+  // 根据 path 获取o2o装修数据 getO2oByPath
+  public static async getO2oByPath(ctx:Context) {
+    const { path } = ctx.query
+    const res = await getOneByPath(path, -1)
+    ctx.status = 200
+    if (res && res.id) {
+      const { id, name, data } = res
+      ctx.body = { id, name, data }
+    } else {
+      ctx.body = ''
+    }
+  }
   // 获取单个装修
   public static async getById(ctx:Context) {
     const { id } = ctx.params

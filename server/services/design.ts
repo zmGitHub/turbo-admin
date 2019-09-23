@@ -40,33 +40,37 @@ export interface GetParams {
   shopId: number
 }
 
-export const getOneByPath = async (path:string) => {
-  const designRpo:Repository<Design> = getRepository(Design)
-  const design: Design = await designRpo.findOne({ path })
+export const getOneByPath = async (path:string, shopId?:number) => {
+  const designRpo:any = getRepository(Design)
+  const params: any = { path }
+  if (shopId) {
+    params.shopId = shopId
+  }
+  const design: Design = await designRpo.findOne(params)
   return design
 }
 
 export const get = async (id) => {
-  const designRpo:Repository<Design> = getRepository(Design)
+  const designRpo:any = getRepository(Design)
   const design: Design = await designRpo.findOne(id)
   return design
 }
 
 export const add = async (params: AddParams) => {
-  const designRpo:Repository<Design> = getRepository(Design)
+  const designRpo:any = getRepository(Design)
   const design: Design = designRpo.create(params)
   return await designRpo.save(design)
 }
 
 // 模板定时
 export const timing = async (id: number, params: UpdateParams) => {
-  const designRpo:Repository<Design> = getRepository(Design)
+  const designRpo:any = getRepository(Design)
   return await designRpo.update(id, params)
 }
 
 // 发布模板
 export const publishAdmin = async (params: UpdateParams) => {
-  const designRpo:Repository<Design> = getRepository(Design)
+  const designRpo:any = getRepository(Design)
   // 先取消掉发布的模板
   const resetRes = await designRpo.update(
     {
@@ -81,12 +85,12 @@ export const publishAdmin = async (params: UpdateParams) => {
 }
 
 export const remove = async (id: number) => {
-  const designRpo:Repository<Design> = getRepository(Design)
+  const designRpo:any = getRepository(Design)
   return await designRpo.delete(id)
 }
 
 export const update = async (params: UpdateParams) => {
-  const designRpo:Repository<Design> = getRepository(Design)
+  const designRpo:any = getRepository(Design)
   return await designRpo.createQueryBuilder('designUpdate')
   .update(Design)
   .set(params)
@@ -96,7 +100,7 @@ export const update = async (params: UpdateParams) => {
 
 export const query = async (params: Query) => {
   const { pageNo, pageSize, type, shopId = 1 } = params
-  const designRpo:Repository<Design> = getRepository(Design)
+  const designRpo:any = getRepository(Design)
   const list = await designRpo.createQueryBuilder('design')
   .where('design.type = :type', { type })
   .andWhere('design.shopId = :shopId', { shopId })
@@ -109,7 +113,7 @@ export const query = async (params: Query) => {
 
 // 获取发布的模板
 export const getPublish = async (params: GetParams) => {
-  const designRpo:Repository<Design> = getRepository(Design)
+  const designRpo:any = getRepository(Design)
   return await designRpo.findOne({
     type: params.type,
     status: DesignStatus.PUBLISH,
@@ -119,7 +123,7 @@ export const getPublish = async (params: GetParams) => {
 
 // 发布o2o首页模板
 export const publishO2o = async (id: number) => {
-  const designRpo:Repository<Design> = getRepository(Design)
+  const designRpo:any = getRepository(Design)
   // 找到拒绝的商家 id
   const designs = await designRpo.find({
     relations: ['refuses'],
@@ -144,7 +148,7 @@ export const publishO2o = async (id: number) => {
 
 // 首页强制发布模板
 export const resetO2oPublish = async (id: number) => {
-  const designRpo:Repository<Design> = getRepository(Design)
+  const designRpo:any = getRepository(Design)
   // 先取消掉发布的模板 商家和系统默认的
   const resetRes = await designRpo.update(
     {
@@ -160,7 +164,7 @@ export const resetO2oPublish = async (id: number) => {
 
 // 获取模板最新发布的数据
 export const getO2oTiming = async () => {
-  const designRpo:Repository<Design> = getRepository(Design)
+  const designRpo:any = getRepository(Design)
   const res = await designRpo.findOne({
     type: DesignType.HOME,
     status: DesignStatus.TIMING,
@@ -172,7 +176,7 @@ export const getO2oTiming = async () => {
 // 获取店铺的首页装修数据
 export const getO2oHome = async (id:number) => {
   // TODO: 加 cache
-  const designRpo:Repository<Design> = getRepository(Design)
+  const designRpo:any = getRepository(Design)
   const params: any = {
     status: DesignStatus.PUBLISH,
     type: DesignType.HOME,
@@ -184,7 +188,7 @@ export const getO2oHome = async (id:number) => {
 
 // 获取店铺历史装修数据
 export const getO2oHistory = async (id:number) => {
-  const designRpo:Repository<Design> = getRepository(Design)
+  const designRpo:any = getRepository(Design)
   const params: any = {
     type: DesignType.HOME,
     status: DesignStatus.INIT,
@@ -196,7 +200,7 @@ export const getO2oHistory = async (id:number) => {
 
 // 获取店铺当前生效的
 export const getO2oPublish = async (id:number) => {
-  const designRpo:Repository<Design> = getRepository(Design)
+  const designRpo:any = getRepository(Design)
   const params: any = {
     type: DesignType.HOME,
     status: DesignStatus.PUBLISH,

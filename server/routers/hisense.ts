@@ -14,7 +14,7 @@ router.get('/csrf', async (ctx: Context) => {
 
 // 获取当前的用户是否登录
 router.get('/hasLogin', freshCookie, async (ctx: Context) => {
-  const res = await request.get('/api/user/hasLogin')
+  const res: any = await request.get('/api/user/hasLogin')
   if (is(Object, res) && res.cookie) {
     ctx.set('Set-Cookie', res.cookie)
   }
