@@ -17,5 +17,6 @@ export default {
   giftDesign: import('./gift'),
   seckillDesign: import('./seckill'),
   pointShopDesign: import('./pointShop'),
-  error: import('./error')
+  error: import('./error'),
+  freemixDesign: import('./freemix')
 }

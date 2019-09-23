@@ -34,3 +34,8 @@ export async function getServiceData(params) {
 export async function getSeckillData(params) {
   return request.get('/api/hisense/promotion/seckill/shows', { params })
 }
+
+// 获取套购信息
+export async function getFreemixData(params) {
+  return request.get('/api/hisense/promotion/freemix/shows', { params })
+}

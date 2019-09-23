@@ -17,4 +17,5 @@ export default [
   { key: 'goodsCard', title: '商品卡片' },
   { key: 'goodsSlider', title: '侧滑商品' },
   { key: 'pointShop', title: '积分商城' },
+  { key: 'freemix', title: '套购组件' },
 ]
