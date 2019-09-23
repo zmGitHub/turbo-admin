@@ -38,8 +38,22 @@ export default class Design {
       ctx.body = ''
     }
   }
+  // 根据 id 获取数据
+  public static async getById(ctx:Context, next: () => void) {
+    const { id } = ctx.params
+    const res = await get(id)
+    ctx.status = 200
+    if (res && res.id) {
+      const { id, name, data } = res
+      ctx.body = { id, name, data }
+    } else {
+      ctx.body = ''
+    }
+    await next()
+  }
+
   // 获取单个装修
-  public static async getById(ctx:Context) {
+  public static async getDesignById(ctx:Context) {
     const { id } = ctx.params
     const res = await get(id)
     ctx.status = 200
