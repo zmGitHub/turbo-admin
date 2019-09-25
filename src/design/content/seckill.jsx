@@ -94,8 +94,8 @@ class SeckillDesign extends PureComponent {
         callback: (res) => {
           const { firstEndAt, items } = res
           if (items && items.length) {
-            const goods = map(({ promotionPrice, item }) => {
-              const { id, mainImage, lowPrice, highPrice, seckillInfo: { warmPrice } } = item
+            const goods = map(({ promotionPrice, item, seckillInfo: { warmPrice }  }) => {
+              const { id, mainImage, lowPrice, highPrice} = item
               return {
                 id,
                 mainImage,
