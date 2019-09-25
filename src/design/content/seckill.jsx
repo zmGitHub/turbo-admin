@@ -49,7 +49,7 @@ class SeckillDesign extends PureComponent {
 
   // 添加标签
   addItem = () => {
-    const key = uniqueId(4,4)
+    const key = uniqueId(4, 4)
     const seckillTime = {
       key,
       hour: null
@@ -65,7 +65,7 @@ class SeckillDesign extends PureComponent {
     if (this.seckillTime) {
       const hour = this.seckillTime.format('HH:mm')
       const { times } = this.state
-      if(!includes({ hour }, times) && hour !== time) {
+      if (!includes({ hour }, times) && hour !== time) {
         const { config, onChange } = this.props
         const updateTimes = adjust(seckillIndex, ({ key }) => ({ key, hour }), times)
         onChange({ id: config.id, key: 'times', value: updateTimes })
@@ -95,10 +95,12 @@ class SeckillDesign extends PureComponent {
           const { firstEndAt, items } = res
           if (items && items.length) {
             const goods = map(({ promotionPrice, item }) => {
-              const { id, mainImage, lowPrice } = item
+              const { id, mainImage, lowPrice, highPrice, seckillInfo: { warmPrice } } = item
               return {
                 id,
                 mainImage,
+                hightPrice: formatPrice(highPrice),
+                warmPrice,
                 price: formatPrice(lowPrice),
                 promotionPrice: formatPrice(promotionPrice),
               }
@@ -140,7 +142,7 @@ class SeckillDesign extends PureComponent {
   }
 
   onTimePickerChange = (time) => {
-    this.seckillTime= time
+    this.seckillTime = time
   }
 
   render() {
@@ -155,7 +157,7 @@ class SeckillDesign extends PureComponent {
                 times.map(({ key, hour }, index) => (
                   <div key={key} className="list-conent-item">
                     <div className="content">
-                      <div className="name">第{index+1}场</div>
+                      <div className="name">第{index + 1}场</div>
                       <TimePicker
                         use12Hours
                         allowClear={false}
