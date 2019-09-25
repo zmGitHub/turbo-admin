@@ -1,6 +1,6 @@
 // 右侧设置
 import React, { Suspense, lazy, PureComponent } from 'react'
-import { Layout, Collapse, Switch } from 'antd'
+import { Layout, Collapse, Switch, Checkbox } from 'antd'
 import { connect } from 'dva'
 import classnames from 'classnames'
 import ContentMaps from '@/design/content'
@@ -9,6 +9,17 @@ import { getPageQuery } from '@/utils'
 
 const { Sider } = Layout
 const { Panel } = Collapse
+const { Group } = Checkbox
+
+
+const channelOptions = [
+  { value: 6, label: '小程序' },
+  { value: 5, label: 'H5端' },
+  { value: 3, label: 'iOS端' },
+  { value: 4, label: 'Android端' }
+]
+
+const defaultChannel = [6, 5, 3, 4];
 
 const DynamicComponent = ({ onChange, config, maps }) => {
   const { component } = config
@@ -31,7 +42,8 @@ class Setting extends PureComponent {
       data: null,
       auth: false,
       o2o: !!o2o,
-      componentStyle: []
+      componentStyle: [],
+      channel: [],
     }
   }
 
@@ -56,7 +68,8 @@ class Setting extends PureComponent {
   }
 
   setComponentData = (data) => {
-    this.setState({ ...data })
+    const { channel, ...rest } = data;
+    this.setState({ ...rest, channel: channel || defaultChannel })
   }
 
   // 更新组件内容
@@ -93,8 +106,21 @@ class Setting extends PureComponent {
     })
   }
 
+  // 平台列表改变
+  onChannelChange = (channel) => {
+    const { id } = this.state
+    const { dispatch } = this.props
+    this.setState({ channel }, () => {
+      dispatch({
+        type: 'design/updateChannel',
+        payload: { id, channel },
+      })
+    })
+  }
+
+
   render() {
-    const { id, name, data, o2o, auth, componentStyle } = this.state
+    const { id, name, data, o2o, auth, componentStyle, channel } = this.state
     const settingStyle = classnames('x-design-setting', { active: !!id })
     return (
       <Sider width="300" className={settingStyle}>
@@ -103,10 +129,7 @@ class Setting extends PureComponent {
             <Panel header="平台列表" key="channels">
               <div className="module-content">
                 <div className="content-data">
-                  <div className="content-data-title">
-                    <span className="auth-text">内容操作是否权限下放</span>
-                    <Switch checked={auth} checkedChildren="是" unCheckedChildren="否" onChange={this.onAuthChange} />
-                  </div>
+                  <Group options={channelOptions} value={channel} onChange={this.onChannelChange} />
                 </div>
               </div>
             </Panel>

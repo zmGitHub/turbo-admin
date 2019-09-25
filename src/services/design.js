@@ -43,7 +43,7 @@ export async function deleteDesignData(id) {
 
 // 根据 id 获取装修数据
 export async function getDesignDataById(params) {
-  return request.get(`/api/design/find/${params.id}`)
+  return request.get(`/api/design/edit/${params.id}`)
 }
 
 // 根据店铺 id 获取对应店铺下的装修数据

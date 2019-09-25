@@ -19,6 +19,7 @@ import Seckill from './Seckill/template.config'
 import Error from './error'
 import PointShop from './pointShop/template.config'
 import Freemix from './Freemix/template.config'
+import Lottery from './Lottery/template.config'
 
 // 同时导出所有的模板
 export default {
@@ -41,5 +42,6 @@ export default {
   seckill: Seckill,
   error: Error,
   pointShop: PointShop,
-  freemix: Freemix
+  freemix: Freemix,
+  lottery: Lottery,
 }

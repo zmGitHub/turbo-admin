@@ -1,12 +1,15 @@
 import * as Router from 'koa-router'
 import auth from '../middleware/auth'
+import dataFilter from '../middleware/channel-filter'
 import design from '../controllers/design'
 
 const router:Router = new Router()
 // 根据类型获取发布的数据
 router.get('/publish', design.getPublishData)
 // 根据装修 id 获取数据
-router.get('/find/:id', design.getById)
+router.get('/find/:id', design.getById, dataFilter)
+// 装修系统获取数据
+router.get('/edit/:id', design.getDesignById)
 // 根据 path 获取装修数据
 router.get('/path', design.getByPath)
 // o2o 根据 path 获取装修数据

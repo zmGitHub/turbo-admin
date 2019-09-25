@@ -63,6 +63,13 @@ export default {
       const { payload } = action
       yield put({ type: 'updateComponentAuth', payload })
     },
+    // 更新平台列表
+    *updateChannel(action, { put }) {
+      const { payload } = action
+      console.log('*****')
+      console.log(payload)
+      yield put({ type: 'updateComponentChannel', payload })
+    },
     // 组件排序
     *sort(action, { put }) {
       const { payload } = action
@@ -151,6 +158,21 @@ export default {
       if (item && item.key) {
         item.content.auth = checked
       }
+      return {
+        ...state,
+        list
+      }
+    },
+    updateComponentChannel(state, action) {
+      const { payload } = action
+      const { list } = state
+      const { id, channel } = payload
+      const item = _find(list, listItem => listItem.key === id)
+      // 定位到组件
+      if (item && item.key) {
+        item.content.channel = channel
+      }
+      console.log(item)
       return {
         ...state,
         list
