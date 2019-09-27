@@ -1,4 +1,4 @@
-import React, { PureComponent  } from 'react';
+import React, { PureComponent } from 'react';
 import { Button } from 'antd'
 import classnames from 'classnames';
 import GoodsPicker from '@/components/GoodsPicker'
@@ -76,11 +76,11 @@ class Linker extends PureComponent {
           <Button onClick={this.onTypeChange} data-type="coupons" icon="gift">优惠券</Button>
         </div>
         <div className={chooseStyle}>
-          <span>已选择: {MAPS[url.page]}</span>
+          <span>已选择: {url.userDefined ? `自定义：${url.page}` : MAPS[url.page]}</span>
           (<strong>参数: {url.query}</strong>)
         </div>
         <div className={linkerStyle}>
-          <PageForm onChange={this.onPageChange} />
+          <PageForm onChange={this.onPageChange} data={url} />
         </div>
         <GoodsPicker value={url.page === 'goods' ? url.query : ''} onChange={this.onPropsChange} visible={type === 'goods'} />
         <CouponsPicker value={url.page === 'coupons' ? url.query : ''} onChange={this.onPropsChange} visible={type === 'coupons'} />

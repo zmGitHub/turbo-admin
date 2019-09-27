@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Form, Select, Input, Button } from 'antd'
+import { Form, Select, Input, Button, Checkbox } from 'antd'
 
 import './index.less'
 
@@ -28,25 +28,39 @@ class PageForm extends PureComponent {
 
   render() {
     const { form: { getFieldDecorator, getFieldValue }, data } = this.props
+    const userDefined = getFieldValue('userDefined')
     return (
       <Form layout="inline" onSubmit={this.handleSubmit}>
+        <Form.Item label="自定义链接">
+          {getFieldDecorator('userDefined', {
+            initialValue: data.userDefined,
+          })(
+            <Checkbox checked={userDefined} style={{ width: 150 }}>自定义链接</Checkbox>,
+          )}
+        </Form.Item>
         <Form.Item label="页面路径">
           {getFieldDecorator('page', {
-            initialValue: data.page,
+            initialValue: data.userDefined && !userDefined ? '/pages/index' : data.page,
           })(
-            <Select
-              style={{ width: 150 }}
-              placeholder="请选择页面"
-            >
-              <Option value="/pages/index">首页</Option>
-              <Option value="/pages/o2o/map">附近专卖店</Option>
-              <Option value="/pages/goods">跳转商品</Option>
-              <Option value="/pages/design">跳转装修页</Option>
-              <Option value="/pages/goods/filter">商品列表</Option>
-              <Option value="/pages/article/article">文章详情</Option>
-              <Option value="/pages/promotion/point-mall">积分商城</Option>
-              <Option value="/pages/promotion/my-coupon">优惠券中心</Option>
-            </Select>
+            userDefined ?
+              (
+                <Input placeholder="比如https://www.hisense.com 、/pages/goods" />
+              ) :
+              (
+                <Select
+                  style={{ width: 150 }}
+                  placeholder="请选择页面"
+                >
+                  <Option value="/pages/index">首页</Option>
+                  <Option value="/pages/o2o/map">附近专卖店</Option>
+                  <Option value="/pages/goods">跳转商品</Option>
+                  <Option value="/pages/design">跳转装修页</Option>
+                  <Option value="/pages/goods/filter">商品列表</Option>
+                  <Option value="/pages/article/article">文章详情</Option>
+                  <Option value="/pages/promotion/point-mall">积分商城</Option>
+                  <Option value="/pages/promotion/my-coupon">优惠券中心</Option>
+                </Select>
+              )
           )}
         </Form.Item>
         <Form.Item label="跳转方式">
@@ -80,7 +94,7 @@ class PageForm extends PureComponent {
         <Form.Item>
           <Button htmlType="submit" type="primary" size="small">确定</Button>
         </Form.Item>
-      </Form>
+      </Form >
     );
   }
 }
