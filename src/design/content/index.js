@@ -20,4 +20,5 @@ export default {
   error: import('./error'),
   freemixDesign: import('./freemix'),
   lotteryDesign: import('./lotteryDesign'),
+  ballDesign: import('./ballDesign'),
 }

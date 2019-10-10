@@ -8,7 +8,7 @@ module.exports = {
     host: process.env.HISENSE_MYSQL_HOST || '127.0.0.1',
     port: process.env.HISENSE_MYSQL_PORT || 3306,
     username: process.env.HISENSE_MYSQL_USERNAME || 'root',
-    password: process.env.HISENSE_MYSQL_PASSWORD || 'anywhere',
+    password: process.env.HISENSE_MYSQL_PASSWORD || 'root',
     database: process.env.HISENSE_MYSQL_DATABASE || 'hisense',
   },
   webpack: {

@@ -20,6 +20,7 @@ import Error from './error'
 import PointShop from './pointShop/template.config'
 import Freemix from './Freemix/template.config'
 import Lottery from './Lottery/template.config'
+import Ball from './Ball/template.config'
 
 // 同时导出所有的模板
 export default {
@@ -44,4 +45,5 @@ export default {
   pointShop: PointShop,
   freemix: Freemix,
   lottery: Lottery,
+  ball: Ball,
 }
