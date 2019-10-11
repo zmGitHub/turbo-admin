@@ -125,6 +125,7 @@ class PageForm extends PureComponent {
                 <Option value={1}>首页海报</Option>
                 <Option value={2}>活动海报</Option>
                 <Option value={3}>商品海报</Option>
+                <Option value={4}>全景图海报</Option>
               </Select>
             )}
           </Form.Item>
