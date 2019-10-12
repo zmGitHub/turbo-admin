@@ -21,8 +21,9 @@ const DynamicComponent = ({ config, onChange }) => {
   );
 }
 
-@connect(({ loading }) => ({
-  loading: loading.effects['poster/get']
+@connect(({ loading, poster }) => ({
+  loading: loading.effects['poster/get'],
+  height: poster.height
 }))
 class Mobile extends PureComponent {
 
@@ -33,7 +34,7 @@ class Mobile extends PureComponent {
 
   componentDidMount() {
     const { dispatch, location } = this.props
-    const { id }  = getPageQuery(location.search)
+    const { id } = getPageQuery(location.search)
     dispatch({
       type: 'poster/get',
       payload: id,
@@ -83,9 +84,12 @@ class Mobile extends PureComponent {
 
   render() {
     const { url, list } = this.state
+    const { height } = this.props
     console.log('mobile render')
+    const style = { backgroundImage: `url(${url})` }
+    if (height) style.height = height / 2
     return (
-      <div className="editor-left" style={{ backgroundImage: `url(${url})` }}>
+      <div className="editor-left" style={style}>
         {
           list.map((item) => (<DynamicComponent key={`dic_${item.key}`} config={item} onChange={this.onPositionChange} />))
         }
