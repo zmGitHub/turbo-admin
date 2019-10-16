@@ -21,7 +21,7 @@
   "_resolved": "https://registry.npmjs.org/app-root-path/-/app-root-path-2.2.1.tgz",
   "_shasum": "d0df4a682ee408273583d43f6f79e9892624bc9a",
   "_spec": "app-root-path@^2.0.1",
-  "_where": "/Users/wangduo/workspace/hisense/turbo/node_modules/typeorm",
+  "_where": "/Users/turbo/code/turbo/turbo-admin/node_modules/typeorm",
   "author": {
     "name": "Chris Morrell",
     "email": "http://cmorrell.com"
