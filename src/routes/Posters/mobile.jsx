@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
-import { append } from 'ramda'
+import { append, findIndex, remove, propEq } from 'ramda'
 import { getPageQuery } from '@/utils'
 import Crop from './Components/crop'
 import TemplateMaps from './Design/index'
@@ -45,11 +45,13 @@ class Mobile extends PureComponent {
       }
     })
     window.ee.on('ADD_POSTER_DATA', this.addComponent)
+    window.ee.on('REMOVE_POSTER_DATA', this.removeComponent)
     window.ee.on('POSTER_URL_UPDATE', this.updateURL)
   }
 
   componentWillUnmount() {
     window.ee.off('ADD_POSTER_DATA')
+    window.ee.off('REMOVE_POSTER_DATA')
     window.ee.off('POSTER_URL_UPDATE')
   }
 
@@ -77,6 +79,22 @@ class Mobile extends PureComponent {
     this.setState({ list: items }, () => {
       dispatch({
         type: 'poster/add',
+        payload: { component }
+      })
+    })
+  }
+
+  removeComponent = (component) => {
+    const { list } = this.state
+    const { dispatch } = this.props
+    const index = findIndex(propEq('key', component.key), list)
+    if(index <= -1) {
+      return
+    }
+    const items = remove(index, 1, list)
+    this.setState({ list: items }, () => {
+      dispatch({
+        type: 'poster/delete',
         payload: { component }
       })
     })

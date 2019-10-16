@@ -132,6 +132,12 @@ class Setting extends PureComponent {
     })
   }
 
+  remove = () => {
+    const component = this.state.data
+    if (!component.key) return
+    window.ee.emit('REMOVE_POSTER_DATA', component)
+  }
+
   onSave = () => {
     const { dispatch, location } = this.props
     const { id } = getPageQuery(location.search)
@@ -149,7 +155,7 @@ class Setting extends PureComponent {
   }
 
   render() {
-    const { elVisible, imagePickerVisible, data: { content, style } } = this.state
+    const { elVisible, imagePickerVisible, data: { key, content, style } } = this.state
     const { height } = this.props
     console.log('setting render');
     return (
@@ -217,6 +223,9 @@ class Setting extends PureComponent {
           </div>
         </div>
         <div className="editor-right-footer">
+          {
+            key ? (<Button onClick={this.remove} type="danger">删除</Button>) : null
+          }
           <Button type="link">返回</Button>
           <Button onClick={this.onSave} type="primary">保存</Button>
         </div>

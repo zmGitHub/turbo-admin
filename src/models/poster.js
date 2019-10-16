@@ -32,8 +32,9 @@ export default {
       const { payload } = action
       yield put({ type: 'addComponent', payload })
     },
-    *delete({ payload, callback }, { put }) {
-      yield put({ type: 'deleteComponent', payload, callback })
+    *delete(action, { put }) {
+      const { payload } = action
+      yield put({ type: 'removeComponent', payload })
     },
     *updateBackground(action, { put }) {
       const { payload } = action
@@ -195,6 +196,19 @@ export default {
       return {
         ...state,
         list: components
+      }
+    },
+    removeComponent(state, { payload }) {
+      const { list } = state
+      const { component } = payload
+      const index = list.findIndex(({ key }) => key === component.key, list)
+      if (index <= -1) {
+        return state
+      }
+      list.splice(index, 1)
+      return {
+        ...state,
+        list 
       }
     },
     updateComponentBackground(state, action) {
