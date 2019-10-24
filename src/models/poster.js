@@ -23,6 +23,7 @@ export default {
     url: '',
     tab: 'home',
     data: [],
+    height: 1334,
     total: 0
   },
   effects: {
@@ -31,8 +32,9 @@ export default {
       const { payload } = action
       yield put({ type: 'addComponent', payload })
     },
-    *delete({ payload, callback }, { put }) {
-      yield put({ type: 'deleteComponent', payload, callback })
+    *delete(action, { put }) {
+      const { payload } = action
+      yield put({ type: 'removeComponent', payload })
     },
     *updateBackground(action, { put }) {
       const { payload } = action
@@ -52,6 +54,7 @@ export default {
       if (res && res.id) {
         let list = []
         let url = ''
+        let height = ''
         try {
           list = JSON.parse(res.data) || []
           const poster = JSON.parse(res.setting) || ''
@@ -60,13 +63,16 @@ export default {
             if (background && background.url) {
               // eslint-disable-next-line prefer-destructuring
               url = background.url
+              height = background.height
             }
           }
         } catch (error) {
           list = []
           url = ''
         }
-        yield put({ type: 'initItems', payload: { list, url } })
+        const payl = { list, url }
+        if (height) payl.height = height
+        yield put({ type: 'initItems', payload: payl })
         if (callback) {
           callback(list, url)
         }
@@ -74,24 +80,24 @@ export default {
     },
     *create({ payload, callback }, { call }) {
       const res = yield call(createPoster, payload)
-      if(callback) {
+      if (callback) {
         callback(res)
       }
     },
     *update({ payload, callback }, { call }) {
       const res = yield call(updatePoster, payload)
-      if(callback) {
+      if (callback) {
         callback(res)
       }
     },
-    *remove({ payload ,callback }, { call }) {
+    *remove({ payload, callback }, { call }) {
       const res = yield call(removePoster, payload)
       if (callback) {
         callback(res)
       }
     },
     // admin发布(立即/定时)
-    *publish({ payload ,callback }, { call }) {
+    *publish({ payload, callback }, { call }) {
       const res = yield call(publishPoster, payload)
       if (callback) {
         callback(res)
@@ -120,14 +126,14 @@ export default {
           cover
         }
       }, res.data)
-      yield put({ type: 'initData', payload: { tab, total, data: items  }})
+      yield put({ type: 'initData', payload: { tab, total, data: items } })
     },
     // 保存数据
     *submit({ payload, callback }, { call, select }) {
       const { id, poster } = payload
       const formData = yield select((state) => {
-        const { list, url } = state.poster
-        return { list, url }
+        const { list, url, height } = state.poster
+        return { list, url, height }
       })
       if (!formData.url) {
         callback({ code: 500, msg: '请设置背景海报' })
@@ -145,7 +151,7 @@ export default {
         left: 0,
         url: formData.url,
         width: 750,
-        height: 1334
+        height: formData.height
       }
       const params = {
         id,
@@ -161,11 +167,17 @@ export default {
   },
   reducers: {
     initItems(state, action) {
-      const { payload: { list, url } } = action
+      const { payload } = action
       return {
         ...state,
-        list,
-        url
+        ...payload
+      }
+    },
+    updateHeight(state, action) {
+      const { payload: { height } } = action
+      return {
+        ...state,
+        height
       }
     },
     initData(state, action) {
@@ -184,6 +196,19 @@ export default {
       return {
         ...state,
         list: components
+      }
+    },
+    removeComponent(state, { payload }) {
+      const { list } = state
+      const { component } = payload
+      const index = list.findIndex(({ key }) => key === component.key, list)
+      if (index <= -1) {
+        return state
+      }
+      list.splice(index, 1)
+      return {
+        ...state,
+        list 
       }
     },
     updateComponentBackground(state, action) {

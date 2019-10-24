@@ -1,7 +1,7 @@
 import React, { PureComponent, lazy, Suspense } from 'react'
 import { connect } from 'dva'
 import { last } from 'ramda'
-import { Button, Tooltip, Icon, message, Popover, Radio } from 'antd'
+import { Button, Tooltip, Icon, message, Popover, Radio, InputNumber } from 'antd'
 import ImagePicker from '@/components/ImagePicker'
 import { uniqueId, formatImgHttps, getPageQuery } from '@/utils'
 import EditorMaps from '@/design/editor'
@@ -17,7 +17,7 @@ const DynamicComponent = ({ onChange, config, maps }) => {
   )
 }
 
-@connect()
+@connect(({ poster }) => ({ height: poster.height }))
 class Setting extends PureComponent {
 
   state = {
@@ -50,7 +50,7 @@ class Setting extends PureComponent {
 
   onTypeChange = ({ target }) => {
     const type = target.value
-    const key = uniqueId(7,9)
+    const key = uniqueId(7, 9)
     console.log(type)
     const { config } = TemplateMaps[type]
     const data = config()
@@ -72,7 +72,7 @@ class Setting extends PureComponent {
       {
         type: 'content',
         data: payload
-    })
+      })
     dispatch({
       type: 'poster/updateContent',
       payload
@@ -89,10 +89,10 @@ class Setting extends PureComponent {
       value
     }
     window.ee.emit('POSTER_CONFIG_UPDATE',
-    {
-      type: 'style',
-      data: payload
-    })
+      {
+        type: 'style',
+        data: payload
+      })
     dispatch({
       type: 'poster/updateStyle',
       payload
@@ -114,14 +114,28 @@ class Setting extends PureComponent {
         type: 'poster/updateBackground',
         payload
       })
-      this.setState({ imagePickerVisible: false  })
+      this.setState({ imagePickerVisible: false })
     } else {
-      this.setState({ imagePickerVisible: false})
+      this.setState({ imagePickerVisible: false })
     }
   }
 
   showImagePicker = () => {
     this.setState({ imagePickerVisible: true })
+  }
+
+  onHeightChange = (val) => {
+    const { dispatch } = this.props
+    dispatch({
+      type: 'poster/updateHeight',
+      payload: { height: val }
+    })
+  }
+
+  remove = () => {
+    const component = this.state.data
+    if (!component.key) return
+    window.ee.emit('REMOVE_POSTER_DATA', component)
   }
 
   onSave = () => {
@@ -141,19 +155,25 @@ class Setting extends PureComponent {
   }
 
   render() {
-    const { elVisible, imagePickerVisible, data: { content, style } } = this.state
+    const { elVisible, imagePickerVisible, data: { key, content, style } } = this.state
+    const { height } = this.props
     console.log('setting render');
     return (
       <div className="editor-right">
         <div className="editor-right-action">
           <div className="editor-right-action-header">
             <div className="editor-right-action-header-left">
-              <Tooltip title="请上传750*1334大小不超过100KB的图片">
+              <Tooltip title="请上传750*高度大小不超过100KB的图片">
                 <span>海报背景</span>&nbsp;<Icon type="question-circle-o" />
               </Tooltip>
             </div>
             <div className="editor-right-action-header-right">
               <Button onClick={this.showImagePicker} type="primary" shape="circle" icon="edit" />
+            </div>
+          </div>
+          <div className="editor-right-action-header">
+            <div className="editor-right-action-header-left">
+              海报尺寸750 * <InputNumber min={100} max={2000} value={height} onChange={this.onHeightChange} />
             </div>
           </div>
           <div className="editor-right-action-header">
@@ -203,6 +223,9 @@ class Setting extends PureComponent {
           </div>
         </div>
         <div className="editor-right-footer">
+          {
+            key ? (<Button onClick={this.remove} type="danger">删除</Button>) : null
+          }
           <Button type="link">返回</Button>
           <Button onClick={this.onSave} type="primary">保存</Button>
         </div>

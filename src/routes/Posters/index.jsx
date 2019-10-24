@@ -22,12 +22,16 @@ const templateType = [{
 }, {
   key: 'goods',
   tab: '商品海报',
+}, {
+  key: 'vr',
+  tab: '全景图',
 }];
 
 const typeMaps = {
   'home': '1',
   'activity': '2',
-  'goods': '3'
+  'goods': '3',
+  'vr': '4',
 }
 
 
@@ -91,7 +95,7 @@ class Poster extends PureComponent {
         payload.shopId = shopId
       }
       dispatch({
-        type: values.id ? 'poster/update':'poster/create',
+        type: values.id ? 'poster/update' : 'poster/create',
         payload,
         callback: (res) => {
           if (res) {
@@ -190,9 +194,9 @@ class Poster extends PureComponent {
           data.map(({ id, name, type, isDefault, poster, isTiming, timingTime, canPublish }, index) => (
             <div key={id} className={classnames('x-poster-list-content-body-list-item', { active: isDefault })}>
               <img src={poster || templateImg} alt="官方海报" />
-              { isDefault ? (<div className="triangle"><Icon type="check-circle" /></div>) : null }
+              {isDefault ? (<div className="triangle"><Icon type="check-circle" /></div>) : null}
               <div className="template-modal">
-                { canPublish && !isDefault ? (<Button data-id={id} data-type={type} onClick={this.publish}>发布海报</Button>) : null }
+                {canPublish && !isDefault ? (<Button data-id={id} data-type={type} onClick={this.publish}>发布海报</Button>) : null}
                 <Link
                   to={{
                     pathname: '/dashboard/posters/edit',
@@ -202,8 +206,8 @@ class Poster extends PureComponent {
                   <Button>编辑海报</Button>
                 </Link>
                 <Button data-index={index} onClick={this.editTemplate}>修改信息</Button>
-                { isTiming ? <Button data-id={id} onClick={this.canclePublish}>取消定时</Button> : null }
-                { !isDefault ? <Button data-id={id} onClick={this.deleteTemlate}>删除海报</Button> : null }
+                {isTiming ? <Button data-id={id} onClick={this.canclePublish}>取消定时</Button> : null}
+                {!isDefault ? <Button data-id={id} onClick={this.deleteTemlate}>删除海报</Button> : null}
               </div>
               <div className="template-footer">{id}-{name}</div>
               {
@@ -246,7 +250,7 @@ class Poster extends PureComponent {
             extra={<a className="add-template" href="#" onClick={this.addTemplates}><Icon type="plus" />添加海报</a>}
           >
             <Spin spinning={loading}>
-              { data.length > 0 ? this.renderItem() : this.renderEmpty() }
+              {data.length > 0 ? this.renderItem() : this.renderEmpty()}
               <div className="x-poster-list-content-body-pager">
                 <Pagination defaultPageSize={8} onChange={this.onPageChange} current={pageNo} total={total} />
               </div>
