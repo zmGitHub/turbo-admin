@@ -1,6 +1,7 @@
 import { getRepository, Repository, In } from 'typeorm'
 import { head, map, concat } from 'ramda'
 import { Design, DesignStatus, DesignType } from '../models/design'
+const cache = require('./cache')
 
 const cacheMs = 60000
 export interface AddParams {
@@ -41,19 +42,34 @@ export interface GetParams {
   shopId: number
 }
 
+const getCacheKey = (params: Object) => {
+  return `designComponent_${JSON.stringify(params)}`
+}
+
 export const getOneByPath = async (path: string, shopId?: number) => {
-  const designRpo: any = getRepository(Design)
   const params: any = { path }
   if (shopId) {
     params.shopId = shopId
   }
-  const design: Design = await designRpo.findOne({ where: params, cache: cacheMs })
+  const cacheKey = getCacheKey(params)
+  const cached = cache.get(cacheKey)
+  if (cached) return cached
+  const designRpo: any = getRepository(Design)
+  // const design: Design = await designRpo.findOne({ where: params, cache: cacheMs })
+  const design: Design = await designRpo.findOne({ where: params })
+  cache.put(cacheKey, design, cacheMs)
   return design
 }
 
 export const get = async (id) => {
+  const params = { id }
+  const cacheKey = getCacheKey(params)
+  const cached = cache.get(cacheKey)
+  if (cached) return cached
   const designRpo: any = getRepository(Design)
-  const design: Design = await designRpo.findOne({ where: { id }, cache: cacheMs })
+  // const design: Design = await designRpo.findOne({ where: params, cache: cacheMs })
+  const design: Design = await designRpo.findOne({ where: params })
+  cache.put(cacheKey, design, cacheMs)
   return design
 }
 
@@ -176,14 +192,20 @@ export const getO2oTiming = async () => {
 
 // 获取店铺的首页装修数据
 export const getO2oHome = async (id: number) => {
-  // TODO: 加 cache
-  const designRpo: any = getRepository(Design)
   const params: any = {
     status: DesignStatus.PUBLISH,
     type: DesignType.HOME,
     shopId: In([-1, id]),
   }
-  const res = await designRpo.find({ where: params, cache: cacheMs })
+
+  const cacheKey = getCacheKey(params)
+  const cached = cache.get(cacheKey)
+  if (cached) return cached
+
+  const designRpo: any = getRepository(Design)
+  // const res = await designRpo.find({ where: params, cache: cacheMs })
+  const res = await designRpo.find({ where: params })
+  cache.put(cacheKey, res, cacheMs)
   return res
 }
 
