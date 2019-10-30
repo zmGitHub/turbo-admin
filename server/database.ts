@@ -10,6 +10,8 @@ const connectionOpts:ConnectionOptions = {
   entityPrefix: 'design_',
   ...mysql,
   synchronize: true, // 正式环境需要关闭
+  cache: true,
+  logging: true,
   entities: [Design, Refuse, Poster],
 }
 
