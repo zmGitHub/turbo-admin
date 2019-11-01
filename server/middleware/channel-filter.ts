@@ -2,11 +2,11 @@ import { Context } from 'koa'
 import { forEach, includes } from 'ramda'
 
 // 根据 header 里面的 h-channel 过滤平台
-export default async (ctx:Context) => {
+export default async (ctx: Context) => {
   const hiChannel = ctx.header['hi-channel']
   const body = ctx.body
   // 数据过滤处理(平台列表处理, 价格数据处理)
-  if (body && body.data) {
+  if (body && body.data && (body.data instanceof Array)) {
     try {
       const items = JSON.parse(body.data)
       let components = []
