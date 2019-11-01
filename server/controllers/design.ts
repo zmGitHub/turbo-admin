@@ -15,7 +15,7 @@ import request from '../services/request'
 
 export default class Design {
   // 根据 path 获取装修数据
-  public static async getByPath(ctx:Context) {
+  public static async getByPath(ctx:Context, next: () => void) {
     const { path } = ctx.query
     const res = await getOneByPath(path)
     ctx.status = 200
@@ -25,9 +25,10 @@ export default class Design {
     } else {
       ctx.body = ''
     }
+    await next()
   }
   // 根据 path 获取o2o装修数据 getO2oByPath
-  public static async getO2oByPath(ctx:Context) {
+  public static async getO2oByPath(ctx:Context, next: () => void) {
     const { path } = ctx.query
     const res = await getOneByPath(path, -1)
     ctx.status = 200
@@ -37,6 +38,7 @@ export default class Design {
     } else {
       ctx.body = ''
     }
+    await next()
   }
   // 根据 id 获取数据
   public static async getById(ctx:Context, next: () => void) {
@@ -234,7 +236,7 @@ export default class Design {
   }
 
   // 根据商家 id 查询正在使用的店铺模板
-  public static async getHome(ctx: Context) {
+  public static async getHome(ctx: Context, next: () => void) {
     const res = await getPublish({ type: DesignType.HOME, shopId: 1 })
     let body = null
     if (res && res.id) {
@@ -243,10 +245,11 @@ export default class Design {
     }
     ctx.status = 200
     ctx.body = body || { msg: '暂无最新模板' }
+    await next()
   }
 
   // 获取首页模板
-  public static async getO2o(ctx: Context) {
+  public static async getO2o(ctx: Context, next: () => void) {
     const { shopId } = ctx.query
     try {
       let body = null
@@ -260,6 +263,7 @@ export default class Design {
       }
       ctx.status = 200
       ctx.body = body
+      await next()
     } catch (error) {
       ctx.status = 500
       ctx.body = { msg: error.message }

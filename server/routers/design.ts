@@ -11,15 +11,15 @@ router.get('/find/:id', design.getById, dataFilter)
 // 装修系统获取数据
 router.get('/edit/:id', design.getDesignById)
 // 根据 path 获取装修数据
-router.get('/path', design.getByPath)
+router.get('/path', design.getByPath, dataFilter)
 // o2o 根据 path 获取装修数据
-router.get('/path/o2o', design.getO2oByPath)
+router.get('/path/o2o', design.getO2oByPath, dataFilter)
 // 获取发布中的数据
 router.get('/timing', auth, design.getTiming)
 // 获取首页模板
-router.get('/home', design.getHome)
+router.get('/home', design.getHome, dataFilter)
 // 获取商家首页模板
-router.get('/home/o2o', design.getO2o)
+router.get('/home/o2o', design.getO2o, dataFilter)
 // 商家更新数据
 router.put('/home/o2o', auth, design.updateO2o)
 // 获取装修数据列表
