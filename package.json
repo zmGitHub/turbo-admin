@@ -16,8 +16,10 @@
   "scripts": {
     "clean": "rimraf dist",
     "dev": "cross-env NODE_ENV=development node bin/dev",
-    "build-ncc": "ncc build server/index.ts -o apps",
-    "build-web": "cross-env NODE_ENV=production webpack --config build/webpack.config.prod.js --progress --hide-modules"
+    "build-ncc": "mv -f apps/dist dist_temp || true && ncc build server/index.ts -o apps && (mv -f dist_temp apps/dist || true)",
+    "build-web-webpack": "cross-env NODE_ENV=production webpack --config build/webpack.config.prod.js --progress --hide-modules && cp -r apps/dist/wechat/images apps/dist",
+    "clean-web": "rm -rf dist || true && rm -rf apps/dist",
+    "build-web": "npm run clean-web && npm run build-web-webpack"
   },
   "dependencies": {
     "antd": "^3.17.0",
@@ -78,6 +80,7 @@
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "compressible": "^2.0.15",
     "connect-history-api-fallback": "^1.5.0",
+    "copy-webpack-plugin": "^5.0.4",
     "cross-env": "^5.2.0",
     "css-loader": "^2.0.1",
     "cssnano": "^4.1.7",

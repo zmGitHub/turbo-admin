@@ -1,7 +1,9 @@
 import axios from 'axios'
 
+const baseURL = process.env.NODE_ENV === 'development' ? 'https://m.test.shop.hisense.com' : 'http://m.hisense.com' // 主服务启动端口
+
 const instance = axios.create({
-  baseURL: 'http://m.hisense.com',
+  baseURL,
   xsrfCookieName: 'x-csrf-token',
   timeout: 5000,
 })
