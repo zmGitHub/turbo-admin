@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'dva/router'
 import { connect } from 'dva'
-import { Pagination, Empty, Card, Icon, Spin, Button, Modal, message } from 'antd'
+import { Pagination, Empty, Card, Icon, Spin, Button, Modal, message, Input } from 'antd'
 import classnames from 'classnames'
 import Countdown from '@/components/CountDown'
 import templateImg from '@/static/images/template.jpg'
@@ -44,7 +44,8 @@ class Dashboard extends PureComponent {
       pageNo: 1,
       type: tab,
       publish: false,
-      create: false
+      create: false,
+      query: '',
     }
   }
 
@@ -72,7 +73,7 @@ class Dashboard extends PureComponent {
     if (payload) {
       const { dispatch } = this.props
       dispatch({
-        type: payload.id ? 'design/update':'design/create',
+        type: payload.id ? 'design/update' : 'design/create',
         payload,
         callback: (res) => {
           if (res) {
@@ -89,12 +90,22 @@ class Dashboard extends PureComponent {
     }
   }
 
+  onInputChange = (e) => {
+    this.query = e.target.value || ''
+  }
+
+  doSearch = () => {
+    this.setState({ query: this.query || '' }, () => {
+      this.queryTemplate()
+    })
+  }
+
   queryTemplate = () => {
     const { dispatch } = this.props
-    const { type, pageNo } = this.state
+    const { type, pageNo, query } = this.state
     dispatch({
       type: 'dashboard/getTemplates',
-      payload: { tab: type, type: typeMaps[type], pageNo, pageSize: 8, shopId: -1 }
+      payload: { tab: type, type: typeMaps[type], pageNo, pageSize: 8, shopId: -1, query }
     })
   }
 
@@ -190,9 +201,9 @@ class Dashboard extends PureComponent {
           data.map(({ id, name, type, isDefault, poster, isTiming, timingTime, canPublish }, index) => (
             <div key={id} className={classnames('x-o2o-content-body-list-item', { active: isDefault })}>
               <img src={poster || templateImg} alt="官方模板" />
-              { isDefault ? (<div className="triangle"><Icon type="check-circle" /></div>) : null }
+              {isDefault ? (<div className="triangle"><Icon type="check-circle" /></div>) : null}
               <div className="template-modal">
-                { canPublish && !isDefault ? (<Button data-id={id} data-type={type} onClick={this.publish}>发布模板</Button>) : null }
+                {canPublish && !isDefault ? (<Button data-id={id} data-type={type} onClick={this.publish}>发布模板</Button>) : null}
                 <Link
                   to={{
                     pathname: '/design/edit',
@@ -202,8 +213,8 @@ class Dashboard extends PureComponent {
                   <Button>编辑模板</Button>
                 </Link>
                 <Button data-index={index} onClick={this.editTemplate}>修改信息</Button>
-                { isTiming ? <Button data-id={id} onClick={this.canclePublish}>取消定时</Button> : null }
-                { !isDefault ? <Button data-id={id} onClick={this.deleteTemlate}>删除模板</Button> : null }
+                {isTiming ? <Button data-id={id} onClick={this.canclePublish}>取消定时</Button> : null}
+                {!isDefault ? <Button data-id={id} onClick={this.deleteTemlate}>删除模板</Button> : null}
               </div>
               <div className="template-footer">{id}-{name}</div>
               {
@@ -240,10 +251,10 @@ class Dashboard extends PureComponent {
           <Card
             className="x-o2o-content-body"
             title="商家首页模板"
-            extra={<a className="add-template" href="#" onClick={this.addTemplates}><Icon type="plus" />添加模板</a>}
+            extra={<div className="x-dashboard-content-body-extra"><span className="search"><Input placeholder="" onChange={this.onInputChange} /><a className="search-icon" onClick={this.doSearch}><Icon type="search" /></a></span><a className="add-template" href="#" onClick={this.addTemplates}><Icon type="plus" />添加模板</a></div>}
           >
             <Spin spinning={loading}>
-              { data.length > 0 ? this.renderItem() : this.renderEmpty() }
+              {data.length > 0 ? this.renderItem() : this.renderEmpty()}
               <div className="x-o2o-content-body-pager">
                 <Pagination defaultPageSize={8} onChange={this.onPageChange} current={pageNo} total={total} />
               </div>

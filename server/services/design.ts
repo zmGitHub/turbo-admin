@@ -34,7 +34,8 @@ export interface Query {
   pageNo: number,
   pageSize: number,
   type: DesignType,
-  shopId?: number
+  shopId?: number,
+  query: any,
 }
 
 export interface GetParams {
@@ -116,16 +117,17 @@ export const update = async (params: UpdateParams) => {
 }
 
 export const query = async (params: Query) => {
-  const { pageNo, pageSize, type, shopId = 1 } = params
+  const { pageNo, pageSize, type, shopId = 1, query } = params
   const designRpo: any = getRepository(Design)
-  const list = await designRpo.createQueryBuilder('design')
+  let list = await designRpo.createQueryBuilder('design')
     .where('design.type = :type', { type })
     .andWhere('design.shopId = :shopId', { shopId })
-    .orderBy('design.createAt')
+  if (query) list = list
+    .andWhere("(id = :queryValue or name like :query or path like :query)", { queryValue: query, query: `%${query}%` })
+  return list.orderBy('design.createAt')
     .skip((pageNo - 1) * pageSize)
     .take(pageSize)
     .getManyAndCount()
-  return list
 }
 
 // 获取发布的模板
