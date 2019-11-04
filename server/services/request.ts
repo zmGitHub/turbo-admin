@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseURL = process.env.NODE_ENV === 'development' ? 'https://m.test.shop.hisense.com' : 'http://m.hisense.com' // 主服务启动端口
+const baseURL = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test' ? 'https://m.test.shop.hisense.com' : 'http://m.hisense.com' // 主服务启动端口
 
 const instance = axios.create({
   baseURL,
