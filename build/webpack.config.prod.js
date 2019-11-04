@@ -19,7 +19,7 @@ const config = merge(baseConfig, {
     chunkFilename: '[name].[chunkhash:9].js',
     globalObject: 'this',
     path: path.resolve(__dirname, '../apps/dist/wechat'),
-    // publicPath: '/wechat/'
+    publicPath: '/wechat/'
   },
   plugins: [
     // 分离css文件
