@@ -6,28 +6,31 @@ export default async (ctx: Context) => {
   const hiChannel = ctx.header['hi-channel']
   const body = ctx.body
   // 数据过滤处理(平台列表处理, 价格数据处理)
-  if (body && body.data && (body.data instanceof Array)) {
+  if (body && body.data) {
     try {
       const items = JSON.parse(body.data)
-      let components = []
-      if (hiChannel) {
-        forEach((item) => {
-          const { content: { channel } } = item
-          if (channel) {
-            if (includes(Number.parseInt(hiChannel, 10), channel)) {
+      if (items instanceof Array) {
+        let components = []
+        if (hiChannel) {
+          forEach((item) => {
+            const { content: { channel } } = item
+            if (channel) {
+              if (includes(Number.parseInt(hiChannel, 10), channel)) {
+                components.push(item)
+              }
+            } else {
               components.push(item)
             }
-          } else {
-            components.push(item)
-          }
-        }, items)
+          }, items)
+        } else {
+          components = items
+        }
+        // 处理价格
+        ctx.body = { ...body, data: JSON.stringify(components) }
       } else {
-        components = items
+        ctx.body = body
       }
-      // 处理价格
-      ctx.body = { ...body, data: JSON.stringify(components) }
     } catch (error) {
-      ctx.body = body
     }
   } else {
     ctx.body = body
