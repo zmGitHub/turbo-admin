@@ -21,11 +21,9 @@ class LayoutIndex extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props
-    console.log('fuck.....')
     dispatch({ type: 'app/initUserInfo' })
     if (!this.timer) {
       setInterval(() => {
-        console.log('定时器 2');
         dispatch({ type: 'app/checkLogin' })
       }, 60000)
     }
@@ -33,7 +31,6 @@ class LayoutIndex extends PureComponent {
 
   componentWillUnmount() {
     if (this.timer) {
-      console.log('清空定时器')
       clearInterval(this.timer)
     }
   }

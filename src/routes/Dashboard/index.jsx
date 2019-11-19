@@ -13,18 +13,23 @@ import './index.less'
 
 const { confirm } = Modal
 
-const templateType = [{
+// const templateType = [{
+//   key: 'home',
+//   tab: '首页模板',
+// }, {
+//   key: 'activity',
+//   tab: '活动模板',
+// }, {
+//   key: 'personal',
+//   tab: '专区模板',
+// }, {
+//   key: 'category',
+//   tab: '分类模板',
+// }];
+
+const templateIndexes = [{
   key: 'home',
   tab: '首页模板',
-}, {
-  key: 'activity',
-  tab: '活动模板',
-}, {
-  key: 'personal',
-  tab: '专区模板',
-}, {
-  key: 'category',
-  tab: '分类模板',
 }];
 
 const typeMaps = {
@@ -276,7 +281,7 @@ class Dashboard extends PureComponent {
         <div className="x-dashboard-content">
           <Card
             className="x-dashboard-content-body"
-            tabList={templateType}
+            tabList={templateIndexes}
             activeTabKey={type}
             onTabChange={this.onTabChange}
             bordered={false}
