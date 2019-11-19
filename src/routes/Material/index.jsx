@@ -104,8 +104,8 @@ class ImageDesign extends PureComponent {
     dispatch({
       type: 'component/getImageList',
       payload: { categoryId, pageNo: page, pageSize: 12 },
-      callback: ({ list, total }) => {
-        this.setState({ list, total })
+      callback: ({ totalRows, content }) => {
+        this.setState({ list: content || [], total: totalRows || 0 })
       }
     })
   }
@@ -313,13 +313,13 @@ class ImageDesign extends PureComponent {
             </div>
             <div className="x-image-list">
               <Spin spinning={spinLoading}>
-                <div className="x-image-list-content">
+                <div className={classnames("x-image-list-content", { center: list.length === 0 })}>
                   {
-                    list.length > 0 ? list.map(({ id, url, originName }) => (
+                    list.length > 0 ? list.map(({ id, path, originName }) => (
                       <div key={`x_image_${id}`} data-id={id} className="x-image-list-content-item" onClick={this.chooseItem}>
                         <Card style={{ width: 113 }}>
                           <div className={classnames("x-image-list-content-item-img", { checked: includes(itemIds, id) })}>
-                            <img src={`${url}${imgFormat}`} alt={originName} />
+                            <img src={`${path}${imgFormat}`} alt={originName} />
                             <div className="choose-item"><Icon type="check" /></div>
                           </div>
                           <div className="x-image-list-content-item-footer">
