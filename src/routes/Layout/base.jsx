@@ -3,7 +3,7 @@ import React from 'react'
 import { Layout, Menu, Icon } from 'antd'
 import { Switch, Route, Link } from 'dva/router'
 import classnames from 'classnames'
-import { replace , split} from 'ramda'
+import { replace } from 'ramda'
 import { useToggle } from '@/stores/hook'
 import Dashboard from '../Dashboard'
 import Material from '../Material'
@@ -13,9 +13,12 @@ import './base.less'
 const { Header, Sider, Content } = Layout
 
 const LayoutIndexBase = ({ location }) => {
-  const urls = replace('/', '', location.pathname)
-  const menus = split('/', urls)
-  menus.push(urls)
+  const menus = []
+  if (location && location.pathname) {
+    const urls = replace('/', '', location.pathname)
+    menus.push(urls)
+  }
+
   const [ on, toggle ] = useToggle(false)
   return (
     <Layout className="base-layout">
@@ -34,7 +37,7 @@ const LayoutIndexBase = ({ location }) => {
             <span className="logo-info-desc">装修</span>
           </div>
         </Link>
-        <Menu theme="dark" mode="inline" defaultOpenKeys={['dashboard/index', 'dashboard/posters']} defaultSelectedKeys={menus}>
+        <Menu theme="dark" mode="inline" defaultOpenKeys={['dashboard/index', 'dashboard/material']} defaultSelectedKeys={menus}>
           <Menu.Item key="dashboard/index">
             <Link to="/dashboard/index"><Icon type="shop" /><span>B2B模板</span></Link>
           </Menu.Item>

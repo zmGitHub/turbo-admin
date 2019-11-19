@@ -10,7 +10,6 @@ import './index.less'
 const app = dva({
   history: createHistory(),
   onHmr: () => {
-    console.log('热更新')
     if (module.hot) {
       module.hot.accept()
     }

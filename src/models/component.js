@@ -1,5 +1,5 @@
-import { find } from 'lodash'
-import { queryImageCategory, queryImageList, getServiceData, getCategory, getArticleById, getMenuInfoById, getSeckillData, getFreemixData } from '@/services/component'
+import { head } from 'lodash'
+import { removeImage, saveImage, addImageCategory, updateImageCategory, queryImageCategory, queryImageList, getServiceData, getCategory, getArticleById, getMenuInfoById, getSeckillData, getFreemixData } from '@/services/component'
 
 export default {
   namespace: 'component',
@@ -7,15 +7,43 @@ export default {
     imageCategories: []
   },
   effects: {
+    // 添加图片分类
+    *addCategory({ payload, callback }, { call }) {
+      const res = yield call(addImageCategory, payload)
+      if(callback) {
+        callback(res)
+      }
+    },
+    // 更新图片分类
+    *updateCategory({ payload, callback }, { call }) {
+      const res = yield call(updateImageCategory, payload)
+      if(callback) {
+        callback(res)
+      }
+    },
     // 获取图片分类
     *getImageCategory({ callback }, { call, put }) {
-      const payload = yield call(queryImageCategory)
-      if (payload && payload.length) {
-        yield put({ type: 'initImageCategory', payload })
+      const { content } = yield call(queryImageCategory)
+      if (content && content.length) {
+        yield put({ type: 'initImageCategory', payload: content })
         if (callback) {
-          const category = find(payload, ({ isDefault }) => isDefault)
+          const category = head(content);
           callback(category)
         }
+      }
+    },
+    // 删除图片
+    *removeImage({ payload, callback }, { call }) {
+      const res = yield call(removeImage, payload)
+      if(callback) {
+        callback(res)
+      }
+    },
+    // 上传图片
+    *uploadImage({ payload, callback }, { call }) {
+      const res = yield call(saveImage, payload)
+      if(callback) {
+        callback(res)
       }
     },
     // 获取图片列表

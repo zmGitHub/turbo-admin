@@ -2,7 +2,7 @@ import { message } from 'antd'
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: '/wechat',
+  // baseURL: '',
   xsrfCookieName: 'x-csrf-token',
   timeout: 10000
 })
@@ -17,6 +17,9 @@ instance.interceptors.response.use((response) => {
     const { status, data } = error.response;
     // 如果用户未授权这个时候回自动跳转
     switch (status) {
+      case 400:
+        info = { code: 401, message: data.text || '参数类型错误' };
+        break;
       case 401:
         info = { code: 401, message: '用户未登录' };
         break;
@@ -24,7 +27,7 @@ instance.interceptors.response.use((response) => {
         info = { code: 404, message: 'API 不存在' };
         break;
       case 500:
-        info = { code: 500, message: data.msg || '服务器错误' };
+        info = { code: 500, message: data.text || '服务器错误' };
         break;
       default:
         break;

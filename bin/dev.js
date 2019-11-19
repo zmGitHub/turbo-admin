@@ -18,12 +18,12 @@ const compiler = webpack(devConfig)
 
 const app = new Koa()
 
-const proxyTarget = 'http://design.hisense.com'
+const proxyTarget = 'http://cistest.hisense.com'
 
 const options = {
   targets: {
     // (.*) 任何类型
-    '/wechat/(.*)': {
+    '/api/(.*)': {
       target: proxyTarget,
       changeOrigin: true
     }

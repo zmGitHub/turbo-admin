@@ -12,17 +12,7 @@ export async function getCSRFToken() {
 
 // 是否登录
 export async function hasLogin() {
-  let user = {}
-  const loginStatus = await request.get('/api/hisense/hasLogin')
-  if (loginStatus && loginStatus.isLogin) {
-    const { id } = loginStatus.result
-    const userInfo = await request.get(`/api/hisense/user/${id}`)
-    if (userInfo && userInfo.id) {
-      const { extra, roles } = userInfo
-      user = { id, shopId: extra.o2oShopId, roles, csrf: loginStatus['_csrf'] }
-    }
-  }
-  return user
+  return request.post('/auth-api/login', {"acctName":"admin","acctPwd":"MTExMTEx"})
 }
 
 // 添加装修组件的权限列表
