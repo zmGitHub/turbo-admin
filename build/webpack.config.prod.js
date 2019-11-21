@@ -1,4 +1,5 @@
 const Webpack = require('webpack')
+const path = require('path')
 const merge = require('webpack-merge')
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin")
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
@@ -17,6 +18,7 @@ const config = merge(baseConfig, {
     // 异步模块文件名
     chunkFilename: '[name].[chunkhash:9].js',
     globalObject: 'this',
+    path: path.resolve(__dirname, '../apps/dist/wechat'),
     publicPath: '/wechat/'
   },
   plugins: [

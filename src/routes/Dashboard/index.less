@@ -26,6 +26,14 @@
       }
     }
     &-body {
+      &-extra {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .ant-input {
+          width: 100px;
+        }
+      }
       &-list {
         display: flex;
         align-items: center;
@@ -146,7 +154,26 @@
           right: 24px;
           top: 0;
           z-index: 9;
+          .search {
+            background-color: #414141;
+            background-image: none;
+            border: 1px solid #333333;
+            border-radius: 2px;
+            input {
+              border: none;
+              &:focus {
+                box-shadow: none ;
+              }
+            }
+            .search-icon {
+              i {
+                margin: 0 6px;
+              }
+            }
+            
+          }
           .add-template {
+            margin-left: 20px;
             display: flex;
             align-items: center;
             text-decoration: none;
