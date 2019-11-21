@@ -20,8 +20,8 @@ export default class Design {
     const res = await getOneByPath(path)
     ctx.status = 200
     if (res && res.id) {
-      const { id, name, data } = res
-      ctx.body = { id, name, data }
+      const { id, name, data, posterId } = res
+      ctx.body = { id, name, data, posterId }
     } else {
       ctx.body = ''
     }
@@ -33,8 +33,8 @@ export default class Design {
     const res = await getOneByPath(path, -1)
     ctx.status = 200
     if (res && res.id) {
-      const { id, name, data } = res
-      ctx.body = { id, name, data }
+      const { id, name, data, posterId } = res
+      ctx.body = { id, name, data, posterId }
     } else {
       ctx.body = ''
     }
@@ -46,8 +46,8 @@ export default class Design {
     const res = await get(id)
     ctx.status = 200
     if (res && res.id) {
-      const { id, name, data } = res
-      ctx.body = { id, name, data }
+      const { id, name, data, posterId } = res
+      ctx.body = { id, name, data, posterId }
     } else {
       ctx.body = ''
     }
@@ -60,8 +60,8 @@ export default class Design {
     const res = await get(id)
     ctx.status = 200
     if (res && res.id) {
-      const { id, name, data } = res
-      ctx.body = { id, name, data }
+      const { id, name, data, posterId } = res
+      ctx.body = { id, name, data, posterId }
     } else {
       ctx.body = ''
     }
@@ -73,8 +73,8 @@ export default class Design {
     const res = await getPublish({ type, shopId: 1 })
     let body = null
     if (res && res.id) {
-      const { id, name, data } = res
-      body = { id, name, data }
+      const { id, name, data, posterId } = res
+      body = { id, name, data, posterId }
     }
     ctx.status = 200
     ctx.body = body || { msg: '暂无最新模板' }
@@ -240,8 +240,8 @@ export default class Design {
     const res = await getPublish({ type: DesignType.HOME, shopId: 1 })
     let body = null
     if (res && res.id) {
-      const { id, name, data } = res
-      body = { id, name, data }
+      const { id, name, data, posterId } = res
+      body = { id, name, data, posterId }
     }
     ctx.status = 200
     ctx.body = body || { msg: '暂无最新模板' }

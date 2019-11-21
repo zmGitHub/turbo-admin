@@ -105,7 +105,7 @@ export default {
     },
 
     // 获取模板
-    *getPosterList({ payload }, { call, put }) {
+    *getPosterList({ payload, callback }, { call, put }) {
       const res = yield call(queryPoster, payload)
       const { total } = res
       const { tab } = payload
@@ -127,6 +127,7 @@ export default {
         }
       }, res.data)
       yield put({ type: 'initData', payload: { tab, total, data: items } })
+      if(callback) callback(items)
     },
     // 保存数据
     *submit({ payload, callback }, { call, select }) {
@@ -208,7 +209,7 @@ export default {
       list.splice(index, 1)
       return {
         ...state,
-        list 
+        list
       }
     },
     updateComponentBackground(state, action) {

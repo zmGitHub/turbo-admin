@@ -78,4 +78,10 @@ export class Design {
 
   @OneToMany(type => Refuse, refuse => refuse.design)
   refuses: Refuse[]
+
+  @Column({
+    default: null,
+    nullable: true,
+  })
+  posterId: number
 }
