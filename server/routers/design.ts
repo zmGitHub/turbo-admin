@@ -9,7 +9,7 @@ router.get('/publish', design.getPublishData, dataFilter)
 // 根据装修 id 获取数据
 router.get('/find/:id', design.getById, dataFilter)
 // 装修系统获取数据
-router.get('/edit/:id', design.getDesignById)
+router.get('/edit/:id', design.getDesignById, dataFilter)
 // 根据 path 获取装修数据
 router.get('/path', design.getByPath, dataFilter)
 // o2o 根据 path 获取装修数据

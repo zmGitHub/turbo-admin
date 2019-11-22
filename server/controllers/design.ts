@@ -55,7 +55,7 @@ export default class Design {
   }
 
   // 获取单个装修
-  public static async getDesignById(ctx:Context) {
+  public static async getDesignById(ctx:Context, next: () => void) {
     const { id } = ctx.params
     const res = await get(id)
     ctx.status = 200
@@ -65,10 +65,11 @@ export default class Design {
     } else {
       ctx.body = ''
     }
+    await next()
   }
 
   // 获取发布了的模板
-  public static async getPublishData(ctx:Context) {
+  public static async getPublishData(ctx:Context, next: () => void) {
     const { type } = ctx.query
     const res = await getPublish({ type, shopId: 1 })
     let body = null
@@ -78,6 +79,7 @@ export default class Design {
     }
     ctx.status = 200
     ctx.body = body || { msg: '暂无最新模板' }
+    await next()
   }
 
   // 获取发布中的数据

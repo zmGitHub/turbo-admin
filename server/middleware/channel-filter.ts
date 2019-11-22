@@ -56,7 +56,7 @@ export default async (ctx:Context) => {
             if (component === 'goodsCard' || component === 'goodsSlider') {
               const { data: { items } } = content
               forEach((item) => {
-                const priceItem = find(propEq('id', item.id), priceArr)
+                const priceItem = find(propEq('id', `${item.id}`), priceArr)
                 if (priceItem && priceItem.id) {
                   item.price = formatPrice(priceItem.lowPrice)
                 }
