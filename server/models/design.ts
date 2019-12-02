@@ -84,4 +84,10 @@ export class Design {
     nullable: true,
   })
   posterId: number
+
+  @Column({
+    default: null,
+    nullable: true,
+  })
+  shareTitle: string
 }

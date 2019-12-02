@@ -13,41 +13,43 @@ import { addRefuse, getRefuse } from '../services/refuse'
 
 import request from '../services/request'
 
+const formatPageRes = (res) => {
+  const { id, name, data, posterId, shareTitle } = res
+  return { id, name, data, posterId, shareTitle }
+}
+
 export default class Design {
   // 根据 path 获取装修数据
-  public static async getByPath(ctx:Context, next: () => void) {
+  public static async getByPath(ctx: Context, next: () => void) {
     const { path } = ctx.query
     const res = await getOneByPath(path)
     ctx.status = 200
     if (res && res.id) {
-      const { id, name, data, posterId } = res
-      ctx.body = { id, name, data, posterId }
+      ctx.body = formatPageRes(res)
     } else {
       ctx.body = ''
     }
     await next()
   }
   // 根据 path 获取o2o装修数据 getO2oByPath
-  public static async getO2oByPath(ctx:Context, next: () => void) {
+  public static async getO2oByPath(ctx: Context, next: () => void) {
     const { path } = ctx.query
     const res = await getOneByPath(path, -1)
     ctx.status = 200
     if (res && res.id) {
-      const { id, name, data, posterId } = res
-      ctx.body = { id, name, data, posterId }
+      ctx.body = formatPageRes(res)
     } else {
       ctx.body = ''
     }
     await next()
   }
   // 根据 id 获取数据
-  public static async getById(ctx:Context, next: () => void) {
+  public static async getById(ctx: Context, next: () => void) {
     const { id } = ctx.params
     const res = await get(id)
     ctx.status = 200
     if (res && res.id) {
-      const { id, name, data, posterId } = res
-      ctx.body = { id, name, data, posterId }
+      ctx.body = formatPageRes(res)
     } else {
       ctx.body = ''
     }
@@ -55,13 +57,12 @@ export default class Design {
   }
 
   // 获取单个装修
-  public static async getDesignById(ctx:Context, next: () => void) {
+  public static async getDesignById(ctx: Context, next: () => void) {
     const { id } = ctx.params
     const res = await get(id)
     ctx.status = 200
     if (res && res.id) {
-      const { id, name, data, posterId } = res
-      ctx.body = { id, name, data, posterId }
+      ctx.body = formatPageRes(res)
     } else {
       ctx.body = ''
     }
@@ -69,13 +70,12 @@ export default class Design {
   }
 
   // 获取发布了的模板
-  public static async getPublishData(ctx:Context, next: () => void) {
+  public static async getPublishData(ctx: Context, next: () => void) {
     const { type } = ctx.query
     const res = await getPublish({ type, shopId: 1 })
     let body = null
     if (res && res.id) {
-      const { id, name, data, posterId } = res
-      body = { id, name, data, posterId }
+      body = formatPageRes(res)
     }
     ctx.status = 200
     ctx.body = body || { msg: '暂无最新模板' }
@@ -83,13 +83,13 @@ export default class Design {
   }
 
   // 获取发布中的数据
-  public static async getTiming(ctx:Context) {
+  public static async getTiming(ctx: Context) {
     const res = await getO2oTiming()
     ctx.status = 200
     ctx.body = res || { msg: '暂无最新模板' }
   }
   // 获取分类
-  public static async queryDesign(ctx:Context) {
+  public static async queryDesign(ctx: Context) {
     const params = ctx.query
     const res = await query(params)
     let entities = { data: [], total: 0 }
@@ -106,7 +106,7 @@ export default class Design {
     ctx.body = entities
   }
   // 添加模板
-  public static async addDesign(ctx:Context) {
+  public static async addDesign(ctx: Context) {
     const { body } = ctx.request
     try {
       const res = await add(body)
@@ -242,8 +242,7 @@ export default class Design {
     const res = await getPublish({ type: DesignType.HOME, shopId: 1 })
     let body = null
     if (res && res.id) {
-      const { id, name, data, posterId } = res
-      body = { id, name, data, posterId }
+      body = formatPageRes(res)
     }
     ctx.status = 200
     ctx.body = body || { msg: '暂无最新模板' }

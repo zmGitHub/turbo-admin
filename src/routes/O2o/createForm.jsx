@@ -122,6 +122,13 @@ class PageForm extends PureComponent {
               <Input maxLength={100} placeholder="请输入模板路径" />
             )}
           </Form.Item>
+          <Form.Item hasFeedback {...formItemLayout} label="分享标题">
+            {getFieldDecorator('shareTitle', {
+              initialValue: item && item.shareTitle,
+            })(
+              <Input maxLength={100} placeholder="请输入分享标题" />
+            )}
+          </Form.Item>
           <Form.Item hasFeedback {...formItemLayout} label="海报">
             {getFieldDecorator('posterId', {
               initialValue: item && item.posterId,

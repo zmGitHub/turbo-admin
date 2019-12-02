@@ -71,8 +71,8 @@ class Dashboard extends PureComponent {
     const { index } = currentTarget.dataset
     const { dashboard: { data } } = this.props
     if (data[index]) {
-      const { id, name, path, type, posterId } = data[index]
-      this.setState({ create: true, item: { id, name, path, type, posterId } })
+      const { id, name, path, type, posterId, shareTitle } = data[index]
+      this.setState({ create: true, item: { id, name, path, type, posterId, shareTitle } })
     } else {
       message.warning('模板不存在')
     }
