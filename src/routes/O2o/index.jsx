@@ -57,8 +57,8 @@ class Dashboard extends PureComponent {
     const { index } = currentTarget.dataset
     const { dashboard: { data } } = this.props
     if (data[index]) {
-      const { id, name, path, type, posterId, shareTitle } = data[index]
-      this.setState({ create: true, item: { id, name, path, type, posterId, shareTitle } })
+      const { id, name, path, type, posterId, shareTitle, cover } = data[index]
+      this.setState({ create: true, item: { id, name, path, type, posterId, shareTitle, cover } })
     } else {
       message.warning('模板不存在')
     }
@@ -72,6 +72,7 @@ class Dashboard extends PureComponent {
   onTemplateEdit = (payload) => {
     if (payload) {
       const { dispatch } = this.props
+      debugger
       dispatch({
         type: payload.id ? 'design/update' : 'design/create',
         payload,

@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Form, Select, Input, Modal } from 'antd'
+import ImagePicker from '@/components/ImagePicker'
+import { last } from 'ramda'
 
 import './index.less'
 
@@ -35,7 +37,8 @@ class PageForm extends PureComponent {
     super(props)
     this.state = {
       visible: false,
-      posters: [],
+      showImgPicker: false,
+      // posters: [],
     }
   }
 
@@ -47,7 +50,7 @@ class PageForm extends PureComponent {
         if (!item.id) {
           onChange({ ...values, shopId: -1 })
         } else {
-          onChange({ id: item.id, name: values.name, path: values.path, shopId: -1 })
+          onChange({ id: item.id, ...values, shopId: -1 })
         }
       }
     });
@@ -60,10 +63,26 @@ class PageForm extends PureComponent {
     }
   }
 
+  onImageChange = (images) => {
+    const { form: { setFieldsValue } } = this.props
+    if (images && images.length) {
+      const imgItem = last(images)
+      setFieldsValue({ cover: imgItem.url }, () => {
+        this.setState({ showImgPicker: false })
+      })
+    } else {
+      this.setState({ showImgPicker: false })
+    }
+    // this.setState({ showImgPicker: false })
+  }
+
+  showImagePicker = () => {
+    this.setState({ showImgPicker: true })
+  }
 
   render() {
-    const { visible } = this.state
-    const { form: { getFieldDecorator }, type, item } = this.props
+    const { visible, showImgPicker } = this.state
+    const { form: { getFieldDecorator, getFieldValue }, type, item } = this.props
     return (
       <Modal
         destroyOnClose
@@ -129,14 +148,30 @@ class PageForm extends PureComponent {
               <Input maxLength={100} placeholder="请输入分享标题" />
             )}
           </Form.Item>
+          <Form.Item hasFeedback {...formItemLayout} label="分享封面">
+            {getFieldDecorator('cover', {
+              rules: [
+                // {
+                //   required: true,
+                //   message: '请选择封面'
+                // }
+              ]
+            })(
+              <div className='poster-cover-container' onClick={this.showImagePicker}>
+                <img alt="" src={getFieldValue('cover') || item.cover} />
+                <span>建议宽:长=5:4,尺寸为 600:480</span>
+              </div>
+            )}
+          </Form.Item>
           <Form.Item hasFeedback {...formItemLayout} label="海报">
             {getFieldDecorator('posterId', {
               initialValue: item && item.posterId,
             })(
-              <Input maxLength={100} placeholder="请输入海报模板id" /> 
+              <Input maxLength={100} placeholder="请输入海报模板id" />
             )}
           </Form.Item>
         </Form>
+        <ImagePicker visible={showImgPicker} onChange={this.onImageChange} />
       </Modal>
     );
   }

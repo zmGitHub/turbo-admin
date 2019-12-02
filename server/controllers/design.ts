@@ -14,8 +14,8 @@ import { addRefuse, getRefuse } from '../services/refuse'
 import request from '../services/request'
 
 const formatPageRes = (res) => {
-  const { id, name, data, posterId, shareTitle } = res
-  return { id, name, data, posterId, shareTitle }
+  const { id, name, data, posterId, shareTitle, cover } = res
+  return { id, name, data, posterId, shareTitle, cover }
 }
 
 export default class Design {

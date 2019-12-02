@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
 import { Form, Select, Input, Modal, Icon } from 'antd'
-import ImagePicker from '@/components/ImagePicker'
-import { is, last, includes } from 'ramda'
 
 import '../index.less'
 
@@ -49,7 +47,7 @@ class PageForm extends PureComponent {
         if (!item.id) {
           onChange({ ...values })
         } else {
-          onChange({ id: item.id, name: values.name, cover: values.cover })
+          onChange({ id: item.id, name: values.name  })
         }
       }
     });
@@ -62,25 +60,9 @@ class PageForm extends PureComponent {
     }
   }
 
-  onImageChange = (images) => {
-    const { form: { setFieldsValue } } = this.props
-    if (images && images.length) {
-      const imgItem = last(images)
-      setFieldsValue({ cover: imgItem.url }, () => {
-        this.setState({ showImgPicker: false })
-      })
-    } else {
-      this.setState({ showImgPicker: false })
-    }
-  }
-
-  showImagePicker = () => {
-    this.setState({ showImgPicker: true })
-  }
-
   render() {
-    const { visible, showImgPicker } = this.state
-    const { form: { getFieldDecorator, getFieldValue }, type, item } = this.props
+    const { visible } = this.state
+    const { form: { getFieldDecorator }, type, item } = this.props
     return (
       <Modal
         destroyOnClose
@@ -129,23 +111,7 @@ class PageForm extends PureComponent {
               </Select>
             )}
           </Form.Item>
-          <Form.Item hasFeedback {...formItemLayout} label="海报分享封面" >
-            {getFieldDecorator('cover', {
-              rules: [
-                {
-                  required: true,
-                  message: '请选择海报分享封面'
-                }
-              ]
-            })(
-              <div className='poster-cover-container' onClick={this.showImagePicker}>
-                <img alt="" src={getFieldValue('cover') || item.cover} />
-                <span>建议宽:长=5:4,尺寸为 600:480</span>
-              </div>
-            )}
-          </Form.Item>
         </Form>
-        <ImagePicker visible={showImgPicker} onChange={this.onImageChange} />
       </Modal>
     );
   }

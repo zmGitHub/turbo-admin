@@ -79,15 +79,12 @@ export class Design {
   @OneToMany(type => Refuse, refuse => refuse.design)
   refuses: Refuse[]
 
-  @Column({
-    default: null,
-    nullable: true,
-  })
+  @Column({ default: null, nullable: true })
   posterId: number
 
-  @Column({
-    default: null,
-    nullable: true,
-  })
+  @Column({ default: null, nullable: true })
   shareTitle: string
+
+  @Column({ default: null, nullable: true })
+  cover: string
 }

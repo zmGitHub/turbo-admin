@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react'
-import { Link } from 'dva/router'
-import { connect } from 'dva'
-import { Pagination, Empty, Card, Icon, Spin, Button, Modal, message, Input } from 'antd'
-import classnames from 'classnames'
 import Countdown from '@/components/CountDown'
 import templateImg from '@/static/images/template.jpg'
+import { Button, Card, Empty, Icon, Input, message, Modal, Pagination, Spin } from 'antd'
+import classnames from 'classnames'
+import { connect } from 'dva'
+import { Link } from 'dva/router'
+import React, { PureComponent } from 'react'
 import CreateTemplatesModal from './createForm'
+import './index.less'
 import PublishTemplateModal from './publishForm'
 
-import './index.less'
 
 
 const { confirm } = Modal
@@ -71,8 +71,8 @@ class Dashboard extends PureComponent {
     const { index } = currentTarget.dataset
     const { dashboard: { data } } = this.props
     if (data[index]) {
-      const { id, name, path, type, posterId, shareTitle } = data[index]
-      this.setState({ create: true, item: { id, name, path, type, posterId, shareTitle } })
+      const { id, name, path, type, posterId, shareTitle, cover } = data[index]
+      this.setState({ create: true, item: { id, name, path, type, posterId, shareTitle, cover } })
     } else {
       message.warning('模板不存在')
     }

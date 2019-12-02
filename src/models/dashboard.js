@@ -11,21 +11,21 @@ export default {
   },
   effects: {
 
-    *removeTemplate({ payload ,callback }, { call }) {
+    *removeTemplate({ payload, callback }, { call }) {
       const res = yield call(deleteDesignData, payload)
       if (callback) {
         callback(res)
       }
     },
     // admin发布(立即/定时)
-    *publishAdmin({ payload ,callback }, { call }) {
+    *publishAdmin({ payload, callback }, { call }) {
       const res = yield call(publishAdmin, payload)
       if (callback) {
         callback(res)
       }
     },
     // o2o 发布
-    *publishO2o({ payload ,callback }, { call }) {
+    *publishO2o({ payload, callback }, { call }) {
       const res = yield call(publishO2o, payload)
       if (callback) {
         callback(res)
@@ -33,7 +33,7 @@ export default {
     },
 
     // 取消发布
-    *canclePublish({ payload ,callback }, { call }) {
+    *canclePublish({ payload, callback }, { call }) {
       const res = yield call(cancelPublish, payload)
       if (callback) {
         callback(res)
@@ -46,7 +46,7 @@ export default {
       const { total } = res
       const { tab } = payload
       const items = map((item) => {
-        const { id, name, path, status, canPublish, type, timer, updatedAt, poster, posterId, shareTitle } = item
+        const { id, name, path, status, canPublish, type, timer, updatedAt, poster, posterId, shareTitle, cover } = item
         const isTiming = status === '2' && moment(timer).isAfter()
         return {
           id,
@@ -61,10 +61,11 @@ export default {
           type,
           poster,
           posterId,
-          shareTitle
+          shareTitle,
+          cover
         }
       }, res.data)
-      yield put({ type: 'initTemplates', payload: { tab, total, data: items  }})
+      yield put({ type: 'initTemplates', payload: { tab, total, data: items } })
     },
   },
   reducers: {

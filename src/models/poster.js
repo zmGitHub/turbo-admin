@@ -110,7 +110,7 @@ export default {
       const { total } = res
       const { tab } = payload
       const items = map((item) => {
-        const { id, name, status, canPublish, type, timer, updatedAt, poster, cover } = item
+        const { id, name, status, canPublish, type, timer, updatedAt, poster } = item
         const isTiming = status === '1' && moment(timer).isAfter()
         return {
           id,
@@ -122,8 +122,7 @@ export default {
           timingTime: isTiming ? moment(timer).valueOf() : '',
           updatedAt: moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
           type,
-          poster,
-          cover
+          poster
         }
       }, res.data)
       yield put({ type: 'initData', payload: { tab, total, data: items } })
