@@ -56,6 +56,8 @@ class ImageDesign extends PureComponent {
           this.getImageList()
         }
       })
+    } else {
+      this.getImageList()
     }
   }
 
@@ -116,7 +118,7 @@ class ImageDesign extends PureComponent {
     const { currentTarget } = event
     const { list, items, itemIds } = this.state
     const id = parseInt(currentTarget.getAttribute('data-id'))
-    const imageItem = find(list, (item) => item.id === id )
+    const imageItem = find(list, (item) => item.id === id)
     let newItems = items
     if (includes(itemIds, id)) {
       newItems = filter(items, (item) => item.id !== id)
