@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import { Input, Switch, Radio, Collapse, message, Spin, Icon } from 'antd'
 import { connect } from 'dva'
-import { head, last, prop, concat, update, trim, remove } from 'ramda'
+import { head, last, prop, concat, update, trim, remove, reduce, maxBy } from 'ramda'
 import ImagePicker from '@/components/ImagePicker'
 import { formatGoodName, formatPrice } from '@/utils'
 import defaultImg from '@/static/images/x.png'
@@ -37,7 +37,7 @@ class GoodsCardDesign extends PureComponent {
 
   onImageChange = (images) => {
     const { onChange, config: { id } } = this.props
-    if(images && images.length) {
+    if (images && images.length) {
       const imgItem = last(images)
       const { goodsIndex, items } = this.state
       const goods = items[goodsIndex]
@@ -112,8 +112,11 @@ class GoodsCardDesign extends PureComponent {
         const data = prop('_DATA_', res)
         if (res && data) {
           const goods = head(data)
-          const { mainImage, name, highPrice } = prop('item', goods)
-          // const skus = prop('skus', goods)
+          const { mainImage, name, highPrice, type } = prop('item', goods)
+          const skus = prop('skus', goods)
+          const originPriceSku = reduce(maxBy((sku) => prop('originPrice', sku.extraPrice) || 0), {}, skus)
+          const originPrice = prop('originPrice', originPriceSku.extraPrice) || 0
+
           // if (skus.length) {
 
           // }
@@ -123,6 +126,8 @@ class GoodsCardDesign extends PureComponent {
             src: mainImage,
             desc: '',
             price: formatPrice(highPrice),
+            originPrice: formatPrice(originPrice),
+            type,
           }]
           this.setState(({ items }) => ({
             searching: false,

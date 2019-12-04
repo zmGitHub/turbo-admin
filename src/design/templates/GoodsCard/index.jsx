@@ -23,18 +23,31 @@ const IMAGE_FORAMT = {
 }
 
 class GoodsCard extends PureComponent {
+
+  renderPriceSection = ({ itemType, price, originPrice }) => {
+    const isIntegral = +itemType === 5
+    // const state = this.state
+    if (!isIntegral) return <div className="price-wrap"><div className="price">¥{price}</div></div>
+    return (
+      <div className="price-wrap">
+        <div className="price">{price * 100}积分</div>
+        <div className="origin-price">{+originPrice ? `市场价${(+originPrice)}` : ' '}</div>
+      </div>
+    )
+  }
+
   render() {
     const { componentStyle, data: { items, type, buyButton } } = this.props
     const cardStyle = classnames('x-goods-card', type)
     const buyButtonStyle = classnames('btn', { hide: !buyButton })
-    const goodsItems = items.length > 0 ? items:goodsArr
+    const goodsItems = items.length > 0 ? items : goodsArr
     return (
       <div className={cardStyle} style={getStyles(componentStyle, ['margin'])}>
         {
-          goodsItems.map(({ id, title, name, desc, src, price }, index) => (
+          goodsItems.map(({ id, title, name, desc, src, price, type: itemType, originPrice }, index) => (
             <div key={`${id}_${index}_goods_card`} className="googs-card-item">
               <div className="header">
-                <img className="img" src={`${src ? `${src}${IMAGE_FORAMT[type]}` : defaultImg }`} alt="商品图片" />
+                <img className="img" src={`${src ? `${src}${IMAGE_FORAMT[type]}` : defaultImg}`} alt="商品图片" />
               </div>
               <div className="content">
                 <div className="left">
@@ -42,7 +55,7 @@ class GoodsCard extends PureComponent {
                   <div className={classnames('desc', { hide: !desc })}>{desc}</div>
                 </div>
                 <div className="right">
-                  <div className="price">¥{price}</div>
+                  {this.renderPriceSection({ itemType, price, originPrice })}
                   <div className={buyButtonStyle}>立即购买</div>
                 </div>
               </div>

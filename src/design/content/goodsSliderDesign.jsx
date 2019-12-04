@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import { Input, message, Checkbox, Icon } from 'antd'
 import { connect } from 'dva'
-import { map, prop, last } from 'ramda'
+import { map, prop, last, reduce, maxBy } from 'ramda'
 import ImagePicker from '@/components/ImagePicker'
 import Linker from '@/components/Linker'
 import { formatGoodName, formatPrice, removeHTMLTag } from '@/utils'
@@ -37,7 +37,7 @@ class GoodsSliderDesign extends PureComponent {
 
   onImageChange = (images) => {
     const { onChange, config: { id } } = this.props
-    if(images && images.length) {
+    if (images && images.length) {
       const imgItem = last(images)
       this.setState({ showImagePicker: false, moreImg: imgItem.url }, () => {
         onChange({ id, key: 'moreImg', value: imgItem.url })
@@ -68,14 +68,18 @@ class GoodsSliderDesign extends PureComponent {
       callback: (res) => {
         const data = prop('_DATA_', res)
         if (res && data) {
-          const items = map(({ item }) => {
-            const { id, name, advertise, mainImage, highPrice } = item
+          const items = map(({ item, skus }) => {
+            const { id, name, advertise, mainImage, highPrice, type } = item
+            const originPriceSku = reduce(maxBy((sku) => prop('originPrice', sku.extraPrice) || 0), {}, skus)
+            const originPrice = prop('originPrice', originPriceSku.extraPrice) || 0
             return {
               id,
               title: formatGoodName(name),
               desc: removeHTMLTag(advertise),
               src: mainImage,
-              price: formatPrice(highPrice)
+              price: formatPrice(highPrice),
+              originPrice: formatPrice(originPrice),
+              type
             }
           }, data)
           onChange({ id: config.id, key: 'items', value: items })

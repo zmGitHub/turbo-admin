@@ -3,7 +3,7 @@ import { head, map, concat } from 'ramda'
 import { Design, DesignStatus, DesignType } from '../models/design'
 const cache = require('./cache')
 
-const cacheMs = 60000
+const cacheMs = 60
 export interface AddParams {
   id?: number,
   shopId?: number,
