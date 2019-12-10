@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Form, Select, Input, Modal } from 'antd'
+import { Form, Select, Input, Modal, Icon } from 'antd'
 import ImagePicker from '@/components/ImagePicker'
 import { last } from 'ramda'
 
@@ -38,6 +38,7 @@ class PageForm extends PureComponent {
     this.state = {
       visible: false,
       showImgPicker: false,
+      useFromVal: false
       // posters: [],
     }
   }
@@ -80,9 +81,19 @@ class PageForm extends PureComponent {
     this.setState({ showImgPicker: true })
   }
 
+  deleteCover = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const { form: { setFieldsValue } } = this.props
+    setFieldsValue({ cover: null }, () => {
+      this.setState({ useFromVal: true })
+    })
+  }
+
   render() {
-    const { visible, showImgPicker } = this.state
+    const { visible, showImgPicker, useFromVal } = this.state
     const { form: { getFieldDecorator, getFieldValue }, type, item } = this.props
+    const cover = useFromVal ? getFieldValue('cover') : getFieldValue('cover') || item.cover
     return (
       <Modal
         destroyOnClose
@@ -158,7 +169,9 @@ class PageForm extends PureComponent {
               ]
             })(
               <div className='poster-cover-container' onClick={this.showImagePicker}>
-                <img alt="" src={getFieldValue('cover') || item.cover} />
+                {cover ? <a href="javascript:void(0);" onClick={this.deleteCover.bind(this)}><Icon type="close" /></a> : null}
+
+                {cover ? <img alt="" src={cover} /> : <img alt="" />}>
                 <span>建议宽:长=5:4,尺寸为 600:480</span>
               </div>
             )}

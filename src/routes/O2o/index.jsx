@@ -72,7 +72,6 @@ class Dashboard extends PureComponent {
   onTemplateEdit = (payload) => {
     if (payload) {
       const { dispatch } = this.props
-      debugger
       dispatch({
         type: payload.id ? 'design/update' : 'design/create',
         payload,
