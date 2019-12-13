@@ -89,6 +89,22 @@ class ImageDesign extends PureComponent {
 
   // 文件上传成功
   onFileUploadChange = (res) => {
+    const { dispatch } = this.props
+    if (res && res.file && res.file.status === 'done') {
+      const { name, response } = res.file
+      const { categoryId } = this.state
+      dispatch({
+        type: 'component/saveImages',
+        payload: [{
+          originName: name,
+          path: response[name],
+          resourceCategoryId: categoryId,
+        }],
+        callback: () => {
+          this.getImageList()
+        }
+      })
+    }
     console.log(res)
   }
 

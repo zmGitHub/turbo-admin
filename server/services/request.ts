@@ -12,6 +12,7 @@ const instance = axios.create({
 instance.interceptors.response.use(
   (response) => {
     const { data, headers } = response
+    if(typeof data === 'string') return data
     const cookies = headers['set-cookie'] || headers['Set-Cookie']
     if (cookies) {
       data.cookie = cookies

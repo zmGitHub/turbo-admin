@@ -45,7 +45,14 @@ router.get('/images/category', freshCookie, async (ctx: Context) => {
   ctx.status = 200
   ctx.body = res
 })
-
+// 图片保存
+router.post('/images/save', freshCookie, async (ctx: Context) => {
+  const { body } = ctx.request
+  const res = await request.post(`/api/design/image`, body)
+  console.log(res)
+  ctx.status = 200
+  ctx.body = res
+})
 // 图片分类接口
 router.get('/images/list', freshCookie, async (ctx: Context) => {
   const params = ctx.query

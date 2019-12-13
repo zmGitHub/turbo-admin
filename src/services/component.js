@@ -4,6 +4,10 @@ import request from '@/utils/request'
 export async function queryImageCategory() {
   return request.get('/api/hisense/images/category?siteId=1')
 }
+// 保存图片
+export async function saveImages(imgs) {
+  return request.post('/api/hisense/images/save', imgs)
+}
 // 获取图片分类
 export async function queryImageList(params) {
   return request.get('/api/hisense/images/list', { params })
