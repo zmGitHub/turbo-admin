@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import { queryImageCategory, queryImageList, getServiceData, getCategory, getArticleById, getMenuInfoById, getSeckillData, getFreemixData, saveImages } from '@/services/component'
+import { queryImageCategory, queryImageList, getServiceData, getCategory, getArticleById, getMenuInfoById, getSeckillData, getFreemixData, saveImages, deleteImage } from '@/services/component'
 
 export default {
   namespace: 'component',
@@ -7,8 +7,12 @@ export default {
     imageCategories: []
   },
   effects: {
-    *saveImages({ payload, callback }, { call, put }) {
+    *saveImages({ payload, callback }, { call }) {
       const res = yield call(saveImages, payload)
+      if (callback) callback(res)
+    },
+    *deleteImage({ payload: { id }, callback }, { call }) {
+      const res = yield call(deleteImage, id)
       if (callback) callback(res)
     },
     // 获取图片分类

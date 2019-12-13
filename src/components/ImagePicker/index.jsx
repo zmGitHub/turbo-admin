@@ -145,6 +145,19 @@ class ImageDesign extends PureComponent {
     this.setState({ items: newItems, itemIds: ids })
   }
 
+  deleteImg = (e, id) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const { dispatch } = this.props
+    dispatch({
+      type: 'component/deleteImage',
+      payload: { id },
+      callback: () => {
+        this.getImageList()
+      }
+    })
+  }
+
   render() {
     const { categories, loading } = this.props
     const { visible, categoryId, list, page, total, itemIds } = this.state
@@ -193,6 +206,7 @@ class ImageDesign extends PureComponent {
                     {
                       list.length > 0 ? list.map(({ id, url, originName }) => (
                         <div key={`x_image_${id}`} data-id={id} className="x-image-list-content-item" onClick={this.chooseItem}>
+                          <a href="javascript:void(0);" className="x-image-list-content-item-del" onClick={(e) => this.deleteImg(e, id)}><Icon type="close" /></a>
                           <Card style={{ width: 113 }}>
                             <div className={classnames("x-image-list-content-item-img", { checked: includes(itemIds, id) })}>
                               <img src={`${url}${imgFormat}`} alt={originName} />

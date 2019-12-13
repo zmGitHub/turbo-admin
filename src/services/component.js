@@ -10,6 +10,14 @@ export async function saveImages(imgs) {
     baseURL: '/'
   })
 }
+
+// 删除图片
+export async function deleteImage(id) {
+  return request.delete(`/api/design/image/${id}`, {
+    baseURL: '/'
+  })
+}
+
 // 获取图片分类
 export async function queryImageList(params) {
   return request.get('/api/hisense/images/list', { params })
