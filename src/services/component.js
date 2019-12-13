@@ -6,7 +6,9 @@ export async function queryImageCategory() {
 }
 // 保存图片
 export async function saveImages(imgs) {
-  return request.post('/api/hisense/images/save', imgs)
+  return request.post('/api/design/image', imgs, {
+    baseURL: '/'
+  })
 }
 // 获取图片分类
 export async function queryImageList(params) {
