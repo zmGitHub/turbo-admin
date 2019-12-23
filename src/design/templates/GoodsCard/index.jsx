@@ -56,7 +56,7 @@ class GoodsCard extends PureComponent {
                 </div>
                 <div className="right">
                   {this.renderPriceSection({ itemType, price, originPrice })}
-                  <div className={buyButtonStyle}>立即购买</div>
+                  <div className={buyButtonStyle}>立即{+itemType === 5 ? '兑换' : '购买'}</div>
                 </div>
               </div>
             </div>
