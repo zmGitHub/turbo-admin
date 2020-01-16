@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import { Input, Switch, Radio, Collapse, message, Spin, Icon } from 'antd'
 import { connect } from 'dva'
-import { head, last, prop, concat, update, trim, remove, reduce, maxBy } from 'ramda'
+import { head, last, prop, concat, update, trim, remove, reduce, maxBy, find } from 'ramda'
 import ImagePicker from '@/components/ImagePicker'
 import { formatGoodName, formatPrice } from '@/utils'
 import defaultImg from '@/static/images/x.png'
@@ -116,16 +116,21 @@ class GoodsCardDesign extends PureComponent {
           const skus = prop('skus', goods)
           const originPriceSku = reduce(maxBy((sku) => prop('originPrice', sku.extraPrice) || 0), {}, skus)
           const originPrice = prop('originPrice', originPriceSku.extraPrice) || 0
-
-          // if (skus.length) {
-
-          // }
+          // TODO: 添加多sku逻辑处理 start
+          let itemPrice = formatPrice(highPrice);
+          if (skus.length) {
+            const defaultSku = find(({ extra }) => extra.isDefaultSku === '1', skus);
+            if (defaultSku && defaultSku.id) {
+              itemPrice = formatPrice(defaultSku.price);
+            }
+          }
+          // 多sku逻辑处理end
           const newItems = [{
             id: itemIds,
             name: formatGoodName(name),
             src: mainImage,
             desc: '',
-            price: formatPrice(highPrice),
+            price: itemPrice,
             originPrice: formatPrice(originPrice),
             type,
           }]

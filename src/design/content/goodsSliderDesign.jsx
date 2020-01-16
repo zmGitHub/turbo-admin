@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import { Input, message, Checkbox, Icon } from 'antd'
 import { connect } from 'dva'
-import { map, prop, last, reduce, maxBy } from 'ramda'
+import { map, prop, last, reduce, maxBy, find } from 'ramda'
 import ImagePicker from '@/components/ImagePicker'
 import Linker from '@/components/Linker'
 import { formatGoodName, formatPrice, removeHTMLTag } from '@/utils'
@@ -72,12 +72,23 @@ class GoodsSliderDesign extends PureComponent {
             const { id, name, advertise, mainImage, highPrice, type } = item
             const originPriceSku = reduce(maxBy((sku) => prop('originPrice', sku.extraPrice) || 0), {}, skus)
             const originPrice = prop('originPrice', originPriceSku.extraPrice) || 0
+
+            // TODO: 添加多sku逻辑处理 start
+            let itemPrice = formatPrice(highPrice);
+            if (skus.length) {
+              const defaultSku = find(({ extra }) => extra.isDefaultSku === '1', skus);
+              if (defaultSku && defaultSku.id) {
+                itemPrice = formatPrice(defaultSku.price);
+              }
+            }
+            // 多sku逻辑处理end
+
             return {
               id,
               title: formatGoodName(name),
               desc: removeHTMLTag(advertise),
               src: mainImage,
-              price: formatPrice(highPrice),
+              price: itemPrice,
               originPrice: formatPrice(originPrice),
               type
             }
