@@ -78,6 +78,12 @@ const DATA = [
         components: [{ id: 'navigationBar_1', name: 'navigationBar' }],
         icon: 'text'
       },
+      {
+        key: 'live',
+        name: '直播',
+        components: [{ id: 'live_1', name: 'live' }],
+        icon: 'text'
+      },
     ]
   },
   {
