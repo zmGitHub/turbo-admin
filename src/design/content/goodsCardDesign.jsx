@@ -1,9 +1,9 @@
 import React, { PureComponent, Fragment } from 'react'
 import { Input, Switch, Radio, Collapse, message, Spin, Icon } from 'antd'
 import { connect } from 'dva'
-import { head, last, prop, concat, update, trim, remove, reduce, maxBy, find } from 'ramda'
+import { head, last, prop, concat, update, trim, remove, reduce, maxBy, find, includes, map } from 'ramda'
 import ImagePicker from '@/components/ImagePicker'
-import { formatGoodName, formatPrice } from '@/utils'
+import { formatGoodName, formatPrice, getPageQuery } from '@/utils'
 import defaultImg from '@/static/images/x.png'
 
 const RadioGroup = Radio.Group
@@ -101,12 +101,17 @@ class GoodsCardDesign extends PureComponent {
 
   addItem = (itemIds) => {
     const { dispatch } = this.props
+    const { id } = getPageQuery()
+    const path = window.location.hash;
+    // 判断o2o商家
+    const isO2o = includes('design/shop', path) && !!id;
     this.setState({ searching: true })
     dispatch({
-      type: 'component/serviceData',
+      type: isO2o ? 'component/o2oItemsData' : 'component/serviceData',
       payload: {
         path: 'design/item-card',
-        itemIds
+        itemIds,
+        shopId: id,
       },
       callback: (res) => {
         const data = prop('_DATA_', res)
@@ -122,6 +127,9 @@ class GoodsCardDesign extends PureComponent {
             const defaultSku = find(({ extra }) => extra.isDefaultSku === '1', skus);
             if (defaultSku && defaultSku.id) {
               itemPrice = formatPrice(defaultSku.price);
+            } else if(isO2o) {
+              const priceArr = map(({ price }) => price, skus);
+              itemPrice = formatPrice(Math.max(...priceArr));
             }
           }
           // 多sku逻辑处理end

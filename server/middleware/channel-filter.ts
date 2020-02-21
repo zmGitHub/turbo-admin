@@ -15,6 +15,7 @@ const formatPrice = (price, unit = 2) => {
 // 根据 header 里面的 h-channel 过滤平台
 export default async (ctx: Context) => {
   const hiChannel = ctx.header['hi-channel']
+  const shopId = ctx.query.shopId || ''
   const body = ctx.body
   // 数据过滤处理(平台列表处理, 价格数据处理)
   if (body && body.data) {
@@ -48,10 +49,27 @@ export default async (ctx: Context) => {
           }, goodsComponents)
           const itemsArr = uniq(map(({ id }) => `${id}`, itemsId))
           const itemIds = join(',', itemsArr)
-          const res: any = await request.get('/api/hisense/item-with-skus/batch',
-            { params: { itemIds } })
+          const isO2o = shopId && shopId !== '1'
+          const path = isO2o ? '/api/hisense/item-with-skus/batch/o2o' : '/api/hisense/item-with-skus/batch'
+          const res: any = await request.get(path,
+            { params: { itemIds, shopId } })
           if (is(Array, res) && res.length > 0) {
-            const priceArr = map(({ item: { id, lowPrice } }) => ({ lowPrice, id: `${id}` }), res)
+            let priceArr = []
+            if (!isO2o) {
+              priceArr = map(({ item: { id, lowPrice } }) => ({ lowPrice, id: `${id}` }), res)
+            } else {
+              priceArr = map(({ item: { id }, skus }: any) => {
+                const defaultSku = find(({ extra }) => extra.isDefaultSku === '1', skus)
+                let defaultPrice = 0
+                if (defaultSku && defaultSku.id) {
+                  defaultPrice = defaultSku.price
+                } else {
+                  const skuPrices = map(({ price }) => price, skus)
+                  defaultPrice = Math.max.apply(Math, skuPrices)
+                }
+                return { lowPrice: defaultPrice, id: `${id}` }
+              }, res)
+            }
             // 处理商品价格
             forEach(({ component, content }) => {
               if (component === 'goodsCard' || component === 'goodsSlider') {

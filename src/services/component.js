@@ -44,6 +44,11 @@ export async function getServiceData(params) {
   // return request.post(`/design/component/service-data?path=${params.path}`, params)
 }
 
+export async function getO2oItems(params) {
+  return request.get('/api/hisense/o2o-items', { params })
+}
+
+
 // 获取整点秒杀
 export async function getSeckillData(params) {
   return request.get('/api/hisense/promotion/seckill/shows', { params })

@@ -1,10 +1,10 @@
 import React, { PureComponent, Fragment } from 'react'
 import { Input, message, Checkbox, Icon } from 'antd'
 import { connect } from 'dva'
-import { map, prop, last, reduce, maxBy, find } from 'ramda'
+import { map, prop, last, reduce, maxBy, find, includes } from 'ramda'
 import ImagePicker from '@/components/ImagePicker'
 import Linker from '@/components/Linker'
-import { formatGoodName, formatPrice, removeHTMLTag } from '@/utils'
+import { formatGoodName, formatPrice, removeHTMLTag, getPageQuery } from '@/utils'
 import defaultImg from '@/static/images/x.png'
 
 const { Group } = Checkbox
@@ -59,17 +59,22 @@ class GoodsSliderDesign extends PureComponent {
 
   onItemsConfirm = (itemIds) => {
     const { config, onChange, dispatch } = this.props
+    const { id } = getPageQuery()
+    const path = window.location.hash;
+    // 判断o2o商家
+    const isO2o = includes('design/shop', path) && !!id;
     dispatch({
-      type: 'component/serviceData',
+      type: isO2o ? 'component/o2oItemsData' : 'component/serviceData',
       payload: {
         path: 'design/product',
-        itemIds
+        itemIds,
+        shopId: id,
       },
       callback: (res) => {
         const data = prop('_DATA_', res)
         if (res && data) {
           const items = map(({ item, skus }) => {
-            const { id, name, advertise, mainImage, highPrice, type } = item
+            const { name, advertise, mainImage, highPrice, type } = item
             const originPriceSku = reduce(maxBy((sku) => prop('originPrice', sku.extraPrice) || 0), {}, skus)
             const originPrice = prop('originPrice', originPriceSku.extraPrice) || 0
 
@@ -79,12 +84,15 @@ class GoodsSliderDesign extends PureComponent {
               const defaultSku = find(({ extra }) => extra.isDefaultSku === '1', skus);
               if (defaultSku && defaultSku.id) {
                 itemPrice = formatPrice(defaultSku.price);
+              } else if(isO2o) {
+                const priceArr = map(({ price }) => price, skus);
+                itemPrice = formatPrice(Math.max(...priceArr));
               }
             }
             // 多sku逻辑处理end
 
             return {
-              id,
+              id: item.id,
               title: formatGoodName(name),
               desc: removeHTMLTag(advertise),
               src: mainImage,

@@ -30,6 +30,14 @@ router.get('/user/:id', freshCookie, async (ctx: Context) => {
   ctx.body = res
 })
 
+// o2o商品查询
+router.get('/o2o-items', freshCookie, async (ctx: Context) => {
+  const params = ctx.query
+  const res = await request.get('/api/hisense/item-with-skus/batch/o2o', { params })
+  ctx.status = 200
+  ctx.body = res
+})
+
 // 通用装修数据
 router.post('/service-data', freshCookie, async (ctx: Context) => {
   const { body } = ctx.request

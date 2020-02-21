@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import { queryImageCategory, queryImageList, getServiceData, getCategory, getArticleById, getMenuInfoById, getSeckillData, getFreemixData, saveImages, deleteImage } from '@/services/component'
+import { queryImageCategory, queryImageList, getServiceData, getO2oItems, getCategory, getArticleById, getMenuInfoById, getSeckillData, getFreemixData, saveImages, deleteImage } from '@/services/component'
 
 export default {
   namespace: 'component',
@@ -51,6 +51,13 @@ export default {
       const res = yield call(getServiceData, payload)
       if (callback) {
         callback(res)
+      }
+    },
+    // 获取o2o商品价格
+    *o2oItemsData({ payload, callback }, { call }) {
+      const res = yield call(getO2oItems, payload)
+      if (callback) {
+        callback({ "_DATA_": res })
       }
     },
     // 获取类目数据
