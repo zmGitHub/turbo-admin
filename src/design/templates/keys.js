@@ -4,6 +4,7 @@ export default [
   { key: 'image', title: '单张图片' },
   { key: 'multipleImage', title: '多张图片' },
   { key: 'thermalZone', title: '图片热区' },
+  { key: 'live', title: '直播' },
   { key: 'swiper', title: '轮播' },
   { key: 'tabs', title: '标签页' },
   { key: 'navigationBar', title: '导航栏' },

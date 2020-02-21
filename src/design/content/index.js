@@ -21,4 +21,5 @@ export default {
   freemixDesign: import('./freemix'),
   lotteryDesign: import('./lotteryDesign'),
   ballDesign: import('./ballDesign'),
+  liveDesign: import('./live'),
 }
