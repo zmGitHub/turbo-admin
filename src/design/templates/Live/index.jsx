@@ -7,11 +7,12 @@ import './index.less'
 
 class Image extends PureComponent {
   render() {
-    const { componentStyle, data: { src, height } } = this.props
+    const { componentStyle, data: { src, height, channel } } = this.props
     const imgStyle = getStyles(componentStyle, ['live'])
     return (
-      <div className="x-template-img" style={getStyles(componentStyle, ['margin'])}>
+      <div className="x-template-video" style={getStyles(componentStyle, ['margin'])}>
         <img style={{ ...imgStyle, height: `${height}px` }} src={src || defaultImg} alt="单张图片" draggable={false} />
+        {/* <video src="live-show" style={{ ...imgStyle, height: `${height}px` }}  draggable={false} ></video> */}
       </div>
     );
   }

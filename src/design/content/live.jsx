@@ -11,13 +11,13 @@ import './index.less'
 const formatImg = '?x-oss-process=image/resize,m_mfit,w_375/sharpen,100'
 
 const LiveDesign = ({ config, onChange }) => {
-  const { id, data: { src, height, url } } = config
-  const [ on, toggle ] = useToggle(false)
+  const { id, data: { src, height, url, channel } } = config
+  const [on, toggle] = useToggle(false)
   const imgSrc = src ? `${src}${formatImg}` : defaultImg
-  const [ state, setState ] = useSetState({ src: imgSrc, height, url, loading: false })
+  const [state, setState] = useSetState({ src: imgSrc, height, url, channel, loading: false })
   const onImageChange = (images) => {
     toggle(false)
-    if(images && images.length) {
+    if (images && images.length) {
       const imgItem = last(images)
       const srcRandom = `${imgItem.url}${formatImg}&_=${+new Date()}`
       setState({ src: srcRandom, loading: true })
@@ -30,25 +30,26 @@ const LiveDesign = ({ config, onChange }) => {
   }
 
   const onHeightChange = (value) => {
-    if(state.height !== value) {
+    if (state.height !== value) {
       setState({ height: value })
       onChange({ id, key: 'height', value })
     }
   }
 
-  const onChannelChange = (value) => {
-    if(state.channel !== value) {
+  const onChannelChange = (evt) => {
+    const { value } = evt.target
+    if (state.channel !== value) {
       setState({ channel: value })
       onChange({ id, key: 'channel', value })
     }
   }
 
   const onImageLoad = ({ currentTarget }) => {
-    const { naturalHeight } = currentTarget
-    if(state.height !== naturalHeight) {
-      setState({ height: naturalHeight, loading: false })
-      onChange({ id, key: 'height', value: naturalHeight })
-    }
+    // const { naturalHeight } = currentTarget
+    // if (state.height !== naturalHeight) {
+    //   setState({ height: naturalHeight, loading: false })
+    //   onChange({ id, key: 'height', value: naturalHeight })
+    // }
   }
   return (
     <Fragment>
@@ -72,7 +73,7 @@ const LiveDesign = ({ config, onChange }) => {
       <div className="content-data">
         <h4 className="content-data-title">房间号</h4>
         <div className="content-data-imager">
-          <Input type="text" defaultValue={state.id} onChange={onChannelChange} />
+          <Input type="text" defaultValue={state.channel} onChange={onChannelChange} />
         </div>
       </div>
       <ImagePicker visible={on} onChange={onImageChange} />
