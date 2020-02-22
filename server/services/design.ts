@@ -3,7 +3,7 @@ import { head, map, concat } from 'ramda'
 import { Design, DesignStatus, DesignType } from '../models/design'
 const cache = require('./cache')
 
-const cacheMs = 60
+const cacheMs = 60000
 export interface AddParams {
   id?: number,
   shopId?: number,
@@ -54,6 +54,7 @@ export const getOneByPath = async (path: string, shopId?: number) => {
   }
   const cacheKey = getCacheKey(params)
   const cached = cache.get(cacheKey)
+  console.log(cached)
   if (cached) return cached
   const designRpo: any = getRepository(Design)
   // const design: Design = await designRpo.findOne({ where: params, cache: cacheMs })
