@@ -18,6 +18,7 @@ const MAPS = {
   '/pages/o2o/map': '附近专卖店',
   'coupons': '领取优惠券',
   'wechat-live': '微信直播',
+  'navigateToMiniProgram': '打开另一个小程序',
 }
 
 class Linker extends PureComponent {

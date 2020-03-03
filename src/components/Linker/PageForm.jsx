@@ -60,6 +60,7 @@ class PageForm extends PureComponent {
                   <Option value="/pages/promotion/point-mall">积分商城</Option>
                   <Option value="/pages/promotion/my-coupon">优惠券中心</Option>
                   <Option value="wechat-live">微信直播</Option>
+                  <Option value="navigateToMiniProgram">打开另一个小程序</Option>
                 </Select>
               )
           )}
