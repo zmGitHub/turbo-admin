@@ -155,23 +155,24 @@ export default class Design {
       const { id, timer, hours } = body
       ctx.status = 200
       // 立即发布
-      const res = await timing(id, { timer, status: DesignStatus.TIMING })
+      const res = await timing(id, { timer, status: DesignStatus.PUBLISH })
       if (res) {
-        const timeToTimer = new Date(timer)
-        const reservationJob = new CronJob(timeToTimer, () => {
-          // 立即发布 + 商家预留时间
-          console.log(`2 o2o开始发布: ${id}`)
-          publishO2o(id)
-        })
-        reservationJob.start()
+        publishO2o(id)
+        // const timeToTimer = new Date(timer)
+        // const reservationJob = new CronJob(timeToTimer, () => {
+        //   // 立即发布 + 商家预留时间
+        //   console.log(`2 o2o开始发布: ${id}`)
+        //   publishO2o(id)
+        // })
+        // reservationJob.start()
         // 定时开始后 发布通知
-        request.post(`/api/hisense/o2o/template/send-sms?hours=${hours}`).then((res) => {
-          console.log('开始通知商家')
-          console.log(res)
-        }).catch((error) => {
-          console.log('通知失败...')
-          console.log(error)
-        })
+        // request.post(`/api/hisense/o2o/template/send-sms?hours=${hours}`).then((res) => {
+        //   console.log('开始通知商家')
+        //   console.log(res)
+        // }).catch((error) => {
+        //   console.log('通知失败...')
+        //   console.log(error)
+        // })
         ctx.body = res
       }
       ctx.body = res

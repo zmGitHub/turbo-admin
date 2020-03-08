@@ -178,7 +178,7 @@ class GoodsCardDesign extends PureComponent {
                         </div>
                         <div className="input-content">
                           <div className="input-content-label">标题:</div>
-                          <TextArea data-index={index} data-type="title" onChange={this.onGoodsAttrChange} autosize defaultValue={item.name} placeholder="请输入商品名称" />
+                          <TextArea data-index={index} data-type="title" onChange={this.onGoodsAttrChange} autosize defaultValue={item.title || item.name} placeholder="请输入商品名称" />
                         </div>
                         <div className="input-content">
                           <div className="input-content-label">描述:</div>
