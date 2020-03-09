@@ -157,7 +157,7 @@ class SiderLeft extends PureComponent {
           </div>
           <Sider width="375" className={designStyle}>
             <div className="x-shop-sider-templates-content">
-              <div className="template-header">
+              <div className="template-header" style={{display: "none"}}>
                 <div className="template-header-timer">
                   <span>还有:</span>
                   <Countdown onFinish={this.getNewTemplate} value={deadline} format="D 天 H 时 m 分 s 秒" />

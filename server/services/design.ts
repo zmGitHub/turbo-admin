@@ -187,7 +187,8 @@ export const getO2oTiming = async () => {
   const designRpo: any = getRepository(Design)
   const res = await designRpo.findOne({
     type: DesignType.HOME,
-    status: DesignStatus.TIMING,
+    // status: DesignStatus.TIMING,
+    status: DesignStatus.PUBLISH,
     shopId: -1,
   })
   return res
@@ -209,6 +210,17 @@ export const getO2oHome = async (id: number) => {
   // const res = await designRpo.find({ where: params, cache: cacheMs })
   const res = await designRpo.find({ where: params })
   cache.put(cacheKey, res, cacheMs)
+  return res
+}
+
+export const getO2oHomeEdit = async (id: number) => {
+  const params: any = {
+    status: DesignStatus.PUBLISH,
+    type: DesignType.HOME,
+    shopId: In([-1, id]),
+  }
+  const designRpo: any = getRepository(Design)
+  const res = await designRpo.find({ where: params })
   return res
 }
 

@@ -48,7 +48,7 @@ export async function getDesignDataById(params) {
 
 // 根据店铺 id 获取对应店铺下的装修数据
 export async function getPublishDataByShopId(params) {
-  return request.get('/api/design/home/o2o', { params })
+  return request.get('/api/design/home/o2o/edit', { params })
 }
 
 

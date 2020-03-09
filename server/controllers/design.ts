@@ -4,7 +4,7 @@ import { is, head, last, find, propEq, map } from 'ramda'
 import { DesignStatus, DesignType } from '../models/design'
 import {
   get, add, update, query, getOneByPath,
-  getPublish, getO2oTiming, getO2oHome,
+  getPublish, getO2oTiming, getO2oHome, getO2oHomeEdit,
   getO2oHistory, getO2oPublish, publishO2o,
   publishAdmin, timing, remove,
 } from '../services/design'
@@ -271,6 +271,29 @@ export default class Design {
       ctx.body = { msg: error.message }
     }
   }
+
+  public static async getO2oEdit(ctx: Context, next: () => void) {
+    const { shopId } = ctx.query
+    try {
+      let body = null
+      const res = await getO2oHomeEdit(shopId)
+      if (res && is(Array, res) && res.length) {
+        const design = find(propEq('shopId', +shopId), res) || last(res)
+        if (design && design.id) {
+          const { id, name, data, shopId } = design
+          body = { id, name, data, shopId }
+        }
+      }
+      ctx.status = 200
+      ctx.body = body
+      await next()
+    } catch (error) {
+      ctx.status = 500
+      ctx.body = { msg: error.message }
+    }
+  }
+
+
   // 获取商家历史模板数据
   public static async getHistory(ctx: Context) {
     const { shopId } = ctx.query

@@ -20,6 +20,8 @@ router.get('/timing', auth, design.getTiming)
 router.get('/home', design.getHome, dataFilter)
 // 获取商家首页模板
 router.get('/home/o2o', design.getO2o, dataFilter)
+// 获取商家首页模板 无缓存
+router.get('/home/o2o/edit', design.getO2oEdit, dataFilter)
 // 商家更新数据
 router.put('/home/o2o', auth, design.updateO2o)
 // 获取装修数据列表

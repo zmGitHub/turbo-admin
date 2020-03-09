@@ -237,6 +237,15 @@ class Mobile extends PureComponent {
           },
           callback: (res) => {
             if (res) {
+              // 更新成功后再发布
+              dispatch({
+                type: 'dashboard/publishO2o',
+                payload: {
+                  id,
+                  type: "1",
+                  publishType: "immediately"
+                },
+              })
               message.success('更新成功')
             } else {
               message.error('更新失败')
