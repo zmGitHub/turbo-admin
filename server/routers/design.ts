@@ -13,7 +13,7 @@ router.get('/edit/:id', design.getDesignById, dataFilter)
 // 根据 path 获取装修数据
 router.get('/path', design.getByPath, dataFilter)
 // o2o 根据 path 获取装修数据
-router.get('/path/o2o', design.getO2oByPath, dataFilter)
+router.get('/path/o2o', design.getO2o, dataFilter)
 // 获取发布中的数据
 router.get('/timing', auth, design.getTiming)
 // 获取首页模板
